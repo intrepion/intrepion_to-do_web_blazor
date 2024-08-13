@@ -18,19 +18,19 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test Units
-        run: dotnet test --no-build --verbosity normal {APP_NAME}.UnitTests
+        run: dotnet test --no-build --verbosity normal Intrepion.ToDo.UnitTests
       - name: Test Server Components
-        run: dotnet test --no-build --verbosity normal {APP_NAME}.ServerComponentTests
+        run: dotnet test --no-build --verbosity normal Intrepion.ToDo.ServerComponentTests
       - name: Test Client Components
-        run: dotnet test --no-build --verbosity normal {APP_NAME}.ClientComponentTests
+        run: dotnet test --no-build --verbosity normal Intrepion.ToDo.ClientComponentTests
       - name: Run app in background
-        run: dotnet run --project {APP_NAME} &
+        run: dotnet run --project Intrepion.ToDo &
       - name: Install powershell tools
         run: dotnet tool install --global PowerShell --version 7.4.4
       - name: Install playwright dependencies
-        run: cd {APP_NAME}.AcceptanceTests && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        run: cd Intrepion.ToDo.AcceptanceTests && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
       - name: Test Acceptances
-        run: dotnet test --no-build --verbosity normal {APP_NAME}.AcceptanceTests
+        run: dotnet test --no-build --verbosity normal Intrepion.ToDo.AcceptanceTests
 name: .NET
 on:
   pull_request:
