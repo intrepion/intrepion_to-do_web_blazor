@@ -1,10 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.0.0
 MinimumVisualStudioVersion = 16.0.0.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo", "Intrepion.ToDo\Intrepion.ToDo.csproj", "{9811B589-6732-41BC-8DED-CB42D3EBCB62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo.Client", "Intrepion.ToDo.Client\Intrepion.ToDo.Client.csproj", "{58EEDBDF-A226-4C23-B0A5-334CAF8DE6AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.ServerComponentTests", "Intrepion.ToDo.ServerComponentTests\Intrepion.ToDo.ServerComponentTests.csproj", "{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,18 @@ Global
 		{9811B589-6732-41BC-8DED-CB42D3EBCB62}.Release|x64.Build.0 = Release|Any CPU
 		{9811B589-6732-41BC-8DED-CB42D3EBCB62}.Release|x86.ActiveCfg = Release|Any CPU
 		{9811B589-6732-41BC-8DED-CB42D3EBCB62}.Release|x86.Build.0 = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|x64.Build.0 = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{07F66C36-ADA7-4DA1-991C-C450EF1DC2A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
