@@ -1,4 +1,4 @@
-﻿using Intrepion.ToDo.Data;
+﻿using Intrepion.ToDo.Shared.Data;
 using Microsoft.AspNetCore.Identity;
 
 namespace Intrepion.ToDo.Components.Account;
