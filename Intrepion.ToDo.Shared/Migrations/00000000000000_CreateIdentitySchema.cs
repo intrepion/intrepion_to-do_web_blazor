@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Intrepion.ToDo.Migrations
+namespace Intrepion.ToDo.Shared.Migrations
 {
     /// <inheritdoc />
     public partial class CreateIdentitySchema : Migration
