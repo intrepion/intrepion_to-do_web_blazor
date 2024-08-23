@@ -15,7 +15,7 @@ public class ApplicationRoleService : IApplicationRoleService
 
     public async Task<List<ApplicationRole>> GetAllAsync()
     {
-        var objectNamePlaceholders = await _applicationDbContext.DatabaseNamePlaceholders.ToListAsync();
+        var objectNamePlaceholders = await _applicationDbContext.Roles.ToListAsync();
 
         return objectNamePlaceholders;
     }
