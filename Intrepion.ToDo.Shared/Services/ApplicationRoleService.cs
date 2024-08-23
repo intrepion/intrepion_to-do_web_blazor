@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.Shared.Services;
 
-public class ClassNamePlaceholderService : IClassNamePlaceholderService
+public class ApplicationRoleService : IApplicationRoleService
 {
     private readonly ApplicationDbContext _applicationDbContext;
 
-    public ClassNamePlaceholderService(ApplicationDbContext applicationDbContext)
+    public ApplicationRoleService(ApplicationDbContext applicationDbContext)
     {
         _applicationDbContext = applicationDbContext;
     }
 
-    public async Task<List<ClassNamePlaceholder>> GetAllAsync()
+    public async Task<List<ApplicationRole>> GetAllAsync()
     {
         var objectNamePlaceholders = await _applicationDbContext.DatabaseNamePlaceholders.ToListAsync();
 
