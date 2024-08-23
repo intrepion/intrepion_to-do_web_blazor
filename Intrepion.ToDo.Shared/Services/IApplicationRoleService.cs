@@ -2,7 +2,7 @@ using Intrepion.ToDo.Shared.Entities;
 
 namespace Intrepion.ToDo.Shared.Services;
 
-public interface IClassNamePlaceholderService
+public interface IApplicationRoleService
 {
-    Task<List<ClassNamePlaceholder>> GetAllAsync();
+    Task<List<ApplicationRole>> GetAllAsync();
 }
