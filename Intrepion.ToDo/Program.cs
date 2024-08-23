@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Intrepion.ToDo.Client.Pages;
+﻿using Intrepion.ToDo.Client.Pages;
 using Intrepion.ToDo.Components;
 using Intrepion.ToDo.Components.Account;
 using Intrepion.ToDo.Data;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
