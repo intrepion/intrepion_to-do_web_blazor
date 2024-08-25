@@ -1,0 +1,31 @@
+@page "/application-roles"
+@inject IApplicationRoleService ApplicationRoleService
+
+<h3>Application Role List</h3>
+
+@if (applicationRoles == null)
+{
+    <span>Loading...</span>
+}
+else if (applicationRoles.Count == 0)
+{
+    <span>No application roles found.</span>
+}
+else
+{
+    <ul>
+        @foreach (var applicationRole in applicationRoles)
+        {
+            <li>@applicationRole.Id</li>
+        }
+    </ul>
+}
+
+@code {
+    List<ApplicationRole>? applicationRoles = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationRoles = await ApplicationRoleService.GetAllAsync();
+    }
+}
