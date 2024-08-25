@@ -1,4 +1,4 @@
-using Intrepion.ToDo.Shared.Entities;
+﻿using Intrepion.ToDo.Shared.Entities;
 
 namespace Intrepion.ToDo.Shared.Services;
 
