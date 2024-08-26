@@ -1,4 +1,4 @@
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Intrepion.ToDo.Shared.Entities;
 
 namespace Intrepion.ToDo.Shared.Services;
