@@ -1,0 +1,34 @@
+@page "/application-roles"
+@inject IApplicationRoleService ApplicationRoleService
+@inject NavigationManager NavigationManager
+@attribute [StreamRendering]
+
+<h3>Application Role List</h3>
+
+@if (applicationRoles == null)
+{
+    <span>Loading...</span>
+}
+else if (applicationRoles.Count == 0)
+{
+    <span>No application roles found.</span>
+}
+else
+{
+    <ul>
+        @foreach (var applicationRole in applicationRoles)
+        {
+            <li>@applicationRole.Name <EditButton Id="applicationRole.Id" Url="/application-roles-edit" /></li>
+        }
+    </ul>
+}
+<CreateButton Url="/application-roles-edit" />
+
+@code {
+    List<ApplicationRole>? applicationRoles = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationRoles = await ApplicationRoleService.GetAllAsync();
+    }
+}
