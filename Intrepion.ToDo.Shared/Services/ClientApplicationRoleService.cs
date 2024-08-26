@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
-using AppNamePlaceholder.Shared.Entities;
+using Intrepion.ToDo.Shared.Entities;
 
-namespace AppNamePlaceholder.Shared.Services;
+namespace Intrepion.ToDo.Shared.Services;
 
 public class ClientApplicationRoleService(HttpClient httpClient) : IApplicationRoleService
 {
