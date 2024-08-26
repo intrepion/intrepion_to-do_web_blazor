@@ -1,8 +1,8 @@
-using AppNamePlaceholder.Shared.Entities;
-using AppNamePlaceholder.Shared.Services;
+using Intrepion.ToDo.Shared.Entities;
+using Intrepion.ToDo.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppNamePlaceholder.Controllers;
+namespace Intrepion.ToDo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
