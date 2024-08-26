@@ -1,8 +1,8 @@
-﻿using AppNamePlaceholder.Shared.Data;
-using AppNamePlaceholder.Shared.Entities;
+﻿using Intrepion.ToDo.Shared.Data;
+using Intrepion.ToDo.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AppNamePlaceholder.Shared.Services;
+namespace Intrepion.ToDo.Shared.Services;
 
 public class ApplicationRoleService(ApplicationDbContext applicationDbContext) : IApplicationRoleService
 {
