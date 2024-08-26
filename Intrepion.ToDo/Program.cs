@@ -1,7 +1,9 @@
-﻿using Intrepion.ToDo.Client.Pages;
-using Intrepion.ToDo.Components;
-using Intrepion.ToDo.Components.Account;
-using Intrepion.ToDo.Data;
+﻿using AppNamePlaceholder.Client.Pages;
+using AppNamePlaceholder.Components;
+using AppNamePlaceholder.Components.Account;
+using AppNamePlaceholder.Shared.Data;
+using AppNamePlaceholder.Shared.Entities;
+using AppNamePlaceholder.Shared.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddControllers();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
@@ -31,11 +35,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddScoped(http => new HttpClient
+{
+    BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!),
+});
+
+builder.Services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
 
 var app = builder.Build();
 
@@ -54,13 +66,15 @@ else
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
+
 app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Intrepion.ToDo.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(AppNamePlaceholder.Client._Imports).Assembly);
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
