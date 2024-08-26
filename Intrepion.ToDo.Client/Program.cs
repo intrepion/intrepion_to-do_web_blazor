@@ -1,5 +1,5 @@
-﻿using AppNamePlaceholder.Client;
-using AppNamePlaceholder.Shared.Services;
+﻿using Intrepion.ToDo.Client;
+using Intrepion.ToDo.Shared.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
