@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AppNamePlaceholder.Shared.Entities;
+namespace Intrepion.ToDo.Shared.Entities;
 
 public class ApplicationRoleEntityTypeConfiguration : IEntityTypeConfiguration<ApplicationRole>
 {
