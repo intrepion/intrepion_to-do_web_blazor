@@ -1,0 +1,78 @@
+@page "/admin/application-user-edit"
+@page "/admin/application-user-edit/{id}"
+@inject IApplicationUserService ApplicationUserService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+@rendermode InteractiveAuto
+
+@if (Id == null)
+{
+    <h1>Create Application Users</h1>
+}
+else
+{
+    <h1>Edit @applicationUser.Email</h1>
+}
+
+<EditForm Model="applicationUser" OnSubmit="HandleSubmit">
+    <label>Email</label>
+    <InputText @bind-Value="applicationUser.Email">@applicationUser.Email</InputText>
+    <label>Phone Number</label>
+    <InputText @bind-Value="applicationUser.PhoneNumber">@applicationUser.PhoneNumber</InputText>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    @if (Id != null)
+    {
+        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+    }
+</EditForm>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    ApplicationUser applicationUser { get; set; } = new ApplicationUser { Email = string.Empty };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            return;
+        }
+
+        applicationUser = await ApplicationUserService.GetByIdAsync((string)Id);
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id == null)
+        {
+            var dbApplicationUser = await ApplicationUserService.AddAsync(userName, applicationUser);
+            NavigationManager.NavigateTo($"/admin/application-user-edit/{dbApplicationUser.Id}");
+        }
+        else
+        {
+            await ApplicationUserService.EditAsync(userName, (string)Id, applicationUser);
+        }
+    }
+
+    async Task Delete()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        await ApplicationUserService.DeleteAsync(userName, (string)Id);
+        NavigationManager.NavigateTo($"/admin/application-user-list");
+    }
+}

@@ -1,0 +1,81 @@
+@page "/admin/application-role-edit"
+@page "/admin/application-role-edit/{id}"
+@inject IApplicationRoleService ApplicationRoleService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+@rendermode InteractiveAuto
+
+@if (Id == null)
+{
+    <h1>Create Application Roles</h1>
+}
+else
+{
+    <h1>Edit @applicationRole.Name</h1>
+}
+
+<EditForm Model="applicationRole" OnSubmit="HandleSubmit">
+    <label>Name</label>
+    <InputText @bind-Value="applicationRole.Name">@applicationRole.Name</InputText>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    @if (Id != null)
+    {
+        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+    }
+</EditForm>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    ApplicationRole applicationRole { get; set; } = new ApplicationRole { Name = string.Empty };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            return;
+        }
+
+        applicationRole = await ApplicationRoleService.GetByIdAsync((string)Id);
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id == null)
+        {
+            var dbApplicationRole = await ApplicationRoleService.AddAsync(userName, applicationRole);
+            NavigationManager.NavigateTo($"/admin/application-role-edit/{dbApplicationRole.Id}");
+        }
+        else
+        {
+            await ApplicationRoleService.EditAsync(userName, (string)Id, applicationRole);
+        }
+    }
+
+    async Task Delete()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        await ApplicationRoleService.DeleteAsync(userName, (string)Id);
+        NavigationManager.NavigateTo($"/admin/application-role-list");
+    }
+}
