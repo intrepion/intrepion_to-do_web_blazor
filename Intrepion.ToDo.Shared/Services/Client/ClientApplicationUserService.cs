@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Json;
-using AppNamePlaceholder.Shared.Entities;
-using AppNamePlaceholder.Shared.Services.Interfaces;
+using Intrepion.ToDo.Shared.Entities;
+using Intrepion.ToDo.Shared.Services.Interfaces;
 
-namespace AppNamePlaceholder.Shared.Services.Client;
+namespace Intrepion.ToDo.Shared.Services.Client;
 
 public class ClientApplicationUserService(HttpClient httpClient) : IApplicationUserService
 {
