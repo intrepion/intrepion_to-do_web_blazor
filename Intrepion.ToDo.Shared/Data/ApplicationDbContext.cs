@@ -1,9 +1,9 @@
-﻿using AppNamePlaceholder.Shared.Entities;
-using AppNamePlaceholder.Shared.Entities.Configuration;
+﻿using Intrepion.ToDo.Shared.Entities;
+using Intrepion.ToDo.Shared.Entities.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AppNamePlaceholder.Shared.Data;
+namespace Intrepion.ToDo.Shared.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, string, ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin, ApplicationRoleClaim, ApplicationUserToken>(options)
 {
