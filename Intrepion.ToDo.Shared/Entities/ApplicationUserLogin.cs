@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AppNamePlaceholder.Shared.Entities;
+namespace Intrepion.ToDo.Shared.Entities;
 
 public class ApplicationUserLogin : IdentityUserLogin<string>
 {
