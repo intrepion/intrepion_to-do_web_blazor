@@ -1,0 +1,16 @@
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<button @onclick="Click" class="btn btn-primary">@Name</button>
+
+@code {
+    [Parameter]
+    public required string Href { get; set; }
+    [Parameter]
+    public required string Name { get; set; }
+
+    void Click()
+    {
+        NavigationManager.NavigateTo(Href);
+    }
+}
