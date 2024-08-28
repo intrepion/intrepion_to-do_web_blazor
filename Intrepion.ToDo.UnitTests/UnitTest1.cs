@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.UnitTests;
+﻿namespace Intrepion.ToDo.UnitTests;
 
 public class Tests
 {
