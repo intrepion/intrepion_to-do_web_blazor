@@ -1,8 +1,8 @@
-﻿using AppNamePlaceholder.Shared.Entities;
+﻿using Intrepion.ToDo.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AppNamePlaceholder.Shared.Entities.Configuration;
+namespace Intrepion.ToDo.Shared.Entities.Configuration;
 
 public class ApplicationUserLoginEntityTypeConfiguration : IEntityTypeConfiguration<ApplicationUserLogin>
 {
