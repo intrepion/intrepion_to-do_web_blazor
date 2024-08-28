@@ -1,0 +1,56 @@
+@page "/application-user-edit"
+@page "/application-user-edit/{id}"
+@inject IApplicationUserService ApplicationUserService
+@rendermode InteractiveAuto
+
+@if (Id == null)
+{
+    <h3>Create Application Users</h3>
+}
+else
+{
+    <h3>Edit @applicationUser.Email</h3>
+}
+
+<EditForm Model="applicationUser" OnSubmit="HandleSubmit">
+    <label>Email</label>
+    <InputText @bind-Value="applicationUser.Email">@applicationUser.Email</InputText>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    @if (Id != null)
+    {
+        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+    }
+</EditForm>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    ApplicationUser applicationUser { get; set; } = new ApplicationUser { Email = string.Empty };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            return;
+        }
+
+        applicationUser = await ApplicationUserService.GetByIdAsync((string)Id);
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            await ApplicationUserService.AddAsync(applicationUser);
+        }
+        else
+        {
+            await ApplicationUserService.EditAsync((string)Id, applicationUser);
+        }
+    }
+
+    async Task Delete()
+    {
+        await ApplicationUserService.DeleteAsync((string)Id);
+    }
+}
