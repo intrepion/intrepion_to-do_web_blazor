@@ -1,6 +1,6 @@
-﻿using AppNamePlaceholder.Shared.Entities;
+﻿using Intrepion.ToDo.Shared.Entities;
 
-namespace AppNamePlaceholder.Shared.Services.Interfaces;
+namespace Intrepion.ToDo.Shared.Services.Interfaces;
 
 public interface IApplicationRoleService
 {
