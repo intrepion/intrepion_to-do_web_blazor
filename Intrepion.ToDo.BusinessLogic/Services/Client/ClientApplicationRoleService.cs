@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Json;
-using AppNamePlaceholder.BusinessLogic.Entities;
-using AppNamePlaceholder.BusinessLogic.Services;
+using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Services;
 
-namespace AppNamePlaceholder.BusinessLogic.Services.Client;
+namespace Intrepion.ToDo.BusinessLogic.Services.Client;
 
 public class ClientApplicationRoleService(HttpClient httpClient) : IApplicationRoleService
 {
