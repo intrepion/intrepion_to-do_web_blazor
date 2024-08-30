@@ -1,8 +1,8 @@
-﻿using AppNamePlaceholder.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AppNamePlaceholder.BusinessLogic.Entities.Configuration;
+namespace Intrepion.ToDo.BusinessLogic.Entities.Configuration;
 
 public class ApplicationUserLoginEntityTypeConfiguration : IEntityTypeConfiguration<ApplicationUserLogin>
 {
