@@ -1,10 +1,10 @@
-﻿using Intrepion.ToDo.Client.Pages;
-using Intrepion.ToDo.Components;
-using Intrepion.ToDo.Components.Account;
-using Intrepion.ToDo.BusinessLogic.Data;
+﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
 using Intrepion.ToDo.BusinessLogic.Services;
 using Intrepion.ToDo.BusinessLogic.Services.Server;
+using Intrepion.ToDo.Client.Pages;
+using Intrepion.ToDo.Components;
+using Intrepion.ToDo.Components.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
