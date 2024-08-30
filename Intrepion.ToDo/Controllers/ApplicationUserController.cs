@@ -1,8 +1,8 @@
-﻿using AppNamePlaceholder.BusinessLogic.Entities;
-using AppNamePlaceholder.BusinessLogic.Services;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppNamePlaceholder.Controllers;
+namespace Intrepion.ToDo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
