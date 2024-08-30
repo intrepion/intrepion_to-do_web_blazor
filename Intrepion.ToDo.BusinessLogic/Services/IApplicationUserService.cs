@@ -1,6 +1,6 @@
-﻿using AppNamePlaceholder.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 
-namespace AppNamePlaceholder.BusinessLogic.Services;
+namespace Intrepion.ToDo.BusinessLogic.Services;
 
 public interface IApplicationUserService
 {
