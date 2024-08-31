@@ -8,59 +8,55 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">UserName</th>
-                    <th scope="col">NormalizedUserName</th>
+                    <th scope="col">ApplicationRoles</th>
                     <th scope="col">Email</th>
-                    <th scope="col">NormalizedEmail</th>
-                    <th scope="col">EmailConfirmed</th>
+                    <th scope="col">Id</th>
                     <th scope="col">PhoneNumber</th>
-                    <th scope="col">PhoneNumberConfirmed</th>
-                    <th scope="col">TwoFactorEnabled</th>
-                    <th scope="col">LockoutEnd</th>
-                    <th scope="col">LockoutEnabled</th>
-                    <th scope="col">AccessFailedCount</th>
-                    <th scope="col">UpdatedBy</th>
+                    <th scope="col">UserName</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @if (applicationUsers == null)
+                @if (AdminApplicationUserListItemDataTransferObjects == null)
                 {
                     <tr>
-                        <td>Loading...</td>
+                        <td colspan="6">Loading...</td>
                     </tr>
                 }
-                else if (applicationUsers.Count == 0)
+                else if (AdminApplicationUserListItemDataTransferObjects.Count == 0)
                 {
                     <tr>
-                        <td colspan="13">No application roles found.</td>
+                        <td colspan="6">No application users found.</td>
                     </tr>
                 }
                 else
                 {
-                    @foreach (var applicationUser in applicationUsers)
+                    @foreach (var AdminApplicationUserListItemDataTransferObject in AdminApplicationUserListItemDataTransferObjects)
                     {
                         <tr>
-                            <td>@applicationUser.Id</td>
-                            <td>@applicationUser.UserName</td>
-                            <td>@applicationUser.NormalizedUserName</td>
-                            <td>@applicationUser.Email</td>
-                            <td>@applicationUser.NormalizedEmail</td>
-                            <td>@applicationUser.EmailConfirmed</td>
-                            <td>@applicationUser.PhoneNumber</td>
-                            <td>@applicationUser.PhoneNumberConfirmed</td>
-                            <td>@applicationUser.TwoFactorEnabled</td>
-                            <td>@applicationUser.LockoutEnd</td>
-                            <td>@applicationUser.LockoutEnabled</td>
-                            <td>@applicationUser.AccessFailedCount</td>
-                            <td>@applicationUser.ApplicationUserUpdatedBy.UserName</td>
-                            <td>
-                                @if (applicationUser.Id != null)
-                                {
-                                    <NavButton Href="@("/admin/application-user-edit/" + applicationUser.Id)" Name="Edit" />
-                                }
-                            </td>
+                            @if (AdminApplicationUserListItemDataTransferObject == null)
+                            {
+                                <td colspan="6">Application user is null.</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (AdminApplicationUserListItemDataTransferObject.ApplicationRoles != null)
+                                    {
+                                        @foreach (var applicationRole in AdminApplicationUserListItemDataTransferObject.ApplicationRoles)
+                                        {
+
+                                        }
+                                    }
+                                </td>
+                                <td>@AdminApplicationUserListItemDataTransferObject.Email</td>
+                                <td>@AdminApplicationUserListItemDataTransferObject.Id</td>
+                                <td>@AdminApplicationUserListItemDataTransferObject.PhoneNumber</td>
+                                <td>@AdminApplicationUserListItemDataTransferObject.UserName</td>
+                                <td>
+                                    <NavButton Href="@("/admin/application-user-edit/" + AdminApplicationUserListItemDataTransferObject.Id)" Name="Edit" />
+                                </td>
+                            }
                         </tr>
                     }
                 }
@@ -71,10 +67,10 @@
 </section>
 
 @code {
-    List<ApplicationUser>? applicationUsers = null;
+    List<AdminApplicationUserListItemDataTransferObject>? AdminApplicationUserListItemDataTransferObjects = null;
 
     protected override async Task OnInitializedAsync()
     {
-        applicationUsers = await ApplicationUserService.GetAllAsync();
+        AdminApplicationUserListItemDataTransferObjects = await ApplicationUserService.GetAllAsync();
     }
 }

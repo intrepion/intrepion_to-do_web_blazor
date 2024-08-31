@@ -1,5 +1,6 @@
 @page "/admin/application-user-edit"
 @page "/admin/application-user-edit/{id}"
+@inject IApplicationRoleService ApplicationRoleService
 @inject IApplicationUserService ApplicationUserService
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
@@ -12,15 +13,15 @@
     }
     else
     {
-        <h1>Edit @applicationUser.Email</h1>
+        <h1>Edit @adminApplicationUserEditDataTransferObject.UserName</h1>
     }
     <article>
-        <EditForm class="container" Model="applicationUser" OnSubmit="HandleSubmit">
+        <EditForm class="container" Model="adminApplicationUserEditDataTransferObject" OnSubmit="HandleSubmit">
             <div class="row">
                 <div class="col">
                     <label>
                         Email:
-                        <InputText @bind-Value="applicationUser.Email">@applicationUser.Email</InputText>
+                        <InputText @bind-Value="adminApplicationUserEditDataTransferObject.Email">@adminApplicationUserEditDataTransferObject.Email</InputText>
                     </label>
                 </div>
             </div>
@@ -28,7 +29,15 @@
                 <div class="col">
                     <label>
                         Phone Number:
-                        <InputText @bind-Value="applicationUser.PhoneNumber">@applicationUser.PhoneNumber</InputText>
+                        <InputText @bind-Value="adminApplicationUserEditDataTransferObject.PhoneNumber">@adminApplicationUserEditDataTransferObject.PhoneNumber</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        UserName:
+                        <InputText @bind-Value="adminApplicationUserEditDataTransferObject.UserName">@adminApplicationUserEditDataTransferObject.UserName</InputText>
                     </label>
                 </div>
             </div>
@@ -51,7 +60,13 @@
 @code {
     [Parameter]
     public string? Id { get; set; }
-    ApplicationUser applicationUser { get; set; } = new ApplicationUser { Email = string.Empty };
+    AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject { get; set; } = new AdminApplicationUserEditDataTransferObject { UserName = string.Empty };
+    List<ApplicationRole>? applicationRoles { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationRoles = await ApplicationRoleService.GetAllAsync();
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -60,7 +75,7 @@
             return;
         }
 
-        applicationUser = await ApplicationUserService.GetByIdAsync((string)Id);
+        adminApplicationUserEditDataTransferObject = await ApplicationUserService.GetByIdAsync(Id);
     }
 
     async Task HandleSubmit()
@@ -75,17 +90,22 @@
 
         if (Id == null)
         {
-            var dbApplicationUser = await ApplicationUserService.AddAsync(userName, applicationUser);
+            var dbApplicationUser = await ApplicationUserService.AddAsync(userName, adminApplicationUserEditDataTransferObject);
             NavigationManager.NavigateTo($"/admin/application-user-edit/{dbApplicationUser.Id}");
         }
         else
         {
-            await ApplicationUserService.EditAsync(userName, (string)Id, applicationUser);
+            await ApplicationUserService.EditAsync(userName, (string)Id, adminApplicationUserEditDataTransferObject);
         }
     }
 
     async Task Delete()
     {
+        if (Id == null)
+        {
+            return;
+        }
+
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var userName = authState.User.Identity?.Name;
 
@@ -94,7 +114,7 @@
             return;
         }
 
-        await ApplicationUserService.DeleteAsync(userName, (string)Id);
+        await ApplicationUserService.DeleteAsync(userName, Id);
         NavigationManager.NavigateTo($"/admin/application-user-list");
     }
 }

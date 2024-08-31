@@ -52,7 +52,7 @@
             return;
         }
 
-        applicationRole = await ApplicationRoleService.GetByIdAsync((string)Id);
+        applicationRole = await ApplicationRoleService.GetByIdAsync(Id);
     }
 
     async Task HandleSubmit()
@@ -83,6 +83,11 @@
 
     async Task Delete()
     {
+        if (Id == null)
+        {
+            return;
+        }
+
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var userName = authState.User.Identity?.Name!;
 
@@ -91,7 +96,7 @@
             return;
         }
 
-        await ApplicationRoleService.DeleteAsync(userName, (string)Id);
+        await ApplicationRoleService.DeleteAsync(userName, Id);
         NavigationManager.NavigateTo($"/admin/application-role-list");
     }
 }

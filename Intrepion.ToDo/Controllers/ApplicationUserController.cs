@@ -1,4 +1,5 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,22 +7,22 @@ namespace Intrepion.ToDo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ApplicationUserController(IApplicationUserService applicationUserService) : ControllerBase
+public class AdminApplicationUserEditDataTransferObjectController(IApplicationUserService applicationUserService) : ControllerBase
 {
     private readonly IApplicationUserService _applicationUserService = applicationUserService;
 
     [HttpPost]
-    public async Task<ActionResult<ApplicationUser>> Add(ApplicationUser applicationUser)
+    public async Task<ActionResult<AdminApplicationUserEditDataTransferObject>> Add(AdminApplicationUserEditDataTransferObject applicationUser)
     {
         var userName = User.Identity?.Name;
 
-        var addedApplicationUser = await _applicationUserService.AddAsync(userName, applicationUser);
+        var addedAdminApplicationUserEditDataTransferObject = await _applicationUserService.AddAsync(userName, applicationUser);
 
-        return Ok(addedApplicationUser);
+        return Ok(addedAdminApplicationUserEditDataTransferObject);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ApplicationUser>> Delete(string id)
+    public async Task<ActionResult<AdminApplicationUserEditDataTransferObject>> Delete(string id)
     {
         var userName = User.Identity?.Name;
 
@@ -31,17 +32,17 @@ public class ApplicationUserController(IApplicationUserService applicationUserSe
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ApplicationUser>> Edit(string id, ApplicationUser applicationUser)
+    public async Task<ActionResult<AdminApplicationUserEditDataTransferObject>> Edit(string id, AdminApplicationUserEditDataTransferObject applicationUser)
     {
         var userName = User.Identity?.Name;
 
-        var updatedApplicationUser = await _applicationUserService.EditAsync(userName, id, applicationUser);
+        var updatedAdminApplicationUserEditDataTransferObject = await _applicationUserService.EditAsync(userName, id, applicationUser);
 
-        return Ok(updatedApplicationUser);
+        return Ok(updatedAdminApplicationUserEditDataTransferObject);
     }
 
     [HttpGet]
-    public async Task<ActionResult<ApplicationUser>> GetAll()
+    public async Task<ActionResult<List<AdminApplicationUserListItemDataTransferObject>>> GetAll()
     {
         var applicationUsers = await _applicationUserService.GetAllAsync();
 
@@ -49,7 +50,7 @@ public class ApplicationUserController(IApplicationUserService applicationUserSe
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApplicationUser>> GetById(string id)
+    public async Task<ActionResult<AdminApplicationUserEditDataTransferObject>> GetById(string id)
     {
         var applicationUser = await _applicationUserService.GetByIdAsync(id);
 

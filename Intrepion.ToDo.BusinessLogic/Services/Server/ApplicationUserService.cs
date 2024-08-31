@@ -1,6 +1,6 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Services;
+using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
@@ -9,7 +9,7 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ApplicationUser> AddAsync(string userName, ApplicationUser applicationUser)
+    public async Task<AdminApplicationUserEditDataTransferObject> AddAsync(string userName, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -23,22 +23,26 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
             throw new Exception("Authentication required.");
         }
 
-        if (string.IsNullOrWhiteSpace(applicationUser.Email))
+        if (string.IsNullOrWhiteSpace(adminApplicationUserEditDataTransferObject.Email))
         {
             throw new Exception("Email required.");
         }
 
-        applicationUser.ApplicationUserUpdatedBy = user;
-        applicationUser.EmailConfirmed = false;
-        applicationUser.NormalizedEmail = applicationUser.Email?.ToUpper();
-        applicationUser.NormalizedUserName = applicationUser.Email?.ToUpper();
-        applicationUser.UserName = applicationUser.Email;
+        var applicationUser = new ApplicationUser
+        {
+            ApplicationUserUpdatedBy = user,
+            Email = adminApplicationUserEditDataTransferObject.Email,
+            EmailConfirmed = false,
+            NormalizedEmail = adminApplicationUserEditDataTransferObject.Email?.ToUpper(),
+            NormalizedUserName = adminApplicationUserEditDataTransferObject.UserName?.ToUpper(),
+            UserName = adminApplicationUserEditDataTransferObject.UserName,
+        };
 
         _applicationDbContext.Users.Add(applicationUser);
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return applicationUser;
+        return adminApplicationUserEditDataTransferObject;
     }
 
     public async Task<bool> DeleteAsync(string userName, string id)
@@ -72,7 +76,7 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
         return true;
     }
 
-    public async Task<ApplicationUser> EditAsync(string userName, string id, ApplicationUser applicationUser)
+    public async Task<AdminApplicationUserEditDataTransferObject> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -99,32 +103,65 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
         }
 
         dbApplicationUser.ApplicationUserUpdatedBy = user;
-        dbApplicationUser.Email = applicationUser.Email;
+        dbApplicationUser.Email = adminApplicationUserEditDataTransferObject.Email;
         dbApplicationUser.EmailConfirmed = false;
-        dbApplicationUser.NormalizedEmail = applicationUser.Email?.ToUpper();
-        dbApplicationUser.NormalizedUserName = applicationUser.Email?.ToUpper();
-        dbApplicationUser.UserName = applicationUser.Email;
+        dbApplicationUser.NormalizedEmail = adminApplicationUserEditDataTransferObject.Email?.ToUpper();
+        dbApplicationUser.NormalizedUserName = adminApplicationUserEditDataTransferObject.UserName?.ToUpper();
+        dbApplicationUser.UserName = adminApplicationUserEditDataTransferObject.UserName;
 
-        if (dbApplicationUser.PhoneNumber != applicationUser.PhoneNumber)
+        if (dbApplicationUser.PhoneNumber != adminApplicationUserEditDataTransferObject.PhoneNumber)
         {
-            dbApplicationUser.PhoneNumber = applicationUser.PhoneNumber;
+            dbApplicationUser.PhoneNumber = adminApplicationUserEditDataTransferObject.PhoneNumber;
             dbApplicationUser.PhoneNumberConfirmed = false;
         }
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return dbApplicationUser;
+        return adminApplicationUserEditDataTransferObject;
     }
 
-    public async Task<List<ApplicationUser>> GetAllAsync()
+    public async Task<List<AdminApplicationUserListItemDataTransferObject>> GetAllAsync()
     {
-        var applicationUsers = await _applicationDbContext.Users.Include(x => x.ApplicationUserUpdatedBy).ToListAsync();
+        var applicationRoles = await _applicationDbContext.Roles.ToListAsync();
+        var applicationUsers = await _applicationDbContext.Users.ToListAsync();
+        var applicationUserRoles = await _applicationDbContext.UserRoles.ToListAsync();
+        var adminApplicationUserListItemDataTransferObjects = applicationUsers.Select(x => new AdminApplicationUserListItemDataTransferObject
+        {
+            ApplicationRoles = applicationUserRoles
+                .Where(y => y.UserId == x.Id)
+                .Select(y => applicationRoles.Single(z => z.Id == y.RoleId))
+                .ToList(),
+            Email = x.Email,
+            Id = new Guid(x.Id),
+            PhoneNumber = x.PhoneNumber,
+            UserName = x.UserName,
+        }).ToList();
 
-        return applicationUsers;
+        return adminApplicationUserListItemDataTransferObjects;
     }
 
-    public async Task<ApplicationUser> GetByIdAsync(string id)
+    public async Task<AdminApplicationUserEditDataTransferObject> GetByIdAsync(string id)
     {
-        return await _applicationDbContext.Users.FindAsync(id);
+        var applicationUser = await _applicationDbContext.Users.FindAsync(id);
+        if (applicationUser == null)
+        {
+            return new AdminApplicationUserEditDataTransferObject();
+        }
+
+        var applicationRoles = await _applicationDbContext.Roles.ToListAsync();
+        var applicationUserRoles = await _applicationDbContext.UserRoles.ToListAsync();
+        var adminApplicationUserEditDataTransferObject = new AdminApplicationUserEditDataTransferObject
+        {
+            ApplicationRoles = applicationUserRoles
+                .Where(x => x.UserId == id)
+                .Select(x => applicationRoles.Single(y => y.Id == x.RoleId))
+                .ToList(),
+            Email = applicationUser.Email,
+            Id = new Guid(applicationUser.Id),
+            PhoneNumber = applicationUser.PhoneNumber,
+            UserName = applicationUser.UserName,
+        };
+
+        return adminApplicationUserEditDataTransferObject;
     }
 }

@@ -10,7 +10,6 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
-                    <th scope="col">NormalizedName</th>
                     <th scope="col">UpdatedBy</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -19,13 +18,13 @@
                 @if (applicationRoles == null)
                 {
                     <tr>
-                        <td>Loading...</td>
+                        <td colspan="4">Loading...</td>
                     </tr>
                 }
                 else if (applicationRoles.Count == 0)
                 {
                     <tr>
-                        <td colspan="13">No application roles found.</td>
+                        <td colspan="4">No application roles found.</td>
                     </tr>
                 }
                 else
@@ -35,7 +34,6 @@
                         <tr>
                             <td>@applicationRole.Id</td>
                             <td>@applicationRole.Name</td>
-                            <td>@applicationRole.NormalizedName</td>
                             <td>@applicationRole.ApplicationUserUpdatedBy?.UserName</td>
                             <td>
                                 @if (applicationRole.Id != null)
@@ -57,13 +55,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.Write("applicationRoles loading...");
         applicationRoles = await ApplicationRoleService.GetAllAsync();
-        Console.WriteLine("applicationRoles loaded.");
-        for (var i = 0; i < applicationRoles.Count; i += 1)
-        {
-            Console.WriteLine("applicationRoles[i].ApplicationUserUpdatedBy?.Id: " + applicationRoles[i].ApplicationUserUpdatedBy.UserName);
-        }
-        Console.WriteLine("printed");
     }
 }

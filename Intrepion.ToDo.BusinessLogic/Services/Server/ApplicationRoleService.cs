@@ -1,6 +1,5 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
@@ -113,6 +112,13 @@ public class ApplicationRoleService(ApplicationDbContext applicationDbContext) :
 
     public async Task<ApplicationRole> GetByIdAsync(string id)
     {
-        return await _applicationDbContext.Roles.FindAsync(id);
+        var role = await _applicationDbContext.Roles.FindAsync(id);
+
+        if (role == null)
+        {
+            return new ApplicationRole();
+        }
+
+        return role;
     }
 }

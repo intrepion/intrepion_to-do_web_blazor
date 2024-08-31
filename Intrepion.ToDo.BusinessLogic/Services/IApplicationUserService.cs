@@ -1,12 +1,12 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 
 namespace Intrepion.ToDo.BusinessLogic.Services;
 
 public interface IApplicationUserService
 {
-    Task<ApplicationUser> AddAsync(string userName, ApplicationUser applicationUser);
+    Task<AdminApplicationUserEditDataTransferObject> AddAsync(string userName, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject);
     Task<bool> DeleteAsync(string userName, string id);
-    Task<ApplicationUser> EditAsync(string userName, string id, ApplicationUser applicationUser);
-    Task<List<ApplicationUser>> GetAllAsync();
-    Task<ApplicationUser> GetByIdAsync(string id);
+    Task<AdminApplicationUserEditDataTransferObject> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject);
+    Task<List<AdminApplicationUserListItemDataTransferObject>> GetAllAsync();
+    Task<AdminApplicationUserEditDataTransferObject> GetByIdAsync(string id);
 }
