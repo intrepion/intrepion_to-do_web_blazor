@@ -7,7 +7,7 @@ public class ClientApplicationUserService(HttpClient httpClient) : IApplicationU
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<AdminApplicationUserEditDataTransferObject> AddAsync(string userName, AdminApplicationUserEditDataTransferObject applicationUser)
+    public async Task<AdminApplicationUserEditDataTransferObject?> AddAsync(string userName, AdminApplicationUserEditDataTransferObject applicationUser)
     {
         var result = await _httpClient.PostAsJsonAsync("/api/applicationUser", applicationUser);
 
@@ -28,7 +28,7 @@ public class ClientApplicationUserService(HttpClient httpClient) : IApplicationU
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<AdminApplicationUserEditDataTransferObject> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject applicationUser)
+    public async Task<AdminApplicationUserEditDataTransferObject?> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject applicationUser)
     {
         var result = await _httpClient.PutAsJsonAsync($"/api/applicationUser/{id}", applicationUser);
 
@@ -42,7 +42,7 @@ public class ClientApplicationUserService(HttpClient httpClient) : IApplicationU
         return adminApplicationUserEditDataTransferObject;
     }
 
-    public async Task<List<AdminApplicationUserListItemDataTransferObject>> GetAllAsync()
+    public async Task<List<AdminApplicationUserListItemDataTransferObject>?> GetAllAsync()
     {
         var result = await _httpClient.GetFromJsonAsync<List<AdminApplicationUserListItemDataTransferObject>>("/api/applicationUser");
 
@@ -54,7 +54,7 @@ public class ClientApplicationUserService(HttpClient httpClient) : IApplicationU
         return result;
     }
 
-    public async Task<AdminApplicationUserEditDataTransferObject> GetByIdAsync(string id)
+    public async Task<AdminApplicationUserEditDataTransferObject?> GetByIdAsync(string id)
     {
         var result = await _httpClient.GetFromJsonAsync<AdminApplicationUserEditDataTransferObject>($"/api/applicationUser/{id}");
 

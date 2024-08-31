@@ -8,7 +8,7 @@ public class ApplicationRoleService(ApplicationDbContext applicationDbContext) :
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ApplicationRole> AddAsync(string userName, ApplicationRole applicationRole)
+    public async Task<ApplicationRole?> AddAsync(string userName, ApplicationRole applicationRole)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -68,7 +68,7 @@ public class ApplicationRoleService(ApplicationDbContext applicationDbContext) :
         return true;
     }
 
-    public async Task<ApplicationRole> EditAsync(string userName, string id, ApplicationRole applicationRole)
+    public async Task<ApplicationRole?> EditAsync(string userName, string id, ApplicationRole applicationRole)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -103,22 +103,13 @@ public class ApplicationRoleService(ApplicationDbContext applicationDbContext) :
         return dbApplicationRole;
     }
 
-    public async Task<List<ApplicationRole>> GetAllAsync()
+    public async Task<List<ApplicationRole>?> GetAllAsync()
     {
-        var applicationRoles = await _applicationDbContext.Roles.Include(x => x.ApplicationUserUpdatedBy).ToListAsync();
-
-        return applicationRoles;
+        return await _applicationDbContext.Roles.Include(x => x.ApplicationUserUpdatedBy).ToListAsync();
     }
 
-    public async Task<ApplicationRole> GetByIdAsync(string id)
+    public async Task<ApplicationRole?> GetByIdAsync(string id)
     {
-        var role = await _applicationDbContext.Roles.FindAsync(id);
-
-        if (role == null)
-        {
-            return new ApplicationRole();
-        }
-
-        return role;
+        return await _applicationDbContext.Roles.FindAsync(id);
     }
 }

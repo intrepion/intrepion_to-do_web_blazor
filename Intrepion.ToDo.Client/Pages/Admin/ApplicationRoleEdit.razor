@@ -12,7 +12,7 @@
     }
     else
     {
-        <h1>Edit @applicationRole.Name</h1>
+        <h1>Edit: @applicationRole.Name</h1>
     }
     <article>
         <EditForm class="container" Model="applicationRole" OnSubmit="HandleSubmit">
@@ -43,7 +43,7 @@
 @code {
     [Parameter]
     public string? Id { get; set; }
-    ApplicationRole applicationRole { get; set; } = new ApplicationRole { Name = string.Empty };
+    ApplicationRole applicationRole { get; set; } = new ApplicationRole();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -52,7 +52,16 @@
             return;
         }
 
-        applicationRole = await ApplicationRoleService.GetByIdAsync(Id);
+        var result = await ApplicationRoleService.GetByIdAsync(Id);
+
+        if (result == null)
+        {
+            applicationRole = new ApplicationRole();
+        }
+        else
+        {
+            applicationRole = result;
+        }
     }
 
     async Task HandleSubmit()
@@ -70,9 +79,20 @@
             return;
         }
 
+        if (applicationRole == null)
+        {
+            return;
+        }
+
         if (Id == null)
         {
             var dbApplicationRole = await ApplicationRoleService.AddAsync(userName, applicationRole);
+
+            if (dbApplicationRole == null)
+            {
+                return;
+            }
+
             NavigationManager.NavigateTo($"/admin/application-role-edit/{dbApplicationRole.Id}");
         }
         else

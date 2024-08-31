@@ -9,7 +9,7 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<AdminApplicationUserEditDataTransferObject> AddAsync(string userName, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
+    public async Task<AdminApplicationUserEditDataTransferObject?> AddAsync(string userName, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -76,7 +76,7 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
         return true;
     }
 
-    public async Task<AdminApplicationUserEditDataTransferObject> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
+    public async Task<AdminApplicationUserEditDataTransferObject?> EditAsync(string userName, string id, AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -120,7 +120,7 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
         return adminApplicationUserEditDataTransferObject;
     }
 
-    public async Task<List<AdminApplicationUserListItemDataTransferObject>> GetAllAsync()
+    public async Task<List<AdminApplicationUserListItemDataTransferObject>?> GetAllAsync()
     {
         var applicationRoles = await _applicationDbContext.Roles.ToListAsync();
         var applicationUsers = await _applicationDbContext.Users.ToListAsync();
@@ -131,21 +131,21 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
                 .Where(y => y.UserId == x.Id)
                 .Select(y => applicationRoles.Single(z => z.Id == y.RoleId))
                 .ToList(),
-            Email = x.Email,
+            Email = x.Email ?? string.Empty,
             Id = new Guid(x.Id),
-            PhoneNumber = x.PhoneNumber,
-            UserName = x.UserName,
+            PhoneNumber = x.PhoneNumber ?? string.Empty,
+            UserName = x.UserName ?? string.Empty,
         }).ToList();
 
         return adminApplicationUserListItemDataTransferObjects;
     }
 
-    public async Task<AdminApplicationUserEditDataTransferObject> GetByIdAsync(string id)
+    public async Task<AdminApplicationUserEditDataTransferObject?> GetByIdAsync(string id)
     {
         var applicationUser = await _applicationDbContext.Users.FindAsync(id);
         if (applicationUser == null)
         {
-            return new AdminApplicationUserEditDataTransferObject();
+            return null;
         }
 
         var applicationRoles = await _applicationDbContext.Roles.ToListAsync();
@@ -156,10 +156,10 @@ public class ApplicationUserService(ApplicationDbContext applicationDbContext) :
                 .Where(x => x.UserId == id)
                 .Select(x => applicationRoles.Single(y => y.Id == x.RoleId))
                 .ToList(),
-            Email = applicationUser.Email,
+            Email = applicationUser.Email ?? string.Empty,
             Id = new Guid(applicationUser.Id),
-            PhoneNumber = applicationUser.PhoneNumber,
-            UserName = applicationUser.UserName,
+            PhoneNumber = applicationUser.PhoneNumber ?? string.Empty,
+            UserName = applicationUser.UserName ?? string.Empty,
         };
 
         return adminApplicationUserEditDataTransferObject;

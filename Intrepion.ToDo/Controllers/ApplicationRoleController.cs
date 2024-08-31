@@ -11,9 +11,14 @@ public class ApplicationRoleController(IApplicationRoleService applicationRoleSe
     private readonly IApplicationRoleService _applicationRoleService = applicationRoleService;
 
     [HttpPost]
-    public async Task<ActionResult<ApplicationRole>> Add(ApplicationRole applicationRole)
+    public async Task<ActionResult<ApplicationRole?>> Add(ApplicationRole applicationRole)
     {
         var userName = User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return Ok(null);
+        }
 
         var addedApplicationRole = await _applicationRoleService.AddAsync(userName, applicationRole);
 
@@ -21,9 +26,14 @@ public class ApplicationRoleController(IApplicationRoleService applicationRoleSe
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ApplicationRole>> Delete(string id)
+    public async Task<ActionResult<ApplicationRole?>> Delete(string id)
     {
         var userName = User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return Ok(null);
+        }
 
         var result = await _applicationRoleService.DeleteAsync(userName, id);
 
@@ -31,9 +41,14 @@ public class ApplicationRoleController(IApplicationRoleService applicationRoleSe
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ApplicationRole>> Edit(string id, ApplicationRole applicationRole)
+    public async Task<ActionResult<ApplicationRole?>> Edit(string id, ApplicationRole applicationRole)
     {
         var userName = User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return Ok(null);
+        }
 
         var updatedApplicationRole = await _applicationRoleService.EditAsync(userName, id, applicationRole);
 
@@ -41,9 +56,14 @@ public class ApplicationRoleController(IApplicationRoleService applicationRoleSe
     }
 
     [HttpGet]
-    public async Task<ActionResult<ApplicationRole>> GetAll()
+    public async Task<ActionResult<ApplicationRole>?> GetAll()
     {
         var userName = User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return Ok(null);
+        }
 
         var applicationRoles = await _applicationRoleService.GetAllAsync();
 
@@ -51,8 +71,15 @@ public class ApplicationRoleController(IApplicationRoleService applicationRoleSe
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApplicationRole>> GetById(string id)
+    public async Task<ActionResult<ApplicationRole?>> GetById(string id)
     {
+        var userName = User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return Ok(null);
+        }
+
         var applicationRole = await _applicationRoleService.GetByIdAsync(id);
 
         return Ok(applicationRole);

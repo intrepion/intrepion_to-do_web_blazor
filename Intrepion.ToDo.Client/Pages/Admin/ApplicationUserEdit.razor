@@ -13,10 +13,26 @@
     }
     else
     {
-        <h1>Edit @adminApplicationUserEditDataTransferObject.UserName</h1>
+        <h1>Edit: @adminApplicationUserEditDataTransferObject.UserName</h1>
     }
     <article>
         <EditForm class="container" Model="adminApplicationUserEditDataTransferObject" OnSubmit="HandleSubmit">
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Application Roles:
+                        @if (applicationRoles != null)
+                        {
+                            <select>
+                                @foreach (var applicationRole in applicationRoles)
+                                {
+                                    <option>@applicationRole.Name</option>
+                                }
+                            </select>
+                        }
+                    </label>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <label>
@@ -60,7 +76,7 @@
 @code {
     [Parameter]
     public string? Id { get; set; }
-    AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject { get; set; } = new AdminApplicationUserEditDataTransferObject { UserName = string.Empty };
+    AdminApplicationUserEditDataTransferObject adminApplicationUserEditDataTransferObject { get; set; } = new AdminApplicationUserEditDataTransferObject();
     List<ApplicationRole>? applicationRoles { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -75,7 +91,16 @@
             return;
         }
 
-        adminApplicationUserEditDataTransferObject = await ApplicationUserService.GetByIdAsync(Id);
+        var result = await ApplicationUserService.GetByIdAsync(Id);
+
+        if (result == null)
+        {
+            adminApplicationUserEditDataTransferObject = new AdminApplicationUserEditDataTransferObject();
+        }
+        else
+        {
+            adminApplicationUserEditDataTransferObject = result;
+        }
     }
 
     async Task HandleSubmit()
@@ -88,9 +113,20 @@
             return;
         }
 
+        if (adminApplicationUserEditDataTransferObject == null)
+        {
+            return;
+        }
+
         if (Id == null)
         {
             var dbApplicationUser = await ApplicationUserService.AddAsync(userName, adminApplicationUserEditDataTransferObject);
+
+            if (dbApplicationUser == null)
+            {
+                return;
+            }
+
             NavigationManager.NavigateTo($"/admin/application-user-edit/{dbApplicationUser.Id}");
         }
         else
