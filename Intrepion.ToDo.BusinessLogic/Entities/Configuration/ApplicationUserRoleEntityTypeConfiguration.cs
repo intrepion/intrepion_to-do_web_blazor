@@ -8,11 +8,9 @@ public class ApplicationUserRoleEntityTypeConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
     {
-        builder
-            .ToTable("AspNetUserRoles", x => x.IsTemporal());
+        builder.ToTable("AspNetUserRoles", x => x.IsTemporal());
 
-        builder
-            .HasOne(x => x.ApplicationUserUpdatedBy)
+        builder.HasOne(x => x.ApplicationUserUpdatedBy)
             .WithMany(x => x.UpdatedApplicationUserRoles)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

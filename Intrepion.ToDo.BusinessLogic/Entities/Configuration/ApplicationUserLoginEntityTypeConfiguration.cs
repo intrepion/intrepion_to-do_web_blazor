@@ -8,11 +8,9 @@ public class ApplicationUserLoginEntityTypeConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<ApplicationUserLogin> builder)
     {
-        builder
-            .ToTable("AspNetUserLogins", x => x.IsTemporal());
+        builder.ToTable("AspNetUserLogins", x => x.IsTemporal());
 
-        builder
-            .HasOne(x => x.ApplicationUserUpdatedBy)
+        builder.HasOne(x => x.ApplicationUserUpdatedBy)
             .WithMany(x => x.UpdatedApplicationUserLogins)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

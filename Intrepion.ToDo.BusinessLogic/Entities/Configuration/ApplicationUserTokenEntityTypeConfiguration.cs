@@ -8,11 +8,9 @@ public class ApplicationUserTokenEntityTypeConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<ApplicationUserToken> builder)
     {
-        builder
-            .ToTable("AspNetUserTokens", x => x.IsTemporal());
+        builder.ToTable("AspNetUserTokens", x => x.IsTemporal());
 
-        builder
-            .HasOne(x => x.ApplicationUserUpdatedBy)
+        builder.HasOne(x => x.ApplicationUserUpdatedBy)
             .WithMany(x => x.UpdatedApplicationUserTokens)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

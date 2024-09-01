@@ -8,11 +8,9 @@ public class ApplicationUserClaimEntityTypeConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<ApplicationUserClaim> builder)
     {
-        builder
-            .ToTable("AspNetUserClaims", x => x.IsTemporal());
+        builder.ToTable("AspNetUserClaims", x => x.IsTemporal());
 
-        builder
-            .HasOne(x => x.ApplicationUserUpdatedBy)
+        builder.HasOne(x => x.ApplicationUserUpdatedBy)
             .WithMany(x => x.UpdatedApplicationUserClaims)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
