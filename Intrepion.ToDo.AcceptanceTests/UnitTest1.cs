@@ -2,7 +2,7 @@
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 
-namespace AppNamePlaceholder.AcceptanceTests;
+namespace Intrepion.ToDo.AcceptanceTests;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
