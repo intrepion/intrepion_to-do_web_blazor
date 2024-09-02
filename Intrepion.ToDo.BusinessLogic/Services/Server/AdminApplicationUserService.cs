@@ -1,8 +1,8 @@
-﻿using AppNamePlaceholder.BusinessLogic.Data;
-using AppNamePlaceholder.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Data;
+using Intrepion.ToDo.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AppNamePlaceholder.BusinessLogic.Services.Server;
+namespace Intrepion.ToDo.BusinessLogic.Services.Server;
 
 public class AdminApplicationUserService(ApplicationDbContext applicationDbContext) : IAdminApplicationUserService
 {
