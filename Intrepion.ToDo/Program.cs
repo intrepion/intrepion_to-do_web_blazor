@@ -1,10 +1,10 @@
-﻿using AppNamePlaceholder.BusinessLogic.Data;
-using AppNamePlaceholder.BusinessLogic.Entities;
-using AppNamePlaceholder.BusinessLogic.Services;
-using AppNamePlaceholder.BusinessLogic.Services.Server;
-using AppNamePlaceholder.Client.Pages;
-using AppNamePlaceholder.Components;
-using AppNamePlaceholder.Components.Account;
+﻿using Intrepion.ToDo.BusinessLogic.Data;
+using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Services;
+using Intrepion.ToDo.BusinessLogic.Services.Server;
+using Intrepion.ToDo.Client.Pages;
+using Intrepion.ToDo.Components;
+using Intrepion.ToDo.Components.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -75,7 +75,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(AppNamePlaceholder.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(Intrepion.ToDo.Client._Imports).Assembly);
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
