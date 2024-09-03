@@ -1,0 +1,220 @@
+{
+  "entities": [
+    {
+      "keys": [
+        {
+          "key": "NormalizedUserName",
+          "object": "ApplicationUser",
+          "ordering": 1
+        },
+        {
+          "key": "NormalizedTitle",
+          "ordering": 2
+        },
+        {
+          "datetime": "DueDateTime",
+          "ordering": 3
+        },
+        {
+          "key": "NormalizedUserName",
+          "object": "ToDoList",
+          "ordering": 4,
+          "subobject": "ApplicationUser"
+        },
+        {
+          "key": "NormalizedTitle",
+          "object": "ToDoList",
+          "ordering": 5
+        },
+        {
+          "datetime": "DueDateTime",
+          "object": "ToDoList",
+          "ordering": 6
+        }
+      ],
+      "names": {
+        "entity": "ToDoItem",
+        "human": "To Do Item",
+        "plural": "To Do Items",
+        "table": "ToDoItems",
+        "url": "to-do-item"
+      },
+      "properties": [
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "UserName"
+              }
+            ],
+            "entity": "ApplicationUser",
+            "keys": [
+              {
+                "key": "NormalizedUserName",
+                "ordering": 1
+              }
+            ],
+            "property": "ToDoItems",
+            "table": "Users"
+          },
+          "names": {
+            "human": "Application User",
+            "property": "ApplicationUser"
+          },
+          "type": "manyToOne"
+        },
+        {
+          "names": {
+            "human": "Due Date Time",
+            "property": "DueDateTime"
+          },
+          "type": "datetime"
+        },
+        {
+          "names": {
+            "human": "Is Completed?",
+            "property": "IsCompleted"
+          },
+          "type": "boolean"
+        },
+        {
+          "names": {
+            "human": "Ordering",
+            "property": "Ordering"
+          },
+          "type": "integer"
+        },
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "entity": "ToDoList",
+            "keys": [
+              {
+                "key": "NormalizedUserName",
+                "object": "ApplicationUser",
+                "ordering": 1
+              },
+              {
+                "key": "NormalizedTitle",
+                "ordering": 2
+              },
+              {
+                "datetime": "DueDateTime",
+                "ordering": 3
+              }
+            ],
+            "property": "ToDoItems",
+            "table": "ToDoLists"
+          },
+          "names": {
+            "human": "To Do List",
+            "property": "ToDoList"
+          },
+          "type": "manyToOne"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "keys": [
+        {
+          "key": "NormalizedUserName",
+          "object": "ApplicationUser",
+          "ordering": 1
+        },
+        {
+          "key": "NormalizedTitle",
+          "ordering": 2
+        },
+        {
+          "datetime": "DueDateTime",
+          "ordering": 3
+        }
+      ],
+      "names": {
+        "entity": "ToDoList",
+        "human": "To Do List",
+        "plural": "To Do Lists",
+        "table": "ToDoLists",
+        "url": "to-do-list"
+      },
+      "properties": [
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "UserName"
+              }
+            ],
+            "entity": "ApplicationUser",
+            "keys": [
+              {
+                "key": "NormalizedUserName",
+                "ordering": 1
+              }
+            ],
+            "property": "ToDoLists",
+            "table": "Users"
+          },
+          "names": {
+            "human": "Application User",
+            "property": "ApplicationUser"
+          },
+          "type": "manyToOne"
+        },
+        {
+          "names": {
+            "human": "Due Date Time",
+            "property": "DueDateTime"
+          },
+          "type": "datetime"
+        },
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "entity": "ToDoItem"
+          },
+          "names": {
+            "human": "To Do Items",
+            "property": "ToDoItems"
+          },
+          "type": "oneToMany"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "names": {
+    "human": "Intrepion To Do",
+    "namespace": "Intrepion.ToDo"
+  },
+  "version": "0.1.0"
+}
