@@ -1,0 +1,8 @@
+"IsCompleted"|"Ordering"|"ToDoList_NormalizedTitle"|"Title"
+"TRUE"|"1"|"TO DO"|"wash the dishes"
+"FALSE"|"2"|"TO DO"|"take out the trash"
+"FALSE"|"3"|"TO DO"|"walk the dog"
+"TRUE"|"1"|"SHOPPING"|"bananas"
+"FALSE"|"2"|"SHOPPING"|"eggs"
+"TRUE"|"3"|"SHOPPING"|"oranges"
+"TRUE"|"4"|"SHOPPING"|"milk"
