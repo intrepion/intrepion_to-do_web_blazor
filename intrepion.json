@@ -1,0 +1,102 @@
+{
+  "entities": [
+    {
+      "compositeKeys": [
+        {
+          "keys": [
+            {
+              "key": "NormalizedTitle"
+            }
+          ]
+        }
+      ],
+      "names": {
+        "entity": "ToDoItem",
+        "human": "To Do Item",
+        "plural": "To Do Items",
+        "table": "ToDoItems",
+        "url": "to-do-item"
+      },
+      "properties": [
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "names": {
+              "entity": "ToDoList",
+              "human": "To Do List",
+              "list": "listedItems"
+            }
+          },
+          "names": {
+            "human": "To Do List",
+            "property": "ToDoList"
+          },
+          "type": "manyToOne"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "compositeKeys": [
+        {
+          "keys": [
+            {
+              "key": "NormalizedTitle"
+            }
+          ]
+        }
+      ],
+      "names": {
+        "entity": "ToDoList",
+        "human": "To Do List",
+        "plural": "To Do Lists",
+        "table": "ToDoLists",
+        "url": "to-do-list"
+      },
+      "properties": [
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "names": {
+              "entity": "ToDoItem",
+              "human": "To Do Item",
+              "list": "ListItems"
+            }
+          },
+          "names": {
+            "human": "To Do Item",
+            "property": "ToDoItem"
+          },
+          "type": "oneToMany"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
