@@ -1,0 +1,4 @@
+"Email"|"EmailConfirmed"|"Password"|"PhoneNumber"|"UserName"
+"a@a.a"|"true"|"!QAZ1qaz"||"user a"
+"B@B.B"|"true"|"!QAZ1qaz"||"User B"
+"c@c.c"|"true"|"!QAZ1qaz"||"uSER c"
