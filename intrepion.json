@@ -1,0 +1,62 @@
+{
+  "entities": [
+    {
+      "class": "ToDoItem",
+      "human": "To Do Item",
+      "keys": [
+        {
+          "column": "NormalizedTitle"
+        }
+      ],
+      "plural": "To Do Items",
+      "properties": [
+        {
+          "hasOne": {
+            "foreignDisplay": "Title",
+            "foreignEntity": "ToDoList",
+            "withMany": {
+              "list": "ListedItems",
+              "required": true
+            }
+          },
+          "name": "ToDoList",
+          "subhuman": "To Do List"
+        },
+        {
+          "name": "Title",
+          "normalized": true,
+          "required": true,
+          "subhuman": "Title",
+          "type": "string"
+        }
+      ],
+      "table": "ToDoItems",
+      "url": "to-do-item"
+    },
+    {
+      "class": "ToDoList",
+      "human": "To Do List",
+      "keys": [
+        {
+          "column": "NormalizedTitle"
+        }
+      ],
+      "plural": "To Do Lists",
+      "properties": [
+        {
+          "foreignListItem": "ToDoItem",
+          "name": "ToDoItems"
+        },
+        {
+          "name": "Title",
+          "normalized": true,
+          "required": true,
+          "subhuman": "Title",
+          "type": "string"
+        }
+      ],
+      "table": "ToDoLists",
+      "url": "to-do-list"
+    }
+  ]
+}
