@@ -1,0 +1,21 @@
+{
+  "entities": [
+    {
+      "class": "ToDoItem",
+      "keys": [
+        {
+          "column": "NormalizedTitle"
+        }
+      ],
+      "properties": [
+        {
+          "name": "Title",
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "table": "ToDoItems"
+    }
+  ]
+}
