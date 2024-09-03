@@ -1,0 +1,11 @@
+"IsCompleted","Ordering","Title","ToDoList_NormalizedTitle"
+"true","1","pay bills","CHORES",
+"true","2","clean the house","CHORES",
+"false","3","take out the trash","CHORES",
+"false","4","do laundry","CHORES",
+"false","5","run errands","CHORES",
+"true","1","finish homework","SCHOOL WORK",
+"true","2","study for test","SCHOOL WORK",
+"true","3","attend class","SCHOOL WORK",
+"false","4","complete assignment","SCHOOL WORK",
+"false","5","turn in project","SCHOOL WORK",

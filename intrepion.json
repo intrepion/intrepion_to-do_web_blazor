@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "keys": [
+        {
+          "key": "NormalizedTitle",
+          "ordering": 1
+        }
+      ],
+      "names": {
+        "entity": "ToDoItem",
+        "human": "To Do Item",
+        "plural": "To Do Items",
+        "table": "ToDoItems",
+        "url": "to-do-item"
+      },
+      "properties": [
+        {
+          "names": {
+            "human": "Is Completed?",
+            "property": "IsCompleted"
+          },
+          "type": "boolean"
+        },
+        {
+          "names": {
+            "human": "Ordering",
+            "property": "Ordering"
+          },
+          "type": "integer"
+        },
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "entity": "ToDoList",
+            "property": "ToDoItems",
+            "table": "ToDoLists"
+          },
+          "names": {
+            "human": "To Do List",
+            "property": "ToDoList"
+          },
+          "type": "manyToOne"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "keys": [
+        {
+          "key": "NormalizedTitle",
+          "ordering": 1
+        }
+      ],
+      "names": {
+        "entity": "ToDoList",
+        "human": "To Do List",
+        "plural": "To Do Lists",
+        "table": "ToDoLists",
+        "url": "to-do-list"
+      },
+      "properties": [
+        {
+          "foreign": {
+            "display": [
+              {
+                "ordering": 1,
+                "property": "Title"
+              }
+            ],
+            "entity": "ToDoItem"
+          },
+          "names": {
+            "human": "To Do Items",
+            "property": "ToDoItems"
+          },
+          "type": "oneToMany"
+        },
+        {
+          "names": {
+            "human": "Title",
+            "property": "Title"
+          },
+          "normalized": true,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "names": {
+    "human": "Intrepion To Do",
+    "namespace": "Intrepion.ToDo"
+  },
+  "version": "0.1.0"
+}
