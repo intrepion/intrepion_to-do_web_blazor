@@ -1,5 +1,5 @@
 @page "/admin/UrlNamePlaceholder-list"
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoItemAdminService ToDoItemAdminService
 @attribute [StreamRendering]
 
 <section>
@@ -46,10 +46,10 @@
 </section>
 
 @code {
-    List<EntityNamePlaceholder>? PluralNamePlaceholder = null;
+    List<ToDoItem>? PluralNamePlaceholder = null;
 
     protected override async Task OnInitializedAsync()
     {
-        PluralNamePlaceholder = await EntityNamePlaceholderAdminService.GetAllAsync();
+        PluralNamePlaceholder = await ToDoItemAdminService.GetAllAsync();
     }
 }
