@@ -30,7 +30,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
         LowercaseNamePlaceholder.ApplicationUserUpdatedBy = user;
         // LowercaseNamePlaceholder.NormalizedPropertyNamePlaceholder = LowercaseNamePlaceholder.PropertyNamePlaceholder?.ToUpper();
 
-        _applicationDbContext.PluralNamePlaceholder.Add(LowercaseNamePlaceholder);
+        _applicationDbContext.ToDoItems.Add(LowercaseNamePlaceholder);
 
         await _applicationDbContext.SaveChangesAsync();
 
@@ -51,7 +51,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var dbToDoItem = await _applicationDbContext.PluralNamePlaceholder.FindAsync(id);
+        var dbToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (dbToDoItem == null)
         {
@@ -82,7 +82,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var dbToDoItem = await _applicationDbContext.PluralNamePlaceholder.FindAsync(id);
+        var dbToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (dbToDoItem == null)
         {
@@ -105,11 +105,11 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 
     public async Task<List<ToDoItem>?> GetAllAsync()
     {
-        return await _applicationDbContext.PluralNamePlaceholder.Include(x => x.ApplicationUserUpdatedBy).ToListAsync();
+        return await _applicationDbContext.ToDoItems.Include(x => x.ApplicationUserUpdatedBy).ToListAsync();
     }
 
     public async Task<ToDoItem?> GetByIdAsync(Guid id)
     {
-        return await _applicationDbContext.PluralNamePlaceholder.FindAsync(id);
+        return await _applicationDbContext.ToDoItems.FindAsync(id);
     }
 }
