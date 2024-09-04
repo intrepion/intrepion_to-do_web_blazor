@@ -1,0 +1,179 @@
+@page "/admin/application-user-edit"
+@page "/admin/application-user-edit/{id}"
+@inject IAdminApplicationRoleService AdminApplicationRoleService
+@inject IAdminApplicationUserService AdminApplicationUserService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+@rendermode InteractiveAuto
+
+<section>
+    @if (Id == null)
+    {
+        <h1>Create Application User</h1>
+    }
+    else
+    {
+        <h1>Edit: @ApplicationUser.UserName</h1>
+    }
+    <article>
+        <EditForm class="container" Model="ApplicationUser" OnSubmit="HandleSubmit">
+            <div class="row">
+                <div class="col">
+                    @if (ApplicationUser.ApplicationUserRoles != null)
+                    {
+                        @if (ApplicationUser.ApplicationUserRoles.Count == 0)
+                        {
+                            <span>User has no roles.</span>
+                        }
+                        <ul class="container">
+                            @for (var i = 0; i < ApplicationUser.ApplicationUserRoles.Count; i += 1)
+                            {
+                                <li class="row">
+                                    <div class="col">
+                                        <label>
+                                            Application Role @(i + 1): @ApplicationUser.ApplicationUserRoles.ToList()[i].ApplicationRole?.Name: 
+                                                @if (ApplicationRoles != null)
+                                                {
+                                                    <select>
+                                                        @foreach (var applicationRole in ApplicationRoles)
+                                                        {
+                                                            if (applicationRole.Id == @ApplicationUser.ApplicationUserRoles.ToList()[i].RoleId)
+                                                            {
+                                                                <option selected>@applicationRole.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option>@applicationRole.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                        </label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Email:
+                        <InputText @bind-Value="ApplicationUser.Email">@ApplicationUser.Email</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Phone Number:
+                        <InputText @bind-Value="ApplicationUser.PhoneNumber">@ApplicationUser.PhoneNumber</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        UserName:
+                        <InputText @bind-Value="ApplicationUser.UserName">@ApplicationUser.UserName</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @if (Id != null)
+                    {
+                        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+                <div class="col">
+                    <a href="/admin/application-user-list">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </EditForm>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
+    List<ApplicationRole>? ApplicationRoles { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApplicationRoles = await AdminApplicationRoleService.GetAllAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            return;
+        }
+
+        var result = await AdminApplicationUserService.GetByIdAsync(Id);
+
+        if (result == null)
+        {
+            ApplicationUser = new ApplicationUser();
+        }
+        else
+        {
+            ApplicationUser = result;
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (ApplicationUser == null)
+        {
+            return;
+        }
+
+        if (Id == null)
+        {
+            var dbApplicationUser = await AdminApplicationUserService.AddAsync(userName, ApplicationUser);
+
+            if (dbApplicationUser == null)
+            {
+                return;
+            }
+
+            NavigationManager.NavigateTo($"/admin/application-user-edit/{dbApplicationUser.Id}");
+        }
+        else
+        {
+            await AdminApplicationUserService.EditAsync(userName, (string)Id, ApplicationUser);
+        }
+    }
+
+    async Task Delete()
+    {
+        if (Id == null)
+        {
+            return;
+        }
+
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        await AdminApplicationUserService.DeleteAsync(userName, Id);
+        NavigationManager.NavigateTo($"/admin/application-user-list");
+    }
+}
