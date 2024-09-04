@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.ServerCompon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.ClientComponentTests", "Intrepion.ToDo.ClientComponentTests\Intrepion.ToDo.ClientComponentTests.csproj", "{91B2E885-07B5-4A4C-8F44-5D13EFE7099C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.SharedComponents", "Intrepion.ToDo.SharedComponents\Intrepion.ToDo.SharedComponents.csproj", "{8584824C-A52B-49CC-A3AD-7A48D84840B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,18 @@ Global
 		{91B2E885-07B5-4A4C-8F44-5D13EFE7099C}.Release|x64.Build.0 = Release|Any CPU
 		{91B2E885-07B5-4A4C-8F44-5D13EFE7099C}.Release|x86.ActiveCfg = Release|Any CPU
 		{91B2E885-07B5-4A4C-8F44-5D13EFE7099C}.Release|x86.Build.0 = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|x64.Build.0 = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Debug|x86.Build.0 = Debug|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|x64.ActiveCfg = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|x64.Build.0 = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|x86.ActiveCfg = Release|Any CPU
+		{8584824C-A52B-49CC-A3AD-7A48D84840B3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
