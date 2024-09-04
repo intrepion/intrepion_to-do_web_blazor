@@ -14,21 +14,21 @@
                 </tr>
             </thead>
             <tbody>
-                @if (PluralNamePlaceholder == null)
+                @if (ToDoItems == null)
                 {
                     <tr>
                         @* <td colspan="CountPlaceHolder">Loading...</td> *@
                     </tr>
                 }
-                else if (PluralNamePlaceholder.Count == 0)
+                else if (ToDoItems.Count == 0)
                 {
                     <tr>
-                        @* <td colspan="CountPlaceHolder">No HumanLowerPluralNamePlaceholder found.</td> *@
+                        @* <td colspan="CountPlaceHolder">No HumanLowerToDoItems found.</td> *@
                     </tr>
                 }
                 else
                 {
-                    @foreach (var LowercaseNamePlaceholder in PluralNamePlaceholder)
+                    @foreach (var LowercaseNamePlaceholder in ToDoItems)
                     {
                         <tr>
                             <td>@LowercaseNamePlaceholder.Id</td>
@@ -46,10 +46,10 @@
 </section>
 
 @code {
-    List<ToDoItem>? PluralNamePlaceholder = null;
+    List<ToDoItem>? ToDoItems = null;
 
     protected override async Task OnInitializedAsync()
     {
-        PluralNamePlaceholder = await ToDoItemAdminService.GetAllAsync();
+        ToDoItems = await ToDoItemAdminService.GetAllAsync();
     }
 }
