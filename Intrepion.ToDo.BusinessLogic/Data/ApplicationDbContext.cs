@@ -23,6 +23,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         new ApplicationUserRoleEntityTypeConfiguration().Configure(builder.Entity<ApplicationUserRole>());
         new ApplicationUserTokenEntityTypeConfiguration().Configure(builder.Entity<ApplicationUserToken>());
         new ToDoItemEntityTypeConfiguration().Configure(builder.Entity<ToDoItem>());
+        new ToDoListEntityTypeConfiguration().Configure(builder.Entity<ToDoList>());
         // EntityTypeCfgCodePlaceholder
     }
 }
