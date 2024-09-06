@@ -1,6 +1,6 @@
 @page "/admin/UrlNamePlaceholder-edit"
 @page "/admin/UrlNamePlaceholder-edit/{id:guid}"
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoItemAdminService ToDoItemAdminService
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
 @rendermode InteractiveAuto
@@ -40,7 +40,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    EntityNamePlaceholder EntityLowercaseNamePlaceholder { get; set; } = new EntityNamePlaceholder();
+    ToDoItem EntityLowercaseNamePlaceholder { get; set; } = new ToDoItem();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -49,11 +49,11 @@
             return;
         }
 
-        var result = await EntityNamePlaceholderAdminService.GetByIdAsync(Id);
+        var result = await ToDoItemAdminService.GetByIdAsync(Id);
 
         if (result == null)
         {
-            EntityLowercaseNamePlaceholder = new EntityNamePlaceholder();
+            EntityLowercaseNamePlaceholder = new ToDoItem();
         }
         else
         {
@@ -83,18 +83,18 @@
 
         if (Id.Equals(Guid.Empty))
         {
-            var dbEntityNamePlaceholder = await EntityNamePlaceholderAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
+            var dbToDoItem = await ToDoItemAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
 
-            if (dbEntityNamePlaceholder == null)
+            if (dbToDoItem == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{dbEntityNamePlaceholder.Id}");
+            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{dbToDoItem.Id}");
         }
         else
         {
-            await EntityNamePlaceholderAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholder);
+            await ToDoItemAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholder);
         }
     }
 
@@ -113,7 +113,7 @@
             return;
         }
 
-        await EntityNamePlaceholderAdminService.DeleteAsync(userName, Id);
+        await ToDoItemAdminService.DeleteAsync(userName, Id);
         NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
     }
 }
