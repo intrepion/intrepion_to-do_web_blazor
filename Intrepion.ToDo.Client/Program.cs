@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Services;
-using ApplicationNamePlaceholder.BusinessLogic.Services.Client;
-using ApplicationNamePlaceholder.Client;
+﻿using Intrepion.ToDo.BusinessLogic.Services;
+using Intrepion.ToDo.BusinessLogic.Services.Client;
+using Intrepion.ToDo.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
