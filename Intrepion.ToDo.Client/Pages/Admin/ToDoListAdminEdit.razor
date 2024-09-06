@@ -15,12 +15,12 @@
         <h1>Edit To Do List</h1>
     }
     <article>
-        <EditForm class="container" Model="EntityLowercaseNamePlaceholder" OnSubmit="HandleSubmit">
+        <EditForm class="container" Model="toDoList" OnSubmit="HandleSubmit">
             @* <div class="row">
                 <div class="col">
                     <label>
                         PropertyNamePlaceholder:
-                        <InputText @bind-Value="EntityLowercaseNamePlaceholder.PropertyNamePlaceholder">@EntityLowercaseNamePlaceholder.PropertyNamePlaceholder</InputText>
+                        <InputText @bind-Value="toDoList.PropertyNamePlaceholder">@toDoList.PropertyNamePlaceholder</InputText>
                     </label>
                 </div>
             </div> *@
@@ -40,7 +40,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    ToDoList EntityLowercaseNamePlaceholder { get; set; } = new ToDoList();
+    ToDoList toDoList { get; set; } = new ToDoList();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -53,11 +53,11 @@
 
         if (result == null)
         {
-            EntityLowercaseNamePlaceholder = new ToDoList();
+            toDoList = new ToDoList();
         }
         else
         {
-            EntityLowercaseNamePlaceholder = result;
+            toDoList = result;
         }
     }
 
@@ -76,14 +76,14 @@
             return;
         }
 
-        if (EntityLowercaseNamePlaceholder == null)
+        if (toDoList == null)
         {
             return;
         }
 
         if (Id.Equals(Guid.Empty))
         {
-            var dbToDoList = await ToDoListAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
+            var dbToDoList = await ToDoListAdminService.AddAsync(userName, toDoList);
 
             if (dbToDoList == null)
             {
@@ -94,7 +94,7 @@
         }
         else
         {
-            await ToDoListAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholder);
+            await ToDoListAdminService.EditAsync(userName, Id, toDoList);
         }
     }
 
