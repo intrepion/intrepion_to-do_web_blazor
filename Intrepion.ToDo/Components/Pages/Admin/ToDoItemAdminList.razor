@@ -1,0 +1,55 @@
+@page "/admin/UrlNamePlaceholder-list"
+@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@attribute [StreamRendering]
+
+<section>
+    <h1>HumanNamePlaceholder List</h1>
+    <article>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    @* ListHeaderCodePlaceholder *@
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (TableNamePlaceholder == null)
+                {
+                    <tr>
+                        @* LoadingCountCodePlaceholder *@
+                    </tr>
+                }
+                else if (TableNamePlaceholder.Count == 0)
+                {
+                    <tr>
+                        @* ZeroCountCodePlaceholder *@
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var EntityLowercaseNamePlaceholder in TableNamePlaceholder)
+                    {
+                        <tr>
+                            <td>@EntityLowercaseNamePlaceholder.Id</td>
+                            @* ListItemCodePlaceholder *@
+                            <td>
+                                <NavButton Href="@("/admin/UrlNamePlaceholder-edit/" + EntityLowercaseNamePlaceholder.Id)" Name="Edit" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <NavButton Href="/admin/UrlNamePlaceholder-edit" Name="Create" />
+    </article>
+</section>
+
+@code {
+    List<EntityNamePlaceholder>? TableNamePlaceholder = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        TableNamePlaceholder = await EntityNamePlaceholderAdminService.GetAllAsync();
+    }
+}
