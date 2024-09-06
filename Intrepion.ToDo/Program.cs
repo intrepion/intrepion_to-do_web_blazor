@@ -49,6 +49,7 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddScoped<IAdminApplicationRoleService, AdminApplicationRoleService>();
 builder.Services.AddScoped<IAdminApplicationUserService, AdminApplicationUserService>();
+builder.Services.AddScoped<IToDoItemAdminService, ToDoItemAdminService>();
 // RegisterServerServiceCodePlaceholder
 
 var app = builder.Build();
