@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Intrepion.ToDo.SharedComponents\Intrepion.ToDo.SharedComponents.csproj" />
+    <ProjectReference Include="..\Intrepion.ToDo.BusinessLogic\Intrepion.ToDo.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
