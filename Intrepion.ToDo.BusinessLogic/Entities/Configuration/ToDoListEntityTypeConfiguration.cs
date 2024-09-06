@@ -7,12 +7,12 @@ public class ToDoListEntityTypeConfiguration : IEntityTypeConfiguration<ToDoList
 {
     public void Configure(EntityTypeBuilder<ToDoList> builder)
     {
-        builder.ToTable("TableNamePlaceholder", x => x.IsTemporal());
+        builder.ToTable("ToDoLists", x => x.IsTemporal());
 
         // builder.Property(x => x.PropertyNamePlaceholder);
 
         builder.HasOne(x => x.ApplicationUserUpdatedBy)
-            .WithMany(x => x.UpdatedTableNamePlaceholder)
+            .WithMany(x => x.UpdatedToDoLists)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }
