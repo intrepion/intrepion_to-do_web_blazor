@@ -3,41 +3,41 @@ using ApplicationNamePlaceholder.BusinessLogic.Entities;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services.Client;
 
-public class EntityNamePlaceholderClientAdminService(HttpClient httpClient) : IEntityNamePlaceholderAdminService
+public class ToDoItemClientAdminService(HttpClient httpClient) : IToDoItemAdminService
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<EntityNamePlaceholder?> AddAsync(string userName, EntityNamePlaceholder EntityLowercaseNamePlaceholder)
+    public async Task<ToDoItem?> AddAsync(string userName, ToDoItem EntityLowercaseNamePlaceholder)
     {
-        var result = await _httpClient.PostAsJsonAsync("/api/EntityNamePlaceholder", EntityLowercaseNamePlaceholder);
+        var result = await _httpClient.PostAsJsonAsync("/api/ToDoItem", EntityLowercaseNamePlaceholder);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholder>();
+        return await result.Content.ReadFromJsonAsync<ToDoItem>();
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
     {
-        var result = await _httpClient.DeleteAsync($"/api/EntityNamePlaceholder/{id}");
+        var result = await _httpClient.DeleteAsync($"/api/ToDoItem/{id}");
 
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<EntityNamePlaceholder?> EditAsync(string userName, Guid id, EntityNamePlaceholder EntityLowercaseNamePlaceholder)
+    public async Task<ToDoItem?> EditAsync(string userName, Guid id, ToDoItem EntityLowercaseNamePlaceholder)
     {
-        var result = await _httpClient.PutAsJsonAsync($"/api/EntityNamePlaceholder/{id}", EntityLowercaseNamePlaceholder);
+        var result = await _httpClient.PutAsJsonAsync($"/api/ToDoItem/{id}", EntityLowercaseNamePlaceholder);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholder>();
+        return await result.Content.ReadFromJsonAsync<ToDoItem>();
     }
 
-    public async Task<List<EntityNamePlaceholder>?> GetAllAsync()
+    public async Task<List<ToDoItem>?> GetAllAsync()
     {
-        var result = await _httpClient.GetFromJsonAsync<List<EntityNamePlaceholder>>("/api/EntityNamePlaceholder");
+        var result = await _httpClient.GetFromJsonAsync<List<ToDoItem>>("/api/ToDoItem");
 
         return result;
     }
 
-    public async Task<EntityNamePlaceholder?> GetByIdAsync(Guid id)
+    public async Task<ToDoItem?> GetByIdAsync(Guid id)
     {
-        var result = await _httpClient.GetFromJsonAsync<EntityNamePlaceholder>($"/api/EntityNamePlaceholder/{id}");
+        var result = await _httpClient.GetFromJsonAsync<ToDoItem>($"/api/ToDoItem/{id}");
 
         return result;
     }
