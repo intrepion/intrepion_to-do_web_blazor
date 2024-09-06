@@ -15,12 +15,12 @@
         <h1>Edit To Do Item</h1>
     }
     <article>
-        <EditForm class="container" Model="EntityLowercaseNamePlaceholder" OnSubmit="HandleSubmit">
+        <EditForm class="container" Model="toDoItem" OnSubmit="HandleSubmit">
             @* <div class="row">
                 <div class="col">
                     <label>
                         PropertyNamePlaceholder:
-                        <InputText @bind-Value="EntityLowercaseNamePlaceholder.PropertyNamePlaceholder">@EntityLowercaseNamePlaceholder.PropertyNamePlaceholder</InputText>
+                        <InputText @bind-Value="toDoItem.PropertyNamePlaceholder">@toDoItem.PropertyNamePlaceholder</InputText>
                     </label>
                 </div>
             </div> *@
@@ -40,7 +40,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    ToDoItem EntityLowercaseNamePlaceholder { get; set; } = new ToDoItem();
+    ToDoItem toDoItem { get; set; } = new ToDoItem();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -53,11 +53,11 @@
 
         if (result == null)
         {
-            EntityLowercaseNamePlaceholder = new ToDoItem();
+            toDoItem = new ToDoItem();
         }
         else
         {
-            EntityLowercaseNamePlaceholder = result;
+            toDoItem = result;
         }
     }
 
@@ -76,14 +76,14 @@
             return;
         }
 
-        if (EntityLowercaseNamePlaceholder == null)
+        if (toDoItem == null)
         {
             return;
         }
 
         if (Id.Equals(Guid.Empty))
         {
-            var dbToDoItem = await ToDoItemAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
+            var dbToDoItem = await ToDoItemAdminService.AddAsync(userName, toDoItem);
 
             if (dbToDoItem == null)
             {
@@ -94,7 +94,7 @@
         }
         else
         {
-            await ToDoItemAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholder);
+            await ToDoItemAdminService.EditAsync(userName, Id, toDoItem);
         }
     }
 
