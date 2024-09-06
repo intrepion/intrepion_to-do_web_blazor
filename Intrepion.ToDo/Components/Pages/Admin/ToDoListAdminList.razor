@@ -1,5 +1,5 @@
 @page "/admin/UrlNamePlaceholder-list"
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoListAdminService ToDoListAdminService
 @attribute [StreamRendering]
 
 <section>
@@ -46,10 +46,10 @@
 </section>
 
 @code {
-    List<EntityNamePlaceholder>? TableNamePlaceholder = null;
+    List<ToDoList>? TableNamePlaceholder = null;
 
     protected override async Task OnInitializedAsync()
     {
-        TableNamePlaceholder = await EntityNamePlaceholderAdminService.GetAllAsync();
+        TableNamePlaceholder = await ToDoListAdminService.GetAllAsync();
     }
 }
