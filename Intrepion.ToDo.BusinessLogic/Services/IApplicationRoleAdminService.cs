@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Services;
+namespace Intrepion.ToDo.BusinessLogic.Services;
 
 public interface IApplicationRoleAdminService
 {
