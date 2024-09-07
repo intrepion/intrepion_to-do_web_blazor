@@ -6,12 +6,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePlaceholderAdminService) : ControllerBase
+public class ToDoItemAdminController(IToDoItemAdminService toDoItemAdminService) : ControllerBase
 {
-    private readonly IToDoItemAdminService _EntityLowercaseNamePlaceholderAdminService = EntityLowercaseNamePlaceholderAdminService;
+    private readonly IToDoItemAdminService _toDoItemAdminService = toDoItemAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<ToDoItem?>> Add(ToDoItem EntityLowercaseNamePlaceholder)
+    public async Task<ActionResult<ToDoItem?>> Add(ToDoItem toDoItem)
     {
         var userName = User.Identity?.Name;
 
@@ -20,7 +20,7 @@ public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var addedToDoItem = await _EntityLowercaseNamePlaceholderAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
+        var addedToDoItem = await _toDoItemAdminService.AddAsync(userName, toDoItem);
 
         return Ok(addedToDoItem);
     }
@@ -35,13 +35,13 @@ public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var result = await _EntityLowercaseNamePlaceholderAdminService.DeleteAsync(userName, id);
+        var result = await _toDoItemAdminService.DeleteAsync(userName, id);
 
         return Ok(result);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ToDoItem?>> Edit(Guid id, ToDoItem EntityLowercaseNamePlaceholder)
+    public async Task<ActionResult<ToDoItem?>> Edit(Guid id, ToDoItem toDoItem)
     {
         var userName = User.Identity?.Name;
 
@@ -50,7 +50,7 @@ public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var updatedToDoItem = await _EntityLowercaseNamePlaceholderAdminService.EditAsync(userName, id, EntityLowercaseNamePlaceholder);
+        var updatedToDoItem = await _toDoItemAdminService.EditAsync(userName, id, toDoItem);
 
         return Ok(updatedToDoItem);
     }
@@ -65,7 +65,7 @@ public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var toDoItems = await _EntityLowercaseNamePlaceholderAdminService.GetAllAsync();
+        var toDoItems = await _toDoItemAdminService.GetAllAsync();
 
         return Ok(toDoItems);
     }
@@ -80,8 +80,8 @@ public class ToDoItemAdminController(IToDoItemAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var EntityLowercaseNamePlaceholder = await _EntityLowercaseNamePlaceholderAdminService.GetByIdAsync(id);
+        var toDoItem = await _toDoItemAdminService.GetByIdAsync(id);
 
-        return Ok(EntityLowercaseNamePlaceholder);
+        return Ok(toDoItem);
     }
 }
