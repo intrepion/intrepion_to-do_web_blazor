@@ -6,5 +6,6 @@ public class ToDoItem
     public Guid Id { get; set; }
     public ToDoList? ToDoList { get; set; }
     public string Title { get; set; } = string.Empty;
+    public string NormalizedTitle { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
