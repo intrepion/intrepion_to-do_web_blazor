@@ -1,0 +1,80 @@
+@page "/admin/application-user-list"
+@inject IApplicationUserAdminService ApplicationUserAdminService
+@attribute [StreamRendering]
+
+<section>
+    <h1>Application User List</h1>
+    <article>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ApplicationRoles</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">PhoneNumber</th>
+                    <th scope="col">UserName</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ApplicationUsers == null)
+                {
+                    <tr>
+                        <td colspan="6">Loading...</td>
+                    </tr>
+                }
+                else if (ApplicationUsers.Count == 0)
+                {
+                    <tr>
+                        <td colspan="6">No application users found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var ApplicationUser in ApplicationUsers)
+                    {
+                        <tr>
+                            @if (ApplicationUser == null)
+                            {
+                                <td colspan="6">Application user is null.</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (ApplicationUser.ApplicationUserRoles != null)
+                                    {
+                                        @for (var i = 0; i < ApplicationUser.ApplicationUserRoles.Count; i += 1)
+                                        {
+                                            if (i > 0)
+                                            {
+                                                <span>, </span>
+                                            }
+                                            <span>@ApplicationUser.ApplicationUserRoles.ToList()[i].ApplicationRole?.Name</span>
+                                        }
+                                    }
+                                </td>
+                                <td>@ApplicationUser.Email</td>
+                                <td>@ApplicationUser.Id</td>
+                                <td>@ApplicationUser.PhoneNumber</td>
+                                <td>@ApplicationUser.UserName</td>
+                                <td>
+                                    <NavButton Href="@("/admin/application-user-edit/" + ApplicationUser.Id)" Name="Edit" />
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <NavButton Href="/admin/application-user-edit" Name="Create" />
+    </article>
+</section>
+
+@code {
+    List<ApplicationUser>? ApplicationUsers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApplicationUsers = await ApplicationUserAdminService.GetAllAsync();
+    }
+}
