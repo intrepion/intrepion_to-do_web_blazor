@@ -7,9 +7,9 @@ public class ToDoItemClientAdminService(HttpClient httpClient) : IToDoItemAdminS
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<ToDoItem?> AddAsync(string userName, ToDoItem EntityLowercaseNamePlaceholder)
+    public async Task<ToDoItem?> AddAsync(string userName, ToDoItem toDoItem)
     {
-        var result = await _httpClient.PostAsJsonAsync("/api/ToDoItemAdmin", EntityLowercaseNamePlaceholder);
+        var result = await _httpClient.PostAsJsonAsync("/api/ToDoItemAdmin", toDoItem);
 
         return await result.Content.ReadFromJsonAsync<ToDoItem>();
     }
@@ -21,9 +21,9 @@ public class ToDoItemClientAdminService(HttpClient httpClient) : IToDoItemAdminS
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<ToDoItem?> EditAsync(string userName, Guid id, ToDoItem EntityLowercaseNamePlaceholder)
+    public async Task<ToDoItem?> EditAsync(string userName, Guid id, ToDoItem toDoItem)
     {
-        var result = await _httpClient.PutAsJsonAsync($"/api/ToDoItemAdmin/{id}", EntityLowercaseNamePlaceholder);
+        var result = await _httpClient.PutAsJsonAsync($"/api/ToDoItemAdmin/{id}", toDoItem);
 
         return await result.Content.ReadFromJsonAsync<ToDoItem>();
     }
