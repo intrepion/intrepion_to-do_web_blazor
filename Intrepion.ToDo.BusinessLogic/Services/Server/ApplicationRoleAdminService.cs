@@ -1,8 +1,8 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Data;
-using ApplicationNamePlaceholder.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Data;
+using Intrepion.ToDo.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Services.Server;
+namespace Intrepion.ToDo.BusinessLogic.Services.Server;
 
 public class ApplicationRoleAdminService(ApplicationDbContext applicationDbContext) : IApplicationRoleAdminService
 {
