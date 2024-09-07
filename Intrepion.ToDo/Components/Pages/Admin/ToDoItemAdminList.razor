@@ -1,4 +1,4 @@
-@page "/admin/UrlNamePlaceholder-list"
+@page "/admin/to-do-item-list"
 @inject IToDoItemAdminService ToDoItemAdminService
 @attribute [StreamRendering]
 
@@ -34,14 +34,14 @@
                             <td>@EntityLowercaseNamePlaceholder.Id</td>
                             @* ListItemCodePlaceholder *@
                             <td>
-                                <NavButton Href="@("/admin/UrlNamePlaceholder-edit/" + EntityLowercaseNamePlaceholder.Id)" Name="Edit" />
+                                <NavButton Href="@("/admin/to-do-item-edit/" + EntityLowercaseNamePlaceholder.Id)" Name="Edit" />
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <NavButton Href="/admin/UrlNamePlaceholder-edit" Name="Create" />
+        <NavButton Href="/admin/to-do-item-edit" Name="Create" />
     </article>
 </section>
 
