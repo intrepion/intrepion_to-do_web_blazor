@@ -65,9 +65,9 @@ public class ToDoListAdminController(IToDoListAdminService EntityLowercaseNamePl
             return Ok(null);
         }
 
-        var TableLowercaseNamePlaceholder = await _EntityLowercaseNamePlaceholderAdminService.GetAllAsync();
+        var toDoLists = await _EntityLowercaseNamePlaceholderAdminService.GetAllAsync();
 
-        return Ok(TableLowercaseNamePlaceholder);
+        return Ok(toDoLists);
     }
 
     [HttpGet("{id}")]
