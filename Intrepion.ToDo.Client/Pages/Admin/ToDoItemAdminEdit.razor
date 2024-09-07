@@ -60,6 +60,7 @@
     [Parameter]
     public Guid Id { get; set; }
     ToDoItem toDoItem { get; set; } = new ToDoItem();
+    List<ToDoList> toDoListList { get; set; } = [];
     @* ListDeclarationCodePlaceholder *@
 
     protected override async Task OnInitializedAsync()
