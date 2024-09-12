@@ -17,6 +17,14 @@
     }
     <article>
         <EditForm class="container" Model="toDoList" OnSubmit="HandleSubmit">
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Title:
+                        <InputText @bind-Value="toDoList.Title" />
+                    </label>
+                </div>
+            </div>
             @* EditRowCodePlaceholder *@
             <div class="row">
                 <div class="col">
