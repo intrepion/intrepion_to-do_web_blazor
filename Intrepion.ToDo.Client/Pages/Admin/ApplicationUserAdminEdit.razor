@@ -1,0 +1,215 @@
+@page "/admin/application-user-edit"
+@page "/admin/application-user-edit/{id:guid}"
+@inject IApplicationRoleAdminService ApplicationRoleAdminService
+@inject IApplicationUserAdminService ApplicationUserAdminService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+@rendermode InteractiveAuto
+
+<section>
+    @if (Id.Equals(Guid.Empty))
+    {
+        <h1>Create Application User</h1>
+    }
+    else
+    {
+        <h1>Edit Application User</h1>
+    }
+    <article>
+        <EditForm class="container" Model="applicationUserAdminEditModel" OnSubmit="HandleSubmit">
+            <div class="row">
+                <div class="col">
+                    @if (applicationUserAdminEditModel.ApplicationRoles == null)
+                    {
+                        <span>Loading...</span>
+                    }
+                    else
+                    {
+                        if (applicationUserAdminEditModel.ApplicationRoles.Count == 0)
+                        {
+                            <span>User has no roles.</span>
+                        }
+
+                        <ul>
+                            @for (var i = 0; i < applicationUserAdminEditModel.ApplicationRoles.Count; i += 1)
+                            {
+                                var index = i;
+
+                                <li class="row">
+                                    <div class="col">
+                                        Application Role @(i + 1): @applicationUserAdminEditModel.ApplicationRoles[i].Name: 
+                                        @if (applicationRoleAdminDataTransferObjectList != null)
+                                        {
+                                            <select @onchange="@((ChangeEventArgs e) => ApplicationRoleChange(e, index))">
+                                                <option></option>
+                                                @foreach (var applicationRole in applicationRoleAdminDataTransferObjectList)
+                                                    if (applicationRole.Name == @applicationUserAdminEditModel.ApplicationRoles[i].Name)
+                                                    {
+                                                        <option selected value="@applicationRole.Id">@applicationRole.Name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@applicationRole.Id">@applicationRole.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+
+                        <button @onclick="ApplicationRoleAdd" class="btn btn-secondary" type="button">Add Application Role</button>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Email:
+                        <InputText @bind-Value="applicationUserAdminEditModel.Email">@applicationUserAdminEditModel.Email</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Phone Number:
+                        <InputText @bind-Value="applicationUserAdminEditModel.PhoneNumber">@applicationUserAdminEditModel.PhoneNumber</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        UserName:
+                        <InputText @bind-Value="applicationUserAdminEditModel.UserName">@applicationUserAdminEditModel.UserName</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @if (!Id.Equals(Guid.Empty))
+                    {
+                        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+                <div class="col">
+                    <a href="/admin/application-user-list">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </EditForm>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    ApplicationUserAdminEditModel applicationUserAdminEditModel { get; set; } = new ApplicationUserAdminEditModel();
+    List<ApplicationRoleAdminDataTransferObject>? applicationRoleAdminDataTransferObjectList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationRoleAdminDataTransferObjectList = await ApplicationRoleAdminService.GetAllAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        var databaseApplicationUserAdminDataTransferObject = await ApplicationUserAdminService.GetByIdAsync(Id);
+
+        if (databaseApplicationUserAdminDataTransferObject == null)
+        {
+            applicationUserAdminEditModel = new ApplicationUserAdminEditModel();
+        }
+        else
+        {
+            applicationUserAdminEditModel = ApplicationUserAdminEditModel.FromApplicationUserAdminDataTransferObject(databaseApplicationUserAdminDataTransferObject);;
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(applicationUserAdminEditModel.Email))
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(applicationUserAdminEditModel.UserName))
+        {
+            return;
+        }
+
+        var applicationUserAdminDataTransferObject = ApplicationUserAdminEditModel.ToApplicationUserAdminDataTransferObject(applicationUserAdminEditModel);
+
+        if (Id.Equals(Guid.Empty))
+        {
+            var databaseApplicationUser = await ApplicationUserAdminService.AddAsync(userName, applicationUserAdminDataTransferObject);
+
+            if (databaseApplicationUser == null)
+            {
+                return;
+            }
+
+            NavigationManager.NavigateTo($"/admin/application-user-edit/{databaseApplicationUser.Id}");
+        }
+        else
+        {
+            await ApplicationUserAdminService.EditAsync(userName, Id, applicationUserAdminDataTransferObject);
+        }
+    }
+
+    async Task Delete()
+    {
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        await ApplicationUserAdminService.DeleteAsync(userName, Id);
+        NavigationManager.NavigateTo($"/admin/application-user-list");
+    }
+
+    void ApplicationRoleAdd()
+    {
+        applicationUserAdminEditModel.ApplicationRoles.Add(new ApplicationRoleAdminEditModel());
+    }
+
+    void ApplicationRoleChange(ChangeEventArgs e, int index)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (e.Value == null)
+        {
+            return;
+        }
+
+        var applicationRoleAdminDataTransferObject = applicationRoleAdminDataTransferObjectList?.Where(x => x.Id.ToString().Equals(e.Value)).FirstOrDefault();
+
+        applicationUserAdminEditModel.ApplicationRoles[index] = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDataTransferObject(applicationRoleAdminDataTransferObject);
+    }
+}
