@@ -14,13 +14,13 @@
                 </tr>
             </thead>
             <tbody>
-                @if (TableLowercaseNamePlaceholder == null)
+                @if (toDoItems == null)
                 {
                     <tr>
                         @* LoadingCountCodePlaceholder *@
                     </tr>
                 }
-                else if (TableLowercaseNamePlaceholder.Count == 0)
+                else if (toDoItems.Count == 0)
                 {
                     <tr>
                         @* ZeroCountCodePlaceholder *@
@@ -28,7 +28,7 @@
                 }
                 else
                 {
-                    @foreach (var EntityLowercaseNamePlaceholder in TableLowercaseNamePlaceholder)
+                    @foreach (var EntityLowercaseNamePlaceholder in toDoItems)
                     {
                         <tr>
                             <td>@EntityLowercaseNamePlaceholder.Id</td>
@@ -46,10 +46,10 @@
 </section>
 
 @code {
-    List<ToDoItem>? TableLowercaseNamePlaceholder = null;
+    List<ToDoItem>? toDoItems = null;
 
     protected override async Task OnInitializedAsync()
     {
-        TableLowercaseNamePlaceholder = await ToDoItemAdminService.GetAllAsync();
+        toDoItems = await ToDoItemAdminService.GetAllAsync();
     }
 }
