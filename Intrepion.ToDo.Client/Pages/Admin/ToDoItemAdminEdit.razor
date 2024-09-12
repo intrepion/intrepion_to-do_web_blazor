@@ -1,5 +1,5 @@
-@page "/admin/UrlNamePlaceholder-edit"
-@page "/admin/UrlNamePlaceholder-edit/{id:guid}"
+@page "/admin/to-do-item-edit"
+@page "/admin/to-do-item-edit/{id:guid}"
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
 @inject IToDoItemAdminService ToDoItemAdminService
@@ -26,7 +26,7 @@
                     }
                 </div>
                 <div class="col">
-                    <a href="/admin/UrlNamePlaceholder-list">Cancel</a>
+                    <a href="/admin/to-do-item-list">Cancel</a>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{dbToDoItem.Id}");
+            NavigationManager.NavigateTo($"/admin/to-do-item-edit/{dbToDoItem.Id}");
         }
         else
         {
@@ -119,7 +119,7 @@
         }
 
         await ToDoItemAdminService.DeleteAsync(userName, Id);
-        NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
+        NavigationManager.NavigateTo($"/admin/to-do-item-list");
     }
 
     @* OnChangeCodePlaceholder *@
