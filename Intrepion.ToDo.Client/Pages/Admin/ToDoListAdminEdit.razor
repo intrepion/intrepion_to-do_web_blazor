@@ -16,7 +16,7 @@
         <h1>Edit To Do List</h1>
     }
     <article>
-        <EditForm class="container" Model="EntityLowercaseNamePlaceholder" OnSubmit="HandleSubmit">
+        <EditForm class="container" Model="toDoList" OnSubmit="HandleSubmit">
             @* EditRowCodePlaceholder *@
             <div class="row">
                 <div class="col">
@@ -37,7 +37,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    ToDoList EntityLowercaseNamePlaceholder { get; set; } = new ToDoList();
+    ToDoList toDoList { get; set; } = new ToDoList();
     @* ListDeclarationCodePlaceholder *@
 
     protected override async Task OnInitializedAsync()
@@ -58,11 +58,11 @@
 
         if (result == null)
         {
-            EntityLowercaseNamePlaceholder = new ToDoList();
+            toDoList = new ToDoList();
         }
         else
         {
-            EntityLowercaseNamePlaceholder = result;
+            toDoList = result;
         }
     }
 
@@ -81,14 +81,14 @@
             return;
         }
 
-        if (EntityLowercaseNamePlaceholder == null)
+        if (toDoList == null)
         {
             return;
         }
 
         if (Id.Equals(Guid.Empty))
         {
-            var dbToDoList = await ToDoListAdminService.AddAsync(userName, EntityLowercaseNamePlaceholder);
+            var dbToDoList = await ToDoListAdminService.AddAsync(userName, toDoList);
 
             if (dbToDoList == null)
             {
@@ -99,7 +99,7 @@
         }
         else
         {
-            await ToDoListAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholder);
+            await ToDoListAdminService.EditAsync(userName, Id, toDoList);
         }
     }
 
