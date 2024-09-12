@@ -19,6 +19,7 @@ builder.Services.AddScoped<IApplicationRoleAdminService, ApplicationRoleClientAd
 builder.Services.AddScoped<IApplicationUserAdminService, ApplicationUserClientAdminService>();
 
 builder.Services.AddScoped<IToDoItemAdminService, ToDoItemClientAdminService>();
+builder.Services.AddScoped<IToDoListAdminService, ToDoListClientAdminService>();
 // RegisterClientServiceCodePlaceholder
 
 await builder.Build().RunAsync();
