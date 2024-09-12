@@ -1,0 +1,55 @@
+@page "/admin/application-role-list"
+@inject IApplicationRoleAdminService ApplicationRoleAdminService
+@attribute [StreamRendering]
+
+<section>
+    <h1>Application Role List</h1>
+    <article>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (applicationRoleAdminDataTransferObjects == null)
+                {
+                    <tr>
+                        <td colspan="3">Loading...</td>
+                    </tr>
+                }
+                else if (applicationRoleAdminDataTransferObjects.Count == 0)
+                {
+                    <tr>
+                        <td colspan="3">No application roles found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var applicationRoleAdminDataTransferObject in applicationRoleAdminDataTransferObjects)
+                    {
+                        <tr>
+                            <td>@applicationRoleAdminDataTransferObject.Id</td>
+                            <td>@applicationRoleAdminDataTransferObject.Name</td>
+                            <td>
+                                <NavButton Href="@("/admin/application-role-edit/" + applicationRoleAdminDataTransferObject.Id)" Name="Edit" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <NavButton Href="/admin/application-role-edit" Name="Create" />
+    </article>
+</section>
+
+@code {
+    List<ApplicationRoleAdminDataTransferObject>? applicationRoleAdminDataTransferObjects = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationRoleAdminDataTransferObjects = await ApplicationRoleAdminService.GetAllAsync();
+    }
+}

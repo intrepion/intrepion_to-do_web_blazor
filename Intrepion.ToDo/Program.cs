@@ -1,7 +1,11 @@
-﻿using Intrepion.ToDo.Client.Pages;
-using Intrepion.ToDo.Components;
-using Intrepion.ToDo.Components.Account;
-using Intrepion.ToDo.Data;
+﻿using System.Text.Json.Serialization;
+using ApplicationNamePlaceholder.BusinessLogic.Data;
+using ApplicationNamePlaceholder.BusinessLogic.Entities;
+using ApplicationNamePlaceholder.BusinessLogic.Services;
+using ApplicationNamePlaceholder.BusinessLogic.Services.Server;
+using ApplicationNamePlaceholder.Client.Pages;
+using ApplicationNamePlaceholder.Components;
+using ApplicationNamePlaceholder.Components.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +29,14 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+builder.Services.AddScoped(http => new HttpClient
+{
+    BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!),
+});
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -36,6 +48,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddScoped<IApplicationRoleAdminService, ApplicationRoleAdminService>();
+builder.Services.AddScoped<IApplicationUserAdminService, ApplicationUserAdminService>();
+// RegisterServerServiceCodePlaceholder
 
 var app = builder.Build();
 
@@ -54,13 +70,15 @@ else
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
+
 app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Intrepion.ToDo.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(ApplicationNamePlaceholder.Client._Imports).Assembly);
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
