@@ -8,7 +8,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ToDoList?> AddAsync(string userName, ToDoList EntityLowercaseNamePlaceholder)
+    public async Task<ToDoList?> AddAsync(string userName, ToDoList toDoList)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -22,19 +22,19 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        // if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholder.PropertyNamePlaceholder))
+        // if (string.IsNullOrWhiteSpace(toDoList.PropertyNamePlaceholder))
         // {
         //     throw new Exception("Name required.");
         // }
 
-        EntityLowercaseNamePlaceholder.ApplicationUserUpdatedBy = user;
-        // EntityLowercaseNamePlaceholder.NormalizedPropertyNamePlaceholder = EntityLowercaseNamePlaceholder.PropertyNamePlaceholder?.ToUpper();
+        toDoList.ApplicationUserUpdatedBy = user;
+        // toDoList.NormalizedPropertyNamePlaceholder = toDoList.PropertyNamePlaceholder?.ToUpper();
 
-        _applicationDbContext.ToDoLists.Add(EntityLowercaseNamePlaceholder);
+        _applicationDbContext.ToDoLists.Add(toDoList);
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return EntityLowercaseNamePlaceholder;
+        return toDoList;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -68,7 +68,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
         return true;
     }
 
-    public async Task<ToDoList?> EditAsync(string userName, Guid id, ToDoList EntityLowercaseNamePlaceholder)
+    public async Task<ToDoList?> EditAsync(string userName, Guid id, ToDoList toDoList)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -89,14 +89,14 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Application role not found.");
         }
 
-        // if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholder.PropertyNamePlaceholder))
+        // if (string.IsNullOrWhiteSpace(toDoList.PropertyNamePlaceholder))
         // {
         //     throw new Exception("PropertyNamePlaceholder required.");
         // }
 
         dbToDoList.ApplicationUserUpdatedBy = user;
-        // dbToDoList.PropertyNamePlaceholder = EntityLowercaseNamePlaceholder.PropertyNamePlaceholder;
-        // dbToDoList.NormalizedPropertyNamePlaceholder = EntityLowercaseNamePlaceholder.PropertyNamePlaceholder?.ToUpper();
+        // dbToDoList.PropertyNamePlaceholder = toDoList.PropertyNamePlaceholder;
+        // dbToDoList.NormalizedPropertyNamePlaceholder = toDoList.PropertyNamePlaceholder?.ToUpper();
 
         await _applicationDbContext.SaveChangesAsync();
 
