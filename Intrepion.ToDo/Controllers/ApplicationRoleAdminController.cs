@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Intrepion.ToDo.BusinessLogic.Entities;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 using Intrepion.ToDo.BusinessLogic.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Intrepion.ToDo.Controllers;
 

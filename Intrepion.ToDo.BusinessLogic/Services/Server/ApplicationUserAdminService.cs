@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Intrepion.ToDo.BusinessLogic.Data;
+﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
 using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
 
