@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Services.Client;
+namespace Intrepion.ToDo.BusinessLogic.Services.Client;
 
 public class ApplicationUserClientAdminService(HttpClient httpClient) : IApplicationUserAdminService
 {
