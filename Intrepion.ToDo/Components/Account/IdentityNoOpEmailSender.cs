@@ -1,4 +1,4 @@
-﻿using Intrepion.ToDo.Data;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
