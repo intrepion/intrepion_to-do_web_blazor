@@ -7,12 +7,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
-public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService EntityLowercaseNamePlaceholderAdminService) : ControllerBase
+public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService toDoItemAdminService) : ControllerBase
 {
-    private readonly IEntityNamePlaceholderAdminService _EntityLowercaseNamePlaceholderAdminService = EntityLowercaseNamePlaceholderAdminService;
+    private readonly IEntityNamePlaceholderAdminService _toDoItemAdminService = toDoItemAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Add(EntityNamePlaceholderAdminDataTransferObject EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Add(EntityNamePlaceholderAdminDataTransferObject toDoItemAdminDataTransferObject)
     {
         var userName = User.Identity?.Name;
 
@@ -21,7 +21,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholderAdminDataTransferObject = await _EntityLowercaseNamePlaceholderAdminService.AddAsync(userName, EntityLowercaseNamePlaceholderAdminDataTransferObject);
+        var databaseEntityNamePlaceholderAdminDataTransferObject = await _toDoItemAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
 
         return Ok(databaseEntityNamePlaceholderAdminDataTransferObject);
     }
@@ -36,13 +36,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var result = await _EntityLowercaseNamePlaceholderAdminService.DeleteAsync(userName, id);
+        var result = await _toDoItemAdminService.DeleteAsync(userName, id);
 
         return Ok(result);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Edit(Guid id, EntityNamePlaceholderAdminDataTransferObject EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Edit(Guid id, EntityNamePlaceholderAdminDataTransferObject toDoItemAdminDataTransferObject)
     {
         var userName = User.Identity?.Name;
 
@@ -51,7 +51,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholder = await _EntityLowercaseNamePlaceholderAdminService.EditAsync(userName, id, EntityLowercaseNamePlaceholderAdminDataTransferObject);
+        var databaseEntityNamePlaceholder = await _toDoItemAdminService.EditAsync(userName, id, toDoItemAdminDataTransferObject);
 
         return Ok(databaseEntityNamePlaceholder);
     }
@@ -66,9 +66,9 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var EntityLowercaseNamePlaceholderAdminDataTransferObjects = await _EntityLowercaseNamePlaceholderAdminService.GetAllAsync();
+        var toDoItemAdminDataTransferObjects = await _toDoItemAdminService.GetAllAsync();
 
-        return Ok(EntityLowercaseNamePlaceholderAdminDataTransferObjects);
+        return Ok(toDoItemAdminDataTransferObjects);
     }
 
     [HttpGet("{id}")]
@@ -81,8 +81,8 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var EntityLowercaseNamePlaceholderAdminDataTransferObject = await _EntityLowercaseNamePlaceholderAdminService.GetByIdAsync(id);
+        var toDoItemAdminDataTransferObject = await _toDoItemAdminService.GetByIdAsync(id);
 
-        return Ok(EntityLowercaseNamePlaceholderAdminDataTransferObject);
+        return Ok(toDoItemAdminDataTransferObject);
     }
 }
