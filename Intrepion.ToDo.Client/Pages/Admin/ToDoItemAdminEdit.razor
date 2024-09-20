@@ -64,6 +64,7 @@
     public Guid Id { get; set; }
     ToDoItemAdminEditModel toDoItemAdminEditModel { get; set; } = new ToDoItemAdminEditModel();
 
+    List<ToDoList> toDoListList { get; set; } = [];
     @* ListDeclarationCodePlaceholder *@
 
     protected override async Task OnInitializedAsync()
