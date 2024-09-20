@@ -3,15 +3,15 @@ using ApplicationNamePlaceholder.BusinessLogic.Entities.DataTransferObjects;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services.Client;
 
-public class EntityNamePlaceholderClientAdminService(HttpClient httpClient) : IEntityNamePlaceholderAdminService
+public class ToDoListClientAdminService(HttpClient httpClient) : IToDoListAdminService
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> AddAsync(string userName, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDataTransferObject?> AddAsync(string userName, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         var result = await _httpClient.PostAsJsonAsync("/api/admin/toDoListAdmin", toDoListAdminDataTransferObject);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholderAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDataTransferObject>();
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -21,23 +21,23 @@ public class EntityNamePlaceholderClientAdminService(HttpClient httpClient) : IE
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> EditAsync(string userName, Guid id, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         var result = await _httpClient.PutAsJsonAsync($"/api/admin/toDoListAdmin/{id}", toDoListAdminDataTransferObject);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholderAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDataTransferObject>();
     }
 
-    public async Task<List<EntityNamePlaceholderAdminDataTransferObject>?> GetAllAsync()
+    public async Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync()
     {
-        var result = await _httpClient.GetFromJsonAsync<List<EntityNamePlaceholderAdminDataTransferObject>>("/api/admin/toDoListAdmin");
+        var result = await _httpClient.GetFromJsonAsync<List<ToDoListAdminDataTransferObject>>("/api/admin/toDoListAdmin");
 
         return result;
     }
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> GetByIdAsync(Guid id)
+    public async Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id)
     {
-        var result = await _httpClient.GetFromJsonAsync<EntityNamePlaceholderAdminDataTransferObject>($"/api/admin/toDoListAdmin/{id}");
+        var result = await _httpClient.GetFromJsonAsync<ToDoListAdminDataTransferObject>($"/api/admin/toDoListAdmin/{id}");
 
         return result;
     }
