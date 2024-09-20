@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities.DataTransferObjects;
+﻿namespace Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 
 public class ToDoItemAdminDataTransferObject
 {
