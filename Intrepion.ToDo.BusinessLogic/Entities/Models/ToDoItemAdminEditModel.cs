@@ -19,6 +19,7 @@ public class ToDoItemAdminEditModel
         {
             Id = toDoItemAdminDataTransferObject.Id,
 
+            Title = toDoItemAdminDataTransferObject.Title,
             // DtoToModelPropertyPlaceholder
         };
     }
