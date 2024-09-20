@@ -48,7 +48,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (databaseToDoList == null)
         {
@@ -79,7 +79,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (databaseToDoList == null)
         {
@@ -99,7 +99,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 
     public async Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync()
     {
-        var result = await _applicationDbContext.TableNamePlaceholder.ToListAsync();
+        var result = await _applicationDbContext.ToDoLists.ToListAsync();
 
         if (result == null)
         {
@@ -111,7 +111,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 
     public async Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id)
     {
-        var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var result = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (result == null)
         {
