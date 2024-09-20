@@ -17,6 +17,7 @@ public class ToDoItemAdminDataTransferObject
         {
             Id = toDoItem.Id,
 
+            Title = toDoItem.Title,
             // EntityToDtoPropertyPlaceholder
         };
     }
