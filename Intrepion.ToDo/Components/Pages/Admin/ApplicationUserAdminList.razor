@@ -1,0 +1,81 @@
+@page "/admin/application-user-list"
+@rendermode InteractiveServer
+@inject IApplicationUserAdminService ApplicationUserAdminService
+@attribute [StreamRendering]
+
+<section>
+    <h1>Application User List</h1>
+    <article>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ApplicationRoles</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">PhoneNumber</th>
+                    <th scope="col">UserName</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (applicationUserAdminDataTransferObjects == null)
+                {
+                    <tr>
+                        <td colspan="6">Loading...</td>
+                    </tr>
+                }
+                else if (applicationUserAdminDataTransferObjects.Count == 0)
+                {
+                    <tr>
+                        <td colspan="6">No application users found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var applicationUserAdminDataTransferObject in applicationUserAdminDataTransferObjects)
+                    {
+                        <tr>
+                            @if (applicationUserAdminDataTransferObject == null)
+                            {
+                                <td colspan="6">Application user is null.</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (applicationUserAdminDataTransferObject.ApplicationRoles != null)
+                                    {
+                                        @for (var i = 0; i < applicationUserAdminDataTransferObject.ApplicationRoles.Count; i += 1)
+                                        {
+                                            if (i > 0)
+                                            {
+                                                <span>, </span>
+                                            }
+                                            <span>@applicationUserAdminDataTransferObject.ApplicationRoles.ToList()[i].Name</span>
+                                        }
+                                    }
+                                </td>
+                                <td>@applicationUserAdminDataTransferObject.Email</td>
+                                <td>@applicationUserAdminDataTransferObject.Id</td>
+                                <td>@applicationUserAdminDataTransferObject.PhoneNumber</td>
+                                <td>@applicationUserAdminDataTransferObject.UserName</td>
+                                <td>
+                                    <NavLink href="@("/admin/application-user-edit/" + applicationUserAdminDataTransferObject.Id)">Edit</NavLink>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <NavLink href="/admin/application-user-edit">Create</NavLink>
+    </article>
+</section>
+
+@code {
+    List<ApplicationUserAdminDataTransferObject>? applicationUserAdminDataTransferObjects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationUserAdminDataTransferObjects = await ApplicationUserAdminService.GetAllAsync();
+    }
+}
