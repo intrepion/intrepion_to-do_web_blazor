@@ -3,7 +3,7 @@
 @rendermode InteractiveAuto
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoItemAdminService ToDoItemAdminService
 
 @* InjectionCodePlaceholder *@
 
@@ -40,7 +40,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    EntityNamePlaceholderAdminEditModel toDoItemAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
+    ToDoItemAdminEditModel toDoItemAdminEditModel { get; set; } = new ToDoItemAdminEditModel();
 
     @* ListDeclarationCodePlaceholder *@
 
@@ -58,15 +58,15 @@
             return;
         }
 
-        var databaseEntityNamePlaceholderAdminDataTransferObject = await EntityNamePlaceholderAdminService.GetByIdAsync(Id);
+        var databaseToDoItemAdminDataTransferObject = await ToDoItemAdminService.GetByIdAsync(Id);
 
-        if (databaseEntityNamePlaceholderAdminDataTransferObject == null)
+        if (databaseToDoItemAdminDataTransferObject == null)
         {
-            toDoItemAdminEditModel = new EntityNamePlaceholderAdminEditModel();
+            toDoItemAdminEditModel = new ToDoItemAdminEditModel();
         }
         else
         {
-            toDoItemAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDataTransferObject(databaseEntityNamePlaceholderAdminDataTransferObject);
+            toDoItemAdminEditModel = ToDoItemAdminEditModel.FromToDoItemAdminDataTransferObject(databaseToDoItemAdminDataTransferObject);
         }
     }
 
@@ -85,22 +85,22 @@
             return;
         } *@
 
-        var toDoItemAdminDataTransferObject = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDataTransferObject(toDoItemAdminEditModel);
+        var toDoItemAdminDataTransferObject = ToDoItemAdminEditModel.ToToDoItemAdminDataTransferObject(toDoItemAdminEditModel);
 
         if (Id.Equals(Guid.Empty))
         {
-            var newEntityNamePlaceholderAdminDataTransferObject = await EntityNamePlaceholderAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
+            var newToDoItemAdminDataTransferObject = await ToDoItemAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
 
-            if (newEntityNamePlaceholderAdminDataTransferObject == null)
+            if (newToDoItemAdminDataTransferObject == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newEntityNamePlaceholderAdminDataTransferObject.Id}");
+            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newToDoItemAdminDataTransferObject.Id}");
         }
         else
         {
-            await EntityNamePlaceholderAdminService.EditAsync(userName, Id, toDoItemAdminDataTransferObject);
+            await ToDoItemAdminService.EditAsync(userName, Id, toDoItemAdminDataTransferObject);
         }
     }
 
@@ -119,7 +119,7 @@
             return;
         }
 
-        await EntityNamePlaceholderAdminService.DeleteAsync(userName, Id);
+        await ToDoItemAdminService.DeleteAsync(userName, Id);
         NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
     }
 
