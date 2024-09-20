@@ -6,27 +6,27 @@ public class EntityNamePlaceholderAdminDataTransferObject
 
     // DtoPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminDataTransferObject FromEntityNamePlaceholder(EntityNamePlaceholder? EntityLowercaseNamePlaceholder)
+    public static EntityNamePlaceholderAdminDataTransferObject FromEntityNamePlaceholder(EntityNamePlaceholder? toDoList)
     {
-        if (EntityLowercaseNamePlaceholder == null)
+        if (toDoList == null)
         {
             return new EntityNamePlaceholderAdminDataTransferObject();
         }
 
         return new EntityNamePlaceholderAdminDataTransferObject
         {
-            Id = EntityLowercaseNamePlaceholder.Id,
+            Id = toDoList.Id,
 
             // EntityToDtoPropertyPlaceholder
         };
     }
 
-    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser applicationUser, EntityNamePlaceholderAdminDataTransferObject EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser applicationUser, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         return new EntityNamePlaceholder
         {
             ApplicationUserUpdatedBy = applicationUser,
-            Id = EntityLowercaseNamePlaceholderAdminDataTransferObject.Id,
+            Id = toDoListAdminDataTransferObject.Id,
 
             // DtoToEntityPropertyPlaceholder
         };
