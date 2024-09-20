@@ -17,7 +17,7 @@
         <h1>Edit HumanNamePlaceholder</h1>
     }
     <article>
-        <EditForm class="container" Model="EntityLowercaseNamePlaceholderAdminEditModel" OnSubmit="HandleSubmit">
+        <EditForm class="container" Model="toDoItemAdminEditModel" OnSubmit="HandleSubmit">
 
             @* EditRowCodePlaceholder *@
 
@@ -40,7 +40,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    EntityNamePlaceholderAdminEditModel EntityLowercaseNamePlaceholderAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
+    EntityNamePlaceholderAdminEditModel toDoItemAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
 
     @* ListDeclarationCodePlaceholder *@
 
@@ -62,11 +62,11 @@
 
         if (databaseEntityNamePlaceholderAdminDataTransferObject == null)
         {
-            EntityLowercaseNamePlaceholderAdminEditModel = new EntityNamePlaceholderAdminEditModel();
+            toDoItemAdminEditModel = new EntityNamePlaceholderAdminEditModel();
         }
         else
         {
-            EntityLowercaseNamePlaceholderAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDataTransferObject(databaseEntityNamePlaceholderAdminDataTransferObject);
+            toDoItemAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDataTransferObject(databaseEntityNamePlaceholderAdminDataTransferObject);
         }
     }
 
@@ -80,16 +80,16 @@
             return;
         }
 
-        @* if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholderAdminEditModel.Name))
+        @* if (string.IsNullOrWhiteSpace(toDoItemAdminEditModel.Name))
         {
             return;
         } *@
 
-        var EntityLowercaseNamePlaceholderAdminDataTransferObject = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDataTransferObject(EntityLowercaseNamePlaceholderAdminEditModel);
+        var toDoItemAdminDataTransferObject = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDataTransferObject(toDoItemAdminEditModel);
 
         if (Id.Equals(Guid.Empty))
         {
-            var newEntityNamePlaceholderAdminDataTransferObject = await EntityNamePlaceholderAdminService.AddAsync(userName, EntityLowercaseNamePlaceholderAdminDataTransferObject);
+            var newEntityNamePlaceholderAdminDataTransferObject = await EntityNamePlaceholderAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
 
             if (newEntityNamePlaceholderAdminDataTransferObject == null)
             {
@@ -100,7 +100,7 @@
         }
         else
         {
-            await EntityNamePlaceholderAdminService.EditAsync(userName, Id, EntityLowercaseNamePlaceholderAdminDataTransferObject);
+            await EntityNamePlaceholderAdminService.EditAsync(userName, Id, toDoItemAdminDataTransferObject);
         }
     }
 
