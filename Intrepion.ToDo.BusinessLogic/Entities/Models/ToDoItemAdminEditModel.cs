@@ -2,20 +2,20 @@
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Models;
 
-public class EntityNamePlaceholderAdminEditModel
+public class ToDoItemAdminEditModel
 {
     public Guid Id { get; set; }
 
     // ModelPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminEditModel FromEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminDataTransferObject? toDoItemAdminDataTransferObject)
+    public static ToDoItemAdminEditModel FromToDoItemAdminDataTransferObject(ToDoItemAdminDataTransferObject? toDoItemAdminDataTransferObject)
     {
         if (toDoItemAdminDataTransferObject == null)
         {
-            return new EntityNamePlaceholderAdminEditModel();
+            return new ToDoItemAdminEditModel();
         }
 
-        return new EntityNamePlaceholderAdminEditModel
+        return new ToDoItemAdminEditModel
         {
             Id = toDoItemAdminDataTransferObject.Id,
 
@@ -23,14 +23,14 @@ public class EntityNamePlaceholderAdminEditModel
         };
     }
 
-    public static EntityNamePlaceholderAdminDataTransferObject ToEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminEditModel? toDoItemAdminEditModel)
+    public static ToDoItemAdminDataTransferObject ToToDoItemAdminDataTransferObject(ToDoItemAdminEditModel? toDoItemAdminEditModel)
     {
         if (toDoItemAdminEditModel == null)
         {
-            return new EntityNamePlaceholderAdminDataTransferObject();
+            return new ToDoItemAdminDataTransferObject();
         }
 
-        return new EntityNamePlaceholderAdminDataTransferObject
+        return new ToDoItemAdminDataTransferObject
         {
             Id = toDoItemAdminEditModel.Id,
 
