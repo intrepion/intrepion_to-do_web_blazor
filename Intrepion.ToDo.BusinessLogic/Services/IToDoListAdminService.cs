@@ -2,11 +2,11 @@
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services;
 
-public interface IEntityNamePlaceholderAdminService
+public interface IToDoListAdminService
 {
-    Task<EntityNamePlaceholderAdminDataTransferObject?> AddAsync(string userName, EntityNamePlaceholderAdminDataTransferObject toDoList);
+    Task<ToDoListAdminDataTransferObject?> AddAsync(string userName, ToDoListAdminDataTransferObject toDoList);
     Task<bool> DeleteAsync(string userName, Guid id);
-    Task<EntityNamePlaceholderAdminDataTransferObject?> EditAsync(string userName, Guid id, EntityNamePlaceholderAdminDataTransferObject toDoList);
-    Task<List<EntityNamePlaceholderAdminDataTransferObject>?> GetAllAsync();
-    Task<EntityNamePlaceholderAdminDataTransferObject?> GetByIdAsync(Guid id);
+    Task<ToDoListAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoListAdminDataTransferObject toDoList);
+    Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync();
+    Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id);
 }
