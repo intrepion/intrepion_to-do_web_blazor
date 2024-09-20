@@ -7,12 +7,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
-public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService toDoListAdminService) : ControllerBase
+public class ToDoListController(IToDoListAdminService toDoListAdminService) : ControllerBase
 {
-    private readonly IEntityNamePlaceholderAdminService _toDoListAdminService = toDoListAdminService;
+    private readonly IToDoListAdminService _toDoListAdminService = toDoListAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Add(EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ActionResult<ToDoListAdminDataTransferObject?>> Add(ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         var userName = User.Identity?.Name;
 
@@ -21,13 +21,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholderAdminDataTransferObject = await _toDoListAdminService.AddAsync(userName, toDoListAdminDataTransferObject);
+        var databaseToDoListAdminDataTransferObject = await _toDoListAdminService.AddAsync(userName, toDoListAdminDataTransferObject);
 
-        return Ok(databaseEntityNamePlaceholderAdminDataTransferObject);
+        return Ok(databaseToDoListAdminDataTransferObject);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Delete(Guid id)
+    public async Task<ActionResult<ToDoListAdminDataTransferObject?>> Delete(Guid id)
     {
         var userName = User.Identity?.Name;
 
@@ -42,7 +42,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> Edit(Guid id, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ActionResult<ToDoListAdminDataTransferObject?>> Edit(Guid id, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         var userName = User.Identity?.Name;
 
@@ -51,13 +51,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholder = await _toDoListAdminService.EditAsync(userName, id, toDoListAdminDataTransferObject);
+        var databaseToDoList = await _toDoListAdminService.EditAsync(userName, id, toDoListAdminDataTransferObject);
 
-        return Ok(databaseEntityNamePlaceholder);
+        return Ok(databaseToDoList);
     }
 
     [HttpGet]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject>?> GetAll()
+    public async Task<ActionResult<ToDoListAdminDataTransferObject>?> GetAll()
     {
         var userName = User.Identity?.Name;
 
@@ -72,7 +72,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDataTransferObject?>> GetById(Guid id)
+    public async Task<ActionResult<ToDoListAdminDataTransferObject?>> GetById(Guid id)
     {
         var userName = User.Identity?.Name;
 
