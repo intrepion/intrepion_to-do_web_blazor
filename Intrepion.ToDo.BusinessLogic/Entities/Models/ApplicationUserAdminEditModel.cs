@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Models;
+namespace Intrepion.ToDo.BusinessLogic.Entities.Models;
 
 public class ApplicationUserAdminEditModel
 {
