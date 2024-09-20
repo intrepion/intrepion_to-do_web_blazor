@@ -1,6 +1,6 @@
 @page "/admin/UrlNamePlaceholder-list"
 @rendermode InteractiveServer
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoItemAdminService ToDoItemAdminService
 @attribute [StreamRendering]
 
 <section>
@@ -47,10 +47,10 @@
 </section>
 
 @code {
-    List<EntityNamePlaceholderAdminDataTransferObject>? TableLowercaseNamePlaceholder = null;
+    List<ToDoItemAdminDataTransferObject>? TableLowercaseNamePlaceholder = null;
 
     protected override async Task OnInitializedAsync()
     {
-        TableLowercaseNamePlaceholder = await EntityNamePlaceholderAdminService.GetAllAsync();
+        TableLowercaseNamePlaceholder = await ToDoItemAdminService.GetAllAsync();
     }
 }
