@@ -8,31 +8,31 @@ public class EntityNamePlaceholderAdminEditModel
 
     // ModelPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminEditModel FromEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminDataTransferObject? EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public static EntityNamePlaceholderAdminEditModel FromEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminDataTransferObject? toDoListAdminDataTransferObject)
     {
-        if (EntityLowercaseNamePlaceholderAdminDataTransferObject == null)
+        if (toDoListAdminDataTransferObject == null)
         {
             return new EntityNamePlaceholderAdminEditModel();
         }
 
         return new EntityNamePlaceholderAdminEditModel
         {
-            Id = EntityLowercaseNamePlaceholderAdminDataTransferObject.Id,
+            Id = toDoListAdminDataTransferObject.Id,
 
             // DtoToModelPropertyPlaceholder
         };
     }
 
-    public static EntityNamePlaceholderAdminDataTransferObject ToEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminEditModel? EntityLowercaseNamePlaceholderAdminEditModel)
+    public static EntityNamePlaceholderAdminDataTransferObject ToEntityNamePlaceholderAdminDataTransferObject(EntityNamePlaceholderAdminEditModel? toDoListAdminEditModel)
     {
-        if (EntityLowercaseNamePlaceholderAdminEditModel == null)
+        if (toDoListAdminEditModel == null)
         {
             return new EntityNamePlaceholderAdminDataTransferObject();
         }
 
         return new EntityNamePlaceholderAdminDataTransferObject
         {
-            Id = EntityLowercaseNamePlaceholderAdminEditModel.Id,
+            Id = toDoListAdminEditModel.Id,
 
             // ModelToDtoPropertyPlaceholder
         };
