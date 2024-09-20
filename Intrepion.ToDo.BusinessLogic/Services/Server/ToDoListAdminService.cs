@@ -91,6 +91,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
         databaseToDoList.ApplicationUserUpdatedBy = user;
 
         databaseToDoList.Title = toDoListAdminDataTransferObject.Title;
+        databaseToDoList.NormalizedTitle = toDoListAdminDataTransferObject.Title.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
