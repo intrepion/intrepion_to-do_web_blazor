@@ -29,6 +29,7 @@ public class ToDoListAdminDataTransferObject
             ApplicationUserUpdatedBy = applicationUser,
             Id = toDoListAdminDataTransferObject.Id,
 
+            Title = toDoListAdminDataTransferObject.Title,
             // DtoToEntityPropertyPlaceholder
         };
     }
