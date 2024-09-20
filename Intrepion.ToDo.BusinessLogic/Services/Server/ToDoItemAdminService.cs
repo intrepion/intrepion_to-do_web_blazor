@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services.Server;
 
-public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationDbContext) : IEntityNamePlaceholderAdminService
+public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : IToDoItemAdminService
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> AddAsync(string userName, EntityNamePlaceholderAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public async Task<ToDoItemAdminDataTransferObject?> AddAsync(string userName, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -25,13 +25,13 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
 
         // RequiredPropertyCodePlaceholder
 
-        var toDoItem = EntityNamePlaceholderAdminDataTransferObject.ToEntityNamePlaceholder(user, toDoItemAdminDataTransferObject);
+        var toDoItem = ToDoItemAdminDataTransferObject.ToToDoItem(user, toDoItemAdminDataTransferObject);
 
-        var result = await _applicationDbContext.EntityNamePlaceholders.AddAsync(toDoItem);
-        var databaseEntityNamePlaceholderAdminDataTransferObject = EntityNamePlaceholderAdminDataTransferObject.FromEntityNamePlaceholder(result.Entity);
+        var result = await _applicationDbContext.ToDoItems.AddAsync(toDoItem);
+        var databaseToDoItemAdminDataTransferObject = ToDoItemAdminDataTransferObject.FromToDoItem(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseEntityNamePlaceholderAdminDataTransferObject;
+        return databaseToDoItemAdminDataTransferObject;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -48,24 +48,24 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoItem == null)
         {
             return false;
         }
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoItem.ApplicationUserUpdatedBy = user;
         await _applicationDbContext.SaveChangesAsync();
 
-        _applicationDbContext.Remove(databaseEntityNamePlaceholder);
+        _applicationDbContext.Remove(databaseToDoItem);
 
         await _applicationDbContext.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> EditAsync(string userName, Guid id, EntityNamePlaceholderAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public async Task<ToDoItemAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -79,16 +79,16 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoItem == null)
         {
             throw new Exception("HumanNamePlaceholder not found.");
         }
 
         // EditRequiredPropertyCodePlaceholder
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoItem.ApplicationUserUpdatedBy = user;
 
         // EditDatabasePropertyCodePlaceholder
 
@@ -97,7 +97,7 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
         return toDoItemAdminDataTransferObject;
     }
 
-    public async Task<List<EntityNamePlaceholderAdminDataTransferObject>?> GetAllAsync()
+    public async Task<List<ToDoItemAdminDataTransferObject>?> GetAllAsync()
     {
         var result = await _applicationDbContext.TableNamePlaceholder.ToListAsync();
 
@@ -106,10 +106,10 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             return null;
         }
 
-        return result.Select(x => EntityNamePlaceholderAdminDataTransferObject.FromEntityNamePlaceholder(x)).ToList();
+        return result.Select(x => ToDoItemAdminDataTransferObject.FromToDoItem(x)).ToList();
     }
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> GetByIdAsync(Guid id)
+    public async Task<ToDoItemAdminDataTransferObject?> GetByIdAsync(Guid id)
     {
         var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
 
@@ -118,6 +118,6 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             return null;
         }
 
-        return EntityNamePlaceholderAdminDataTransferObject.FromEntityNamePlaceholder(result);
+        return ToDoItemAdminDataTransferObject.FromToDoItem(result);
     }
 }
