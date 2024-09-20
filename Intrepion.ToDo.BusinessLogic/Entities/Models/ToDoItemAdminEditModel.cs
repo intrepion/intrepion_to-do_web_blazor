@@ -35,6 +35,7 @@ public class ToDoItemAdminEditModel
         {
             Id = toDoItemAdminEditModel.Id,
 
+            Title = toDoItemAdminEditModel.Title,
             // ModelToDtoPropertyPlaceholder
         };
     }
