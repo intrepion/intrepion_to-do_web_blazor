@@ -17,6 +17,7 @@ public class ToDoListAdminDataTransferObject
         {
             Id = toDoList.Id,
 
+            Title = toDoList.Title,
             // EntityToDtoPropertyPlaceholder
         };
     }
