@@ -4,6 +4,7 @@ public class ToDoItemAdminDataTransferObject
 {
     public Guid Id { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     // DtoPropertyPlaceholder
 
     public static ToDoItemAdminDataTransferObject FromToDoItem(ToDoItem? toDoItem)
