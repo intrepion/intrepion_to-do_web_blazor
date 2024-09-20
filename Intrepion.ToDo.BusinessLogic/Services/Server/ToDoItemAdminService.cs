@@ -91,6 +91,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
         databaseToDoItem.ApplicationUserUpdatedBy = user;
 
         databaseToDoItem.Title = toDoItemAdminDataTransferObject.Title;
+        databaseToDoItem.NormalizedTitle = toDoItemAdminDataTransferObject.Title.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
