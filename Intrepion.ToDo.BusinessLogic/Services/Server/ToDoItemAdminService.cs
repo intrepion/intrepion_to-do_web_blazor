@@ -23,6 +23,11 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDataTransferObject.Title))
+        {
+            throw new Exception("Title required.");
+        }
+
         // RequiredPropertyCodePlaceholder
 
         var toDoItem = ToDoItemAdminDataTransferObject.ToToDoItem(user, toDoItemAdminDataTransferObject);
