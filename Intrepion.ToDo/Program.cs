@@ -61,6 +61,7 @@ builder.Services.AddScoped(http => new HttpClient
 builder.Services.AddScoped<IApplicationRoleAdminService, ApplicationRoleAdminService>();
 builder.Services.AddScoped<IApplicationUserAdminService, ApplicationUserAdminService>();
 
+builder.Services.AddScoped<IToDoItemAdminService, ToDoItemAdminService>();
 // RegisterServerServiceCodePlaceholder
 
 var app = builder.Build();
