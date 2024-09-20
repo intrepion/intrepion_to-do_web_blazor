@@ -151,5 +151,16 @@
         NavigationManager.NavigateTo($"/admin/to-do-item-list");
     }
 
+    void ToDoListOnChange(ChangeEventArgs args)
+    {
+        if (args.Value == null)
+        {
+            return;
+        }
+
+        var id = (string)args.Value;
+        toDoItemAdminDataTransferObject.ToDoList = toDoListList.Where(x => x.Id.ToString().Equals(id)).FirstOrDefault();
+    }
+
     @* OnChangeCodePlaceholder *@
 }
