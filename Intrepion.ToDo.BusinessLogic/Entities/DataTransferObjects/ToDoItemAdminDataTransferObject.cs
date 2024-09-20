@@ -1,19 +1,19 @@
 ﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities.DataTransferObjects;
 
-public class EntityNamePlaceholderAdminDataTransferObject
+public class ToDoItemAdminDataTransferObject
 {
     public Guid Id { get; set; }
 
     // DtoPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminDataTransferObject FromEntityNamePlaceholder(EntityNamePlaceholder? toDoItem)
+    public static ToDoItemAdminDataTransferObject FromToDoItem(ToDoItem? toDoItem)
     {
         if (toDoItem == null)
         {
-            return new EntityNamePlaceholderAdminDataTransferObject();
+            return new ToDoItemAdminDataTransferObject();
         }
 
-        return new EntityNamePlaceholderAdminDataTransferObject
+        return new ToDoItemAdminDataTransferObject
         {
             Id = toDoItem.Id,
 
@@ -21,9 +21,9 @@ public class EntityNamePlaceholderAdminDataTransferObject
         };
     }
 
-    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser applicationUser, EntityNamePlaceholderAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public static ToDoItem ToToDoItem(ApplicationUser applicationUser, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
     {
-        return new EntityNamePlaceholder
+        return new ToDoItem
         {
             ApplicationUserUpdatedBy = applicationUser,
             Id = toDoItemAdminDataTransferObject.Id,
