@@ -1,4 +1,4 @@
-@page "/admin/UrlNamePlaceholder-list"
+@page "/admin/to-do-item-list"
 @rendermode InteractiveServer
 @inject IToDoItemAdminService ToDoItemAdminService
 @attribute [StreamRendering]
@@ -35,14 +35,14 @@
                             <td>@toDoItem.Id</td>
                             @* ListItemCodePlaceholder *@
                             <td>
-                                <NavLink Href="@("/admin/UrlNamePlaceholder-edit/" + toDoItem.Id)">Edit</NavLink>
+                                <NavLink Href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</NavLink>
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <NavLink Href="/admin/UrlNamePlaceholder-edit">Create</NavLink>
+        <NavLink Href="/admin/to-do-item-edit">Create</NavLink>
     </article>
 </section>
 
