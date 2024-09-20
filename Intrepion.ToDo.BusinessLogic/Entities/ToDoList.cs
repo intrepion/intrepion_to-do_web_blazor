@@ -6,5 +6,6 @@ public class ToDoList
     public Guid Id { get; set; }
 
     public List<ToDoItem>? ToDoItems { get; set; } = [];
+    public string Title { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
