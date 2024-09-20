@@ -19,6 +19,7 @@ public class ToDoListAdminEditModel
         {
             Id = toDoListAdminDataTransferObject.Id,
 
+            Title = toDoListAdminDataTransferObject.Title,
             // DtoToModelPropertyPlaceholder
         };
     }
