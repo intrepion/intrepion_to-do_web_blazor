@@ -4,6 +4,7 @@ public class ToDoListAdminDataTransferObject
 {
     public Guid Id { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     // DtoPropertyPlaceholder
 
     public static ToDoListAdminDataTransferObject FromToDoList(ToDoList? toDoList)
