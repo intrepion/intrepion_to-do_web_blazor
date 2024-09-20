@@ -71,6 +71,11 @@
     {
         await base.OnInitializedAsync();
 
+        var toDoListListResult = await ToDoListAdminService.GetAllAsync();
+        if (toDoListListResult != null)
+        {
+            toDoListList = toDoListListResult;
+        }
         @* OnInitializedCodePlaceholder *@
     }
 
