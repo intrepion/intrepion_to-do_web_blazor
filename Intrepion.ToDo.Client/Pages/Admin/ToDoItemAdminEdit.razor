@@ -20,6 +20,27 @@
     <article>
         <EditForm class="container" Model="toDoItemAdminEditModel" OnSubmit="HandleSubmit">
 
+            <div class="row">
+                <div class="col">
+                    <label>
+                        To Do List:
+                        <select @onchange="ToDoListOnChange">
+                            <option>Select to Do List...</option>
+                            @foreach (var toDoList in toDoListList)
+                            {
+                                if (toDoItemAdminDataTransferObject.ToDoList == null ? false : toDoItemAdminDataTransferObject.ToDoList.Id.Equals(toDoList.Id))
+                                {
+                                    <option value="@toDoList.Id" selected>@toDoList.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@toDoList.Id">@toDoList.Title</option>
+                                }
+                            }
+                        </select>
+                    </label>
+                </div>
+            </div>
             @* EditRowCodePlaceholder *@
 
             <div class="row">
