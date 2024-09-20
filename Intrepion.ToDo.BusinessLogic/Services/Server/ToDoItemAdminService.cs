@@ -48,7 +48,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (databaseToDoItem == null)
         {
@@ -79,7 +79,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (databaseToDoItem == null)
         {
@@ -99,7 +99,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 
     public async Task<List<ToDoItemAdminDataTransferObject>?> GetAllAsync()
     {
-        var result = await _applicationDbContext.TableNamePlaceholder.ToListAsync();
+        var result = await _applicationDbContext.ToDoItems.ToListAsync();
 
         if (result == null)
         {
@@ -111,7 +111,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 
     public async Task<ToDoItemAdminDataTransferObject?> GetByIdAsync(Guid id)
     {
-        var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var result = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (result == null)
         {
