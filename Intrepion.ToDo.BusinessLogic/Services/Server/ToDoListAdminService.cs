@@ -23,6 +23,11 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
+        if (string.IsNullOrWhiteSpace(toDoListAdminDataTransferObject.Title))
+        {
+            throw new Exception("Title required.");
+        }
+
         // RequiredPropertyCodePlaceholder
 
         var toDoList = ToDoListAdminDataTransferObject.ToToDoList(user, toDoListAdminDataTransferObject);
