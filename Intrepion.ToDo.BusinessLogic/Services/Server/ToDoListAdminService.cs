@@ -90,6 +90,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 
         databaseToDoList.ApplicationUserUpdatedBy = user;
 
+        databaseToDoList.Title = toDoListAdminDataTransferObject.Title;
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
