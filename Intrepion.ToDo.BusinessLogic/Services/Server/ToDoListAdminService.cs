@@ -9,7 +9,7 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> AddAsync(string userName, EntityNamePlaceholderAdminDataTransferObject EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public async Task<EntityNamePlaceholderAdminDataTransferObject?> AddAsync(string userName, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -25,9 +25,9 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
 
         // RequiredPropertyCodePlaceholder
 
-        var EntityLowercaseNamePlaceholder = EntityNamePlaceholderAdminDataTransferObject.ToEntityNamePlaceholder(user, EntityLowercaseNamePlaceholderAdminDataTransferObject);
+        var toDoList = EntityNamePlaceholderAdminDataTransferObject.ToEntityNamePlaceholder(user, toDoListAdminDataTransferObject);
 
-        var result = await _applicationDbContext.EntityNamePlaceholders.AddAsync(EntityLowercaseNamePlaceholder);
+        var result = await _applicationDbContext.EntityNamePlaceholders.AddAsync(toDoList);
         var databaseEntityNamePlaceholderAdminDataTransferObject = EntityNamePlaceholderAdminDataTransferObject.FromEntityNamePlaceholder(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
@@ -65,7 +65,7 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
         return true;
     }
 
-    public async Task<EntityNamePlaceholderAdminDataTransferObject?> EditAsync(string userName, Guid id, EntityNamePlaceholderAdminDataTransferObject EntityLowercaseNamePlaceholderAdminDataTransferObject)
+    public async Task<EntityNamePlaceholderAdminDataTransferObject?> EditAsync(string userName, Guid id, EntityNamePlaceholderAdminDataTransferObject toDoListAdminDataTransferObject)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -94,7 +94,7 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return EntityLowercaseNamePlaceholderAdminDataTransferObject;
+        return toDoListAdminDataTransferObject;
     }
 
     public async Task<List<EntityNamePlaceholderAdminDataTransferObject>?> GetAllAsync()
