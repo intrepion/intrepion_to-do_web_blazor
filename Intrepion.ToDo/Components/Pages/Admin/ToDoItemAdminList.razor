@@ -1,5 +1,6 @@
 @page "/admin/to-do-item-list"
 @rendermode InteractiveServer
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject IToDoItemAdminService ToDoItemAdminService
 @attribute [StreamRendering]
 
@@ -11,6 +12,7 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Title</th>
+                    <th scope="col">ToDoList</th>
                     @* ListHeaderCodePlaceholder *@
                     <th scope="col">Actions</th>
                 </tr>
@@ -37,6 +39,7 @@
                         <tr>
                             <td>@toDoItem.Id</td>
                             <td>@toDoItem.Title</td>
+                            <td>@toDoItem.ToDoList?.Title</td>
                             @* ListItemCodePlaceholder *@
                             <td>
                                 <NavLink Href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</NavLink>
@@ -51,10 +54,18 @@
 </section>
 
 @code {
-    List<ToDoItemAdminDataTransferObject>? toDoItems = null;
+    List<ToDoItem>? toDoItems = null;
 
     protected override async Task OnInitializedAsync()
     {
-        toDoItems = await ToDoItemAdminService.GetAllAsync();
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        toDoItems = await ToDoItemAdminService.GetAllAsync(userName);
     }
 }

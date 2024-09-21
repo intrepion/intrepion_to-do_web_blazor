@@ -1,4 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Entities.Models;
 
@@ -10,40 +10,40 @@ public class ApplicationUserAdminEditModel
     public string PhoneNumber { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
 
-    public static ApplicationUserAdminEditModel FromApplicationUserAdminDataTransferObject(ApplicationUserAdminDataTransferObject? applicationUserAdminDataTransferObject)
+    public static ApplicationUserAdminEditModel FromApplicationUserAdminDto(ApplicationUserAdminDto? applicationUserAdminDto)
     {
-        if (applicationUserAdminDataTransferObject == null)
+        if (applicationUserAdminDto == null)
         {
             return new ApplicationUserAdminEditModel();
         }
 
         var applicationUserAdminEditModel = new ApplicationUserAdminEditModel
         {
-            ApplicationRoles = applicationUserAdminDataTransferObject.ApplicationRoles.Select(x => new ApplicationRoleAdminEditModel
+            ApplicationRoles = applicationUserAdminDto.ApplicationRoles.Select(x => new ApplicationRoleAdminEditModel
             {
                 Id = x.Id,
                 Name = x.Name,
             }).ToList(),
 
-            Email = applicationUserAdminDataTransferObject.Email,
-            Id = applicationUserAdminDataTransferObject.Id,
-            PhoneNumber = applicationUserAdminDataTransferObject.PhoneNumber,
-            UserName = applicationUserAdminDataTransferObject.UserName,
+            Email = applicationUserAdminDto.Email,
+            Id = applicationUserAdminDto.Id,
+            PhoneNumber = applicationUserAdminDto.PhoneNumber,
+            UserName = applicationUserAdminDto.UserName,
         };
 
         return applicationUserAdminEditModel;
     }
 
-    public static ApplicationUserAdminDataTransferObject ToApplicationUserAdminDataTransferObject(ApplicationUserAdminEditModel? applicationUserAdminEditModel)
+    public static ApplicationUserAdminDto ToApplicationUserAdminDto(ApplicationUserAdminEditModel? applicationUserAdminEditModel)
     {
         if (applicationUserAdminEditModel == null)
         {
-            return new ApplicationUserAdminDataTransferObject();
+            return new ApplicationUserAdminDto();
         }
 
-        var applicationUser = new ApplicationUserAdminDataTransferObject
+        var applicationUser = new ApplicationUserAdminDto
         {
-            ApplicationRoles = applicationUserAdminEditModel.ApplicationRoles.Select(x => new ApplicationRoleAdminDataTransferObject
+            ApplicationRoles = applicationUserAdminEditModel.ApplicationRoles.Select(x => new ApplicationRoleAdminDto
             {
                 Id = x.Id,
                 Name = x.Name,

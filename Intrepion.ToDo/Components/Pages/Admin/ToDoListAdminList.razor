@@ -1,5 +1,6 @@
 @page "/admin/to-do-list-list"
 @rendermode InteractiveServer
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject IToDoListAdminService ToDoListAdminService
 @attribute [StreamRendering]
 
@@ -51,10 +52,18 @@
 </section>
 
 @code {
-    List<ToDoListAdminDataTransferObject>? toDoLists = null;
+    List<ToDoList>? toDoLists = null;
 
     protected override async Task OnInitializedAsync()
     {
-        toDoLists = await ToDoListAdminService.GetAllAsync();
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        toDoLists = await ToDoListAdminService.GetAllAsync(userName);
     }
 }

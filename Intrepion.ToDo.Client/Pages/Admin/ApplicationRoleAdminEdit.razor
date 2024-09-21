@@ -47,20 +47,28 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
         if (Id.Equals(Guid.Empty))
         {
             return;
         }
 
-        var databaseApplicationRoleAdminDataTransferObject = await ApplicationRoleAdminService.GetByIdAsync(Id);
+        var databaseApplicationRoleAdminDto = await ApplicationRoleAdminService.GetByIdAsync(userName, Id);
 
-        if (databaseApplicationRoleAdminDataTransferObject == null)
+        if (databaseApplicationRoleAdminDto == null)
         {
             applicationRoleAdminEditModel = new ApplicationRoleAdminEditModel();
         }
         else
         {
-            applicationRoleAdminEditModel = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDataTransferObject(databaseApplicationRoleAdminDataTransferObject);
+            applicationRoleAdminEditModel = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDto(databaseApplicationRoleAdminDto);
         }
     }
 
@@ -84,36 +92,36 @@
             return;
         }
 
-        var applicationRoleAdminDataTransferObject = ApplicationRoleAdminEditModel.ToApplicationRoleAdminDataTransferObject(applicationRoleAdminEditModel);
+        var applicationRoleAdminDto = ApplicationRoleAdminEditModel.ToApplicationRoleAdminDto(applicationRoleAdminEditModel);
 
         if (Id.Equals(Guid.Empty))
         {
-            var databaseApplicationRoleAdminDataTransferObject = await ApplicationRoleAdminService.AddAsync(userName, applicationRoleAdminDataTransferObject);
+            var databaseApplicationRoleAdminDto = await ApplicationRoleAdminService.AddAsync(applicationRoleAdminDto);
 
-            if (databaseApplicationRoleAdminDataTransferObject == null)
+            if (databaseApplicationRoleAdminDto == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/application-role-edit/{databaseApplicationRoleAdminDataTransferObject.Id}");
+            NavigationManager.NavigateTo($"/admin/application-role-edit/{databaseApplicationRoleAdminDto.Id}");
         }
         else
         {
-            await ApplicationRoleAdminService.EditAsync(userName, Id, applicationRoleAdminDataTransferObject);
+            await ApplicationRoleAdminService.EditAsync(applicationRoleAdminDto);
         }
     }
 
     async Task Delete()
     {
-        if (Id.Equals(Guid.Empty))
-        {
-            return;
-        }
-
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var userName = authState.User.Identity?.Name!;
 
         if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
         {
             return;
         }

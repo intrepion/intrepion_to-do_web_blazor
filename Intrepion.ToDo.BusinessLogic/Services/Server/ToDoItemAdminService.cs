@@ -1,6 +1,6 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
@@ -9,34 +9,34 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ToDoItemAdminDataTransferObject?> AddAsync(string userName, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public async Task<ToDoItemAdminDto?> AddAsync(ToDoItemAdminDto toDoItemAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(userName))
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpper().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoItemAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
             throw new Exception("Authentication required.");
         }
 
-        if (string.IsNullOrWhiteSpace(toDoItemAdminDataTransferObject.Title))
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.Title))
         {
             throw new Exception("Title required.");
         }
 
         // RequiredPropertyCodePlaceholder
 
-        var toDoItem = ToDoItemAdminDataTransferObject.ToToDoItem(user, toDoItemAdminDataTransferObject);
+        var toDoItem = ToDoItemAdminDto.ToToDoItem(user, toDoItemAdminDto);
 
         var result = await _applicationDbContext.ToDoItems.AddAsync(toDoItem);
-        var databaseToDoItemAdminDataTransferObject = ToDoItemAdminDataTransferObject.FromToDoItem(result.Entity);
+        var databaseToDoItemAdminDto = ToDoItemAdminDto.FromToDoItem(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseToDoItemAdminDataTransferObject;
+        return databaseToDoItemAdminDto;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -70,7 +70,47 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
         return true;
     }
 
-    public async Task<ToDoItemAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public async Task<ToDoItemAdminDto?> EditAsync(ToDoItemAdminDto toDoItemAdminDto)
+    {
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
+        {
+            throw new Exception("UserName is required.");
+        }
+
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoItemAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
+
+        if (user == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(toDoItemAdminDto.Id);
+
+        if (databaseToDoItem == null)
+        {
+            throw new Exception("HumanNamePlaceholder not found.");
+        }
+
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.Title))
+        {
+            throw new Exception("Title required.");
+        }
+
+        // EditRequiredPropertyCodePlaceholder
+
+        databaseToDoItem.ApplicationUserUpdatedBy = user;
+
+        databaseToDoItem.Title = toDoItemAdminDto.Title;
+        databaseToDoItem.NormalizedTitle = toDoItemAdminDto.Title.ToUpperInvariant();
+        databaseToDoItem.ToDoList = toDoItemAdminDto.ToDoList;
+        // EditDatabasePropertyCodePlaceholder
+
+        await _applicationDbContext.SaveChangesAsync();
+
+        return toDoItemAdminDto;
+    }
+
+    public async Task<List<ToDoItem>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -84,45 +124,23 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
-
-        if (databaseToDoItem == null)
-        {
-            throw new Exception("HumanNamePlaceholder not found.");
-        }
-
-        if (string.IsNullOrWhiteSpace(toDoItemAdminDataTransferObject.Title))
-        {
-            throw new Exception("Title required.");
-        }
-
-        // EditRequiredPropertyCodePlaceholder
-
-        databaseToDoItem.ApplicationUserUpdatedBy = user;
-
-        databaseToDoItem.Title = toDoItemAdminDataTransferObject.Title;
-        databaseToDoItem.NormalizedTitle = toDoItemAdminDataTransferObject.Title.ToUpperInvariant();
-        // EditDatabasePropertyCodePlaceholder
-
-        await _applicationDbContext.SaveChangesAsync();
-
-        return toDoItemAdminDataTransferObject;
+        return await _applicationDbContext.ToDoItems.ToListAsync();
     }
 
-    public async Task<List<ToDoItemAdminDataTransferObject>?> GetAllAsync()
+    public async Task<ToDoItemAdminDto?> GetByIdAsync(string userName, Guid id)
     {
-        var result = await _applicationDbContext.ToDoItems.ToListAsync();
-
-        if (result == null)
+        if (string.IsNullOrWhiteSpace(userName))
         {
-            return null;
+            throw new Exception("UserName is required.");
         }
 
-        return result.Select(x => ToDoItemAdminDataTransferObject.FromToDoItem(x)).ToList();
-    }
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpper().Equals(x.NormalizedUserName));
 
-    public async Task<ToDoItemAdminDataTransferObject?> GetByIdAsync(Guid id)
-    {
+        if (user == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
         var result = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (result == null)
@@ -130,6 +148,6 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             return null;
         }
 
-        return ToDoItemAdminDataTransferObject.FromToDoItem(result);
+        return ToDoItemAdminDto.FromToDoItem(result);
     }
 }

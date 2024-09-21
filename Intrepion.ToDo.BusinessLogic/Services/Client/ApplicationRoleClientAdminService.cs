@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Client;
 
@@ -7,37 +7,37 @@ public class ApplicationRoleClientAdminService(HttpClient httpClient) : IApplica
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<ApplicationRoleAdminDataTransferObject?> AddAsync(string userName, ApplicationRoleAdminDataTransferObject applicationRoleAdminDataTransferObject)
+    public async Task<ApplicationRoleAdminDto?> AddAsync(ApplicationRoleAdminDto applicationRoleAdminDto)
     {
-        var result = await _httpClient.PostAsJsonAsync("/api/admin/applicationRoleAdmin", applicationRoleAdminDataTransferObject);
+        var result = await _httpClient.PostAsJsonAsync("/api/admin/applicationRoleAdmin", applicationRoleAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<ApplicationRoleAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ApplicationRoleAdminDto>();
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
     {
-        var result = await _httpClient.DeleteAsync($"/api/admin/applicationRoleAdmin/{id}");
+        var result = await _httpClient.DeleteAsync($"/api/admin/applicationRoleAdmin/{id}?userName={userName}");
 
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<ApplicationRoleAdminDataTransferObject?> EditAsync(string userName, Guid id, ApplicationRoleAdminDataTransferObject applicationRoleAdminDataTransferObject)
+    public async Task<ApplicationRoleAdminDto?> EditAsync(ApplicationRoleAdminDto applicationRoleAdminDto)
     {
-        var result = await _httpClient.PutAsJsonAsync($"/api/admin/applicationRoleAdmin/{id}", applicationRoleAdminDataTransferObject);
+        var result = await _httpClient.PutAsJsonAsync($"/api/admin/applicationRoleAdmin/{applicationRoleAdminDto.Id}", applicationRoleAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<ApplicationRoleAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ApplicationRoleAdminDto>();
     }
 
-    public async Task<List<ApplicationRoleAdminDataTransferObject>?> GetAllAsync()
+    public async Task<List<ApplicationRoleAdminDto>?> GetAllAsync(string userName)
     {
-        var result = await _httpClient.GetFromJsonAsync<List<ApplicationRoleAdminDataTransferObject>>("/api/admin/applicationRoleAdmin");
+        var result = await _httpClient.GetFromJsonAsync<List<ApplicationRoleAdminDto>>($"/api/admin/applicationRoleAdmin?userName={userName}");
 
         return result;
     }
 
-    public async Task<ApplicationRoleAdminDataTransferObject?> GetByIdAsync(Guid id)
+    public async Task<ApplicationRoleAdminDto?> GetByIdAsync(string userName, Guid id)
     {
-        var result = await _httpClient.GetFromJsonAsync<ApplicationRoleAdminDataTransferObject>($"/api/admin/applicationRoleAdmin/{id}");
+        var result = await _httpClient.GetFromJsonAsync<ApplicationRoleAdminDto>($"/api/admin/applicationRoleAdmin/{id}?userName={userName}");
 
         return result;
     }

@@ -38,11 +38,11 @@
                                 <li class="row">
                                     <div class="col">
                                         Application Role @(i + 1): @applicationUserAdminEditModel.ApplicationRoles[i].Name: 
-                                        @if (applicationRoleAdminDataTransferObjectList != null)
+                                        @if (applicationRoleAdminDtoList != null)
                                         {
                                             <select @onchange="@((ChangeEventArgs e) => ApplicationRoleChange(e, index))">
                                                 <option></option>
-                                                @foreach (var applicationRole in applicationRoleAdminDataTransferObjectList)
+                                                @foreach (var applicationRole in applicationRoleAdminDtoList)
                                                     if (applicationRole.Name == @applicationUserAdminEditModel.ApplicationRoles[i].Name)
                                                     {
                                                         <option selected value="@applicationRole.Id">@applicationRole.Name</option>
@@ -107,29 +107,45 @@
     [Parameter]
     public Guid Id { get; set; }
     ApplicationUserAdminEditModel applicationUserAdminEditModel { get; set; } = new ApplicationUserAdminEditModel();
-    List<ApplicationRoleAdminDataTransferObject>? applicationRoleAdminDataTransferObjectList { get; set; }
+    List<ApplicationRoleAdminDto>? applicationRoleAdminDtoList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        applicationRoleAdminDataTransferObjectList = await ApplicationRoleAdminService.GetAllAsync();
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        applicationRoleAdminDtoList = await ApplicationRoleAdminService.GetAllAsync(userName);
     }
 
     protected override async Task OnParametersSetAsync()
     {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
         if (Id.Equals(Guid.Empty))
         {
             return;
         }
 
-        var databaseApplicationUserAdminDataTransferObject = await ApplicationUserAdminService.GetByIdAsync(Id);
+        var databaseApplicationUserAdminDto = await ApplicationUserAdminService.GetByIdAsync(userName, Id);
 
-        if (databaseApplicationUserAdminDataTransferObject == null)
+        if (databaseApplicationUserAdminDto == null)
         {
             applicationUserAdminEditModel = new ApplicationUserAdminEditModel();
         }
         else
         {
-            applicationUserAdminEditModel = ApplicationUserAdminEditModel.FromApplicationUserAdminDataTransferObject(databaseApplicationUserAdminDataTransferObject);;
+            applicationUserAdminEditModel = ApplicationUserAdminEditModel.FromApplicationUserAdminDto(databaseApplicationUserAdminDto);;
         }
     }
 
@@ -153,36 +169,37 @@
             return;
         }
 
-        var applicationUserAdminDataTransferObject = ApplicationUserAdminEditModel.ToApplicationUserAdminDataTransferObject(applicationUserAdminEditModel);
+        var applicationUserAdminDto = ApplicationUserAdminEditModel.ToApplicationUserAdminDto(applicationUserAdminEditModel);
+        applicationUserAdminDto.ApplicationUserName = userName;
 
         if (Id.Equals(Guid.Empty))
         {
-            var databaseApplicationUserAdminDataTransferObject = await ApplicationUserAdminService.AddAsync(userName, applicationUserAdminDataTransferObject);
+            var databaseApplicationUserAdminDto = await ApplicationUserAdminService.AddAsync(applicationUserAdminDto);
 
-            if (databaseApplicationUserAdminDataTransferObject == null)
+            if (databaseApplicationUserAdminDto == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/application-user-edit/{databaseApplicationUserAdminDataTransferObject.Id}");
+            NavigationManager.NavigateTo($"/admin/application-user-edit/{databaseApplicationUserAdminDto.Id}");
         }
         else
         {
-            await ApplicationUserAdminService.EditAsync(userName, Id, applicationUserAdminDataTransferObject);
+            await ApplicationUserAdminService.EditAsync(applicationUserAdminDto);
         }
     }
 
     async Task Delete()
     {
-        if (Id.Equals(Guid.Empty))
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
         {
             return;
         }
 
-        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-        var userName = authState.User.Identity?.Name;
-
-        if (userName == null)
+        if (Id.Equals(Guid.Empty))
         {
             return;
         }
@@ -208,8 +225,8 @@
             return;
         }
 
-        var applicationRoleAdminDataTransferObject = applicationRoleAdminDataTransferObjectList?.Where(x => x.Id.ToString().Equals(e.Value)).FirstOrDefault();
+        var applicationRoleAdminDto = applicationRoleAdminDtoList?.Where(x => x.Id.ToString().Equals(e.Value)).FirstOrDefault();
 
-        applicationUserAdminEditModel.ApplicationRoles[index] = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDataTransferObject(applicationRoleAdminDataTransferObject);
+        applicationUserAdminEditModel.ApplicationRoles[index] = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDto(applicationRoleAdminDto);
     }
 }

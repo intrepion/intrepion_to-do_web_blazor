@@ -1,4 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Entities.Models;
 
@@ -7,28 +7,28 @@ public class ApplicationRoleAdminEditModel
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
-    public static ApplicationRoleAdminEditModel FromApplicationRoleAdminDataTransferObject(ApplicationRoleAdminDataTransferObject? applicationRoleAdminDataTransferObject)
+    public static ApplicationRoleAdminEditModel FromApplicationRoleAdminDto(ApplicationRoleAdminDto? applicationRoleAdminDto)
     {
-        if (applicationRoleAdminDataTransferObject == null)
+        if (applicationRoleAdminDto == null)
         {
             return new ApplicationRoleAdminEditModel();
         }
 
         return new ApplicationRoleAdminEditModel
         {
-            Id = applicationRoleAdminDataTransferObject.Id,
-            Name = applicationRoleAdminDataTransferObject.Name,
+            Id = applicationRoleAdminDto.Id,
+            Name = applicationRoleAdminDto.Name,
         };
     }
 
-    public static ApplicationRoleAdminDataTransferObject ToApplicationRoleAdminDataTransferObject(ApplicationRoleAdminEditModel? applicationRoleAdminEditModel)
+    public static ApplicationRoleAdminDto ToApplicationRoleAdminDto(ApplicationRoleAdminEditModel? applicationRoleAdminEditModel)
     {
         if (applicationRoleAdminEditModel == null)
         {
-            return new ApplicationRoleAdminDataTransferObject();
+            return new ApplicationRoleAdminDto();
         }
 
-        return new ApplicationRoleAdminDataTransferObject
+        return new ApplicationRoleAdminDto
         {
             Id = applicationRoleAdminEditModel.Id,
             Name = applicationRoleAdminEditModel.Name,

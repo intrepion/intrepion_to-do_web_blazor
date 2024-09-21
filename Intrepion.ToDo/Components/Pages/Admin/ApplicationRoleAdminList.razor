@@ -1,6 +1,7 @@
 @page "/admin/application-role-list"
 @rendermode InteractiveServer
 @inject IApplicationRoleAdminService ApplicationRoleAdminService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 @attribute [StreamRendering]
 
 <section>
@@ -15,13 +16,13 @@
                 </tr>
             </thead>
             <tbody>
-                @if (applicationRoleAdminDataTransferObjects == null)
+                @if (applicationRoleAdminDtos == null)
                 {
                     <tr>
                         <td colspan="3">Loading...</td>
                     </tr>
                 }
-                else if (applicationRoleAdminDataTransferObjects.Count == 0)
+                else if (applicationRoleAdminDtos.Count == 0)
                 {
                     <tr>
                         <td colspan="3">No application roles found.</td>
@@ -29,13 +30,13 @@
                 }
                 else
                 {
-                    @foreach (var applicationRoleAdminDataTransferObject in applicationRoleAdminDataTransferObjects)
+                    @foreach (var applicationRoleAdminDto in applicationRoleAdminDtos)
                     {
                         <tr>
-                            <td>@applicationRoleAdminDataTransferObject.Id</td>
-                            <td>@applicationRoleAdminDataTransferObject.Name</td>
+                            <td>@applicationRoleAdminDto.Id</td>
+                            <td>@applicationRoleAdminDto.Name</td>
                             <td>
-                                <NavLink href="@("/admin/application-role-edit/" + applicationRoleAdminDataTransferObject.Id)">Edit</NavLink>
+                                <NavLink href="@("/admin/application-role-edit/" + applicationRoleAdminDto.Id)">Edit</NavLink>
                             </td>
                         </tr>
                     }
@@ -47,10 +48,18 @@
 </section>
 
 @code {
-    List<ApplicationRoleAdminDataTransferObject>? applicationRoleAdminDataTransferObjects = null;
+    List<ApplicationRoleAdminDto>? applicationRoleAdminDtos = null;
 
     protected override async Task OnInitializedAsync()
     {
-        applicationRoleAdminDataTransferObjects = await ApplicationRoleAdminService.GetAllAsync();
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        applicationRoleAdminDtos = await ApplicationRoleAdminService.GetAllAsync(userName);
     }
 }

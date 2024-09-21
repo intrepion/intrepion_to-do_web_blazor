@@ -26,15 +26,18 @@
                         To Do List:
                         <select @onchange="ToDoListOnChange">
                             <option>Select to Do List...</option>
-                            @foreach (var toDoList in toDoListList)
+                            @if (toDoListList != null)
                             {
-                                if (toDoItemAdminDataTransferObject.ToDoList == null ? false : toDoItemAdminDataTransferObject.ToDoList.Id.Equals(toDoList.Id))
+                                @foreach (var toDoList in toDoListList)
                                 {
-                                    <option value="@toDoList.Id" selected>@toDoList.Title</option>
-                                }
-                                else
-                                {
-                                    <option value="@toDoList.Id">@toDoList.Title</option>
+                                    if (toDoItemAdminEditModel.ToDoList != null && toDoItemAdminEditModel.ToDoList.Id.Equals(toDoList.Id))
+                                    {
+                                        <option value="@toDoList.Id" selected>@toDoList.Title</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@toDoList.Id">@toDoList.Title</option>
+                                    }
                                 }
                             }
                         </select>
@@ -72,14 +75,22 @@
     public Guid Id { get; set; }
     ToDoItemAdminEditModel toDoItemAdminEditModel { get; set; } = new ToDoItemAdminEditModel();
 
-    List<ToDoList> toDoListList { get; set; } = [];
+    List<ToDoList>? toDoListList { get; set; }
     @* ListDeclarationCodePlaceholder *@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
         await base.OnInitializedAsync();
 
-        var toDoListListResult = await ToDoListAdminService.GetAllAsync();
+        var toDoListListResult = await ToDoListAdminService.GetAllAsync(userName);
         if (toDoListListResult != null)
         {
             toDoListList = toDoListListResult;
@@ -89,20 +100,28 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
         if (Id.Equals(Guid.Empty))
         {
             return;
         }
 
-        var databaseToDoItemAdminDataTransferObject = await ToDoItemAdminService.GetByIdAsync(Id);
+        var databaseToDoItemAdminDto = await ToDoItemAdminService.GetByIdAsync(userName, Id);
 
-        if (databaseToDoItemAdminDataTransferObject == null)
+        if (databaseToDoItemAdminDto == null)
         {
             toDoItemAdminEditModel = new ToDoItemAdminEditModel();
         }
         else
         {
-            toDoItemAdminEditModel = ToDoItemAdminEditModel.FromToDoItemAdminDataTransferObject(databaseToDoItemAdminDataTransferObject);
+            toDoItemAdminEditModel = ToDoItemAdminEditModel.FromToDoItemAdminDto(databaseToDoItemAdminDto);
         }
     }
 
@@ -121,36 +140,37 @@
             return;
         } *@
 
-        var toDoItemAdminDataTransferObject = ToDoItemAdminEditModel.ToToDoItemAdminDataTransferObject(toDoItemAdminEditModel);
+        var toDoItemAdminDto = ToDoItemAdminEditModel.ToToDoItemAdminDto(toDoItemAdminEditModel);
+        toDoItemAdminDto.ApplicationUserName = userName;
 
         if (Id.Equals(Guid.Empty))
         {
-            var newToDoItemAdminDataTransferObject = await ToDoItemAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
+            var newToDoItemAdminDto = await ToDoItemAdminService.AddAsync(toDoItemAdminDto);
 
-            if (newToDoItemAdminDataTransferObject == null)
+            if (newToDoItemAdminDto == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/to-do-item-edit/{newToDoItemAdminDataTransferObject.Id}");
+            NavigationManager.NavigateTo($"/admin/to-do-item-edit/{newToDoItemAdminDto.Id}");
         }
         else
         {
-            await ToDoItemAdminService.EditAsync(userName, Id, toDoItemAdminDataTransferObject);
+            await ToDoItemAdminService.EditAsync(toDoItemAdminDto);
         }
     }
 
     async Task Delete()
     {
-        if (Id.Equals(Guid.Empty))
-        {
-            return;
-        }
-
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var userName = authState.User.Identity?.Name!;
 
         if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
         {
             return;
         }
@@ -167,7 +187,7 @@
         }
 
         var id = (string)args.Value;
-        toDoItemAdminDataTransferObject.ToDoList = toDoListList.Where(x => x.Id.ToString().Equals(id)).FirstOrDefault();
+        toDoItemAdminEditModel.ToDoList = toDoListList?.Where(x => x.Id.ToString().Equals(id)).FirstOrDefault();
     }
 
     @* OnChangeCodePlaceholder *@

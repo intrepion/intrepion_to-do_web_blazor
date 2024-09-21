@@ -61,20 +61,28 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
         if (Id.Equals(Guid.Empty))
         {
             return;
         }
 
-        var databaseToDoListAdminDataTransferObject = await ToDoListAdminService.GetByIdAsync(Id);
+        var databaseToDoListAdminDto = await ToDoListAdminService.GetByIdAsync(userName, Id);
 
-        if (databaseToDoListAdminDataTransferObject == null)
+        if (databaseToDoListAdminDto == null)
         {
             toDoListAdminEditModel = new ToDoListAdminEditModel();
         }
         else
         {
-            toDoListAdminEditModel = ToDoListAdminEditModel.FromToDoListAdminDataTransferObject(databaseToDoListAdminDataTransferObject);
+            toDoListAdminEditModel = ToDoListAdminEditModel.FromToDoListAdminDto(databaseToDoListAdminDto);
         }
     }
 
@@ -93,36 +101,37 @@
             return;
         } *@
 
-        var toDoListAdminDataTransferObject = ToDoListAdminEditModel.ToToDoListAdminDataTransferObject(toDoListAdminEditModel);
+        var toDoListAdminDto = ToDoListAdminEditModel.ToToDoListAdminDto(toDoListAdminEditModel);
+        toDoListAdminDto.ApplicationUserName = userName;
 
         if (Id.Equals(Guid.Empty))
         {
-            var newToDoListAdminDataTransferObject = await ToDoListAdminService.AddAsync(userName, toDoListAdminDataTransferObject);
+            var newToDoListAdminDto = await ToDoListAdminService.AddAsync(toDoListAdminDto);
 
-            if (newToDoListAdminDataTransferObject == null)
+            if (newToDoListAdminDto == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/to-do-list-edit/{newToDoListAdminDataTransferObject.Id}");
+            NavigationManager.NavigateTo($"/admin/to-do-list-edit/{newToDoListAdminDto.Id}");
         }
         else
         {
-            await ToDoListAdminService.EditAsync(userName, Id, toDoListAdminDataTransferObject);
+            await ToDoListAdminService.EditAsync(toDoListAdminDto);
         }
     }
 
     async Task Delete()
     {
-        if (Id.Equals(Guid.Empty))
-        {
-            return;
-        }
-
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var userName = authState.User.Identity?.Name!;
 
         if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
         {
             return;
         }

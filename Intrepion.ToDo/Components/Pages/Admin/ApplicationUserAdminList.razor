@@ -1,6 +1,7 @@
 @page "/admin/application-user-list"
 @rendermode InteractiveServer
 @inject IApplicationUserAdminService ApplicationUserAdminService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 @attribute [StreamRendering]
 
 <section>
@@ -18,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @if (applicationUserAdminDataTransferObjects == null)
+                @if (applicationUserAdminDtos == null)
                 {
                     <tr>
                         <td colspan="6">Loading...</td>
                     </tr>
                 }
-                else if (applicationUserAdminDataTransferObjects.Count == 0)
+                else if (applicationUserAdminDtos.Count == 0)
                 {
                     <tr>
                         <td colspan="6">No application users found.</td>
@@ -32,34 +33,34 @@
                 }
                 else
                 {
-                    @foreach (var applicationUserAdminDataTransferObject in applicationUserAdminDataTransferObjects)
+                    @foreach (var applicationUserAdminDto in applicationUserAdminDtos)
                     {
                         <tr>
-                            @if (applicationUserAdminDataTransferObject == null)
+                            @if (applicationUserAdminDto == null)
                             {
                                 <td colspan="6">Application user is null.</td>
                             }
                             else
                             {
                                 <td>
-                                    @if (applicationUserAdminDataTransferObject.ApplicationRoles != null)
+                                    @if (applicationUserAdminDto.ApplicationRoles != null)
                                     {
-                                        @for (var i = 0; i < applicationUserAdminDataTransferObject.ApplicationRoles.Count; i += 1)
+                                        @for (var i = 0; i < applicationUserAdminDto.ApplicationRoles.Count; i += 1)
                                         {
                                             if (i > 0)
                                             {
                                                 <span>, </span>
                                             }
-                                            <span>@applicationUserAdminDataTransferObject.ApplicationRoles.ToList()[i].Name</span>
+                                            <span>@applicationUserAdminDto.ApplicationRoles.ToList()[i].Name</span>
                                         }
                                     }
                                 </td>
-                                <td>@applicationUserAdminDataTransferObject.Email</td>
-                                <td>@applicationUserAdminDataTransferObject.Id</td>
-                                <td>@applicationUserAdminDataTransferObject.PhoneNumber</td>
-                                <td>@applicationUserAdminDataTransferObject.UserName</td>
+                                <td>@applicationUserAdminDto.Email</td>
+                                <td>@applicationUserAdminDto.Id</td>
+                                <td>@applicationUserAdminDto.PhoneNumber</td>
+                                <td>@applicationUserAdminDto.UserName</td>
                                 <td>
-                                    <NavLink href="@("/admin/application-user-edit/" + applicationUserAdminDataTransferObject.Id)">Edit</NavLink>
+                                    <NavLink href="@("/admin/application-user-edit/" + applicationUserAdminDto.Id)">Edit</NavLink>
                                 </td>
                             }
                         </tr>
@@ -72,10 +73,18 @@
 </section>
 
 @code {
-    List<ApplicationUserAdminDataTransferObject>? applicationUserAdminDataTransferObjects;
+    List<ApplicationUserAdminDto>? applicationUserAdminDtos;
 
     protected override async Task OnInitializedAsync()
     {
-        applicationUserAdminDataTransferObjects = await ApplicationUserAdminService.GetAllAsync();
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        applicationUserAdminDtos = await ApplicationUserAdminService.GetAllAsync(userName);
     }
 }

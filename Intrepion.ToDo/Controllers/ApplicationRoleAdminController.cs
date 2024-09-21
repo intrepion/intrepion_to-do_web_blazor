@@ -1,5 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,77 +11,102 @@ public class ApplicationRoleController(IApplicationRoleAdminService applicationR
     private readonly IApplicationRoleAdminService _applicationRoleAdminService = applicationRoleAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<ApplicationRoleAdminDataTransferObject?>> Add(ApplicationRoleAdminDataTransferObject applicationRoleAdminDataTransferObject)
+    public async Task<ActionResult<ApplicationRoleAdminDto?>> Add(ApplicationRoleAdminDto applicationRoleAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseApplicationRoleAdminDataTransferObject = await _applicationRoleAdminService.AddAsync(userName, applicationRoleAdminDataTransferObject);
+        if (string.Equals(applicationRoleAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(databaseApplicationRoleAdminDataTransferObject);
+        var databaseApplicationRoleAdminDto = await _applicationRoleAdminService.AddAsync(applicationRoleAdminDto);
+
+        return Ok(databaseApplicationRoleAdminDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ApplicationRoleAdminDataTransferObject?>> Delete(Guid id)
+    public async Task<ActionResult<bool?>> Delete(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var result = await _applicationRoleAdminService.DeleteAsync(userName, id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
+
+        var result = await _applicationRoleAdminService.DeleteAsync(userIdentityName, id);
 
         return Ok(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<ApplicationRoleAdminDataTransferObject?>> Edit(Guid id, ApplicationRoleAdminDataTransferObject applicationRoleAdminDataTransferObject)
+    [HttpPut]
+    public async Task<ActionResult<ApplicationRoleAdminDto?>> Edit(ApplicationRoleAdminDto applicationRoleAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseApplicationRole = await _applicationRoleAdminService.EditAsync(userName, id, applicationRoleAdminDataTransferObject);
+        if (string.Equals(applicationRoleAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
+
+        var databaseApplicationRole = await _applicationRoleAdminService.EditAsync(applicationRoleAdminDto);
 
         return Ok(databaseApplicationRole);
     }
 
     [HttpGet]
-    public async Task<ActionResult<ApplicationRoleAdminDataTransferObject>?> GetAll()
+    public async Task<ActionResult<ApplicationRoleAdminDto>?> GetAll(string userName)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var applicationRoleAdminDataTransferObjects = await _applicationRoleAdminService.GetAllAsync();
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(applicationRoleAdminDataTransferObjects);
+        var applicationRoleAdminDtos = await _applicationRoleAdminService.GetAllAsync(userIdentityName);
+
+        return Ok(applicationRoleAdminDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApplicationRoleAdminDataTransferObject?>> GetById(Guid id)
+    public async Task<ActionResult<ApplicationRoleAdminDto?>> GetById(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var applicationRoleAdminDataTransferObject = await _applicationRoleAdminService.GetByIdAsync(id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(applicationRoleAdminDataTransferObject);
+        var applicationRoleAdminDto = await _applicationRoleAdminService.GetByIdAsync(userIdentityName, id);
+
+        return Ok(applicationRoleAdminDto);
     }
 }

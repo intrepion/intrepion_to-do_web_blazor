@@ -1,6 +1,6 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
@@ -9,34 +9,34 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ToDoListAdminDataTransferObject?> AddAsync(string userName, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDto?> AddAsync(ToDoListAdminDto toDoListAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(userName))
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpper().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoListAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
             throw new Exception("Authentication required.");
         }
 
-        if (string.IsNullOrWhiteSpace(toDoListAdminDataTransferObject.Title))
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto.Title))
         {
             throw new Exception("Title required.");
         }
 
         // RequiredPropertyCodePlaceholder
 
-        var toDoList = ToDoListAdminDataTransferObject.ToToDoList(user, toDoListAdminDataTransferObject);
+        var toDoList = ToDoListAdminDto.ToToDoList(user, toDoListAdminDto);
 
         var result = await _applicationDbContext.ToDoLists.AddAsync(toDoList);
-        var databaseToDoListAdminDataTransferObject = ToDoListAdminDataTransferObject.FromToDoList(result.Entity);
+        var databaseToDoListAdminDto = ToDoListAdminDto.FromToDoList(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseToDoListAdminDataTransferObject;
+        return databaseToDoListAdminDto;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -70,7 +70,46 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
         return true;
     }
 
-    public async Task<ToDoListAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDto?> EditAsync(ToDoListAdminDto toDoListAdminDto)
+    {
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto.ApplicationUserName))
+        {
+            throw new Exception("UserName is required.");
+        }
+
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoListAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
+
+        if (user == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
+        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(toDoListAdminDto.Id);
+
+        if (databaseToDoList == null)
+        {
+            throw new Exception("HumanNamePlaceholder not found.");
+        }
+
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto.Title))
+        {
+            throw new Exception("Title required.");
+        }
+
+        // EditRequiredPropertyCodePlaceholder
+
+        databaseToDoList.ApplicationUserUpdatedBy = user;
+
+        databaseToDoList.Title = toDoListAdminDto.Title;
+        databaseToDoList.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
+        // EditDatabasePropertyCodePlaceholder
+
+        await _applicationDbContext.SaveChangesAsync();
+
+        return toDoListAdminDto;
+    }
+
+    public async Task<List<ToDoList>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -84,45 +123,23 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(id);
-
-        if (databaseToDoList == null)
-        {
-            throw new Exception("HumanNamePlaceholder not found.");
-        }
-
-        if (string.IsNullOrWhiteSpace(toDoListAdminDataTransferObject.Title))
-        {
-            throw new Exception("Title required.");
-        }
-
-        // EditRequiredPropertyCodePlaceholder
-
-        databaseToDoList.ApplicationUserUpdatedBy = user;
-
-        databaseToDoList.Title = toDoListAdminDataTransferObject.Title;
-        databaseToDoList.NormalizedTitle = toDoListAdminDataTransferObject.Title.ToUpperInvariant();
-        // EditDatabasePropertyCodePlaceholder
-
-        await _applicationDbContext.SaveChangesAsync();
-
-        return toDoListAdminDataTransferObject;
+        return await _applicationDbContext.ToDoLists.ToListAsync();
     }
 
-    public async Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync()
+    public async Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id)
     {
-        var result = await _applicationDbContext.ToDoLists.ToListAsync();
-
-        if (result == null)
+        if (string.IsNullOrWhiteSpace(userName))
         {
-            return null;
+            throw new Exception("UserName is required.");
         }
 
-        return result.Select(x => ToDoListAdminDataTransferObject.FromToDoList(x)).ToList();
-    }
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpper().Equals(x.NormalizedUserName));
 
-    public async Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id)
-    {
+        if (user == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
         var result = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (result == null)
@@ -130,6 +147,6 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             return null;
         }
 
-        return ToDoListAdminDataTransferObject.FromToDoList(result);
+        return ToDoListAdminDto.FromToDoList(result);
     }
 }

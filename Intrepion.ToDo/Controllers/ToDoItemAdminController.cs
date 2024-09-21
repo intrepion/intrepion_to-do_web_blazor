@@ -1,5 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,77 +11,102 @@ public class ToDoItemController(IToDoItemAdminService toDoItemAdminService) : Co
     private readonly IToDoItemAdminService _toDoItemAdminService = toDoItemAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<ToDoItemAdminDataTransferObject?>> Add(ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
+    public async Task<ActionResult<ToDoItemAdminDto?>> Add(ToDoItemAdminDto toDoItemAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseToDoItemAdminDataTransferObject = await _toDoItemAdminService.AddAsync(userName, toDoItemAdminDataTransferObject);
+        if (string.Equals(toDoItemAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(databaseToDoItemAdminDataTransferObject);
+        var databaseToDoItemAdminDto = await _toDoItemAdminService.AddAsync(toDoItemAdminDto);
+
+        return Ok(databaseToDoItemAdminDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ToDoItemAdminDataTransferObject?>> Delete(Guid id)
+    public async Task<ActionResult<bool?>> Delete(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var result = await _toDoItemAdminService.DeleteAsync(userName, id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
+
+        var result = await _toDoItemAdminService.DeleteAsync(userIdentityName, id);
 
         return Ok(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<ToDoItemAdminDataTransferObject?>> Edit(Guid id, ToDoItemAdminDataTransferObject toDoItemAdminDataTransferObject)
+    [HttpPut]
+    public async Task<ActionResult<ToDoItemAdminDto?>> Edit(ToDoItemAdminDto toDoItemAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseToDoItem = await _toDoItemAdminService.EditAsync(userName, id, toDoItemAdminDataTransferObject);
+        if (string.Equals(toDoItemAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
+
+        var databaseToDoItem = await _toDoItemAdminService.EditAsync(toDoItemAdminDto);
 
         return Ok(databaseToDoItem);
     }
 
     [HttpGet]
-    public async Task<ActionResult<ToDoItemAdminDataTransferObject>?> GetAll()
+    public async Task<ActionResult<ToDoItemAdminDto>?> GetAll(string userName)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var toDoItemAdminDataTransferObjects = await _toDoItemAdminService.GetAllAsync();
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(toDoItemAdminDataTransferObjects);
+        var toDoItemAdminDtos = await _toDoItemAdminService.GetAllAsync(userIdentityName);
+
+        return Ok(toDoItemAdminDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ToDoItemAdminDataTransferObject?>> GetById(Guid id)
+    public async Task<ActionResult<ToDoItemAdminDto?>> GetById(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var toDoItemAdminDataTransferObject = await _toDoItemAdminService.GetByIdAsync(id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(toDoItemAdminDataTransferObject);
+        var toDoItemAdminDto = await _toDoItemAdminService.GetByIdAsync(userIdentityName, id);
+
+        return Ok(toDoItemAdminDto);
     }
 }

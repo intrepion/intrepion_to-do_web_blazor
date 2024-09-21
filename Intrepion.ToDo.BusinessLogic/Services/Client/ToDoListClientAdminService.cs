@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Client;
 
@@ -7,37 +8,37 @@ public class ToDoListClientAdminService(HttpClient httpClient) : IToDoListAdminS
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<ToDoListAdminDataTransferObject?> AddAsync(string userName, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDto?> AddAsync(ToDoListAdminDto toDoListAdminDto)
     {
-        var result = await _httpClient.PostAsJsonAsync("/api/admin/toDoListAdmin", toDoListAdminDataTransferObject);
+        var result = await _httpClient.PostAsJsonAsync("/api/admin/toDoListAdmin", toDoListAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<ToDoListAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDto>();
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
     {
-        var result = await _httpClient.DeleteAsync($"/api/admin/toDoListAdmin/{id}");
+        var result = await _httpClient.DeleteAsync($"/api/admin/toDoListAdmin/{id}?userName={userName}");
 
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<ToDoListAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoListAdminDataTransferObject toDoListAdminDataTransferObject)
+    public async Task<ToDoListAdminDto?> EditAsync(ToDoListAdminDto toDoListAdminDto)
     {
-        var result = await _httpClient.PutAsJsonAsync($"/api/admin/toDoListAdmin/{id}", toDoListAdminDataTransferObject);
+        var result = await _httpClient.PutAsJsonAsync($"/api/admin/toDoListAdmin/{toDoListAdminDto.Id}", toDoListAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<ToDoListAdminDataTransferObject>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDto>();
     }
 
-    public async Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync()
+    public async Task<List<ToDoList>?> GetAllAsync(string userName)
     {
-        var result = await _httpClient.GetFromJsonAsync<List<ToDoListAdminDataTransferObject>>("/api/admin/toDoListAdmin");
+        var result = await _httpClient.GetFromJsonAsync<List<ToDoList>>($"/api/admin/toDoListAdmin?userName={userName}");
 
         return result;
     }
 
-    public async Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id)
+    public async Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id)
     {
-        var result = await _httpClient.GetFromJsonAsync<ToDoListAdminDataTransferObject>($"/api/admin/toDoListAdmin/{id}");
+        var result = await _httpClient.GetFromJsonAsync<ToDoListAdminDto>($"/api/admin/toDoListAdmin/{id}?userName={userName}");
 
         return result;
     }

@@ -1,12 +1,13 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Services;
 
 public interface IToDoListAdminService
 {
-    Task<ToDoListAdminDataTransferObject?> AddAsync(string userName, ToDoListAdminDataTransferObject toDoList);
+    Task<ToDoListAdminDto?> AddAsync(ToDoListAdminDto toDoList);
     Task<bool> DeleteAsync(string userName, Guid id);
-    Task<ToDoListAdminDataTransferObject?> EditAsync(string userName, Guid id, ToDoListAdminDataTransferObject toDoList);
-    Task<List<ToDoListAdminDataTransferObject>?> GetAllAsync();
-    Task<ToDoListAdminDataTransferObject?> GetByIdAsync(Guid id);
+    Task<ToDoListAdminDto?> EditAsync(ToDoListAdminDto toDoList);
+    Task<List<ToDoList>?> GetAllAsync(string userName);
+    Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id);
 }

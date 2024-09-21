@@ -1,4 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Entities.Models;
 
@@ -9,30 +9,30 @@ public class ToDoListAdminEditModel
     public string Title { get; set; } = string.Empty;
     // ModelPropertyPlaceholder
 
-    public static ToDoListAdminEditModel FromToDoListAdminDataTransferObject(ToDoListAdminDataTransferObject? toDoListAdminDataTransferObject)
+    public static ToDoListAdminEditModel FromToDoListAdminDto(ToDoListAdminDto toDoListAdminDto)
     {
-        if (toDoListAdminDataTransferObject == null)
+        if (toDoListAdminDto == null)
         {
             return new ToDoListAdminEditModel();
         }
 
         return new ToDoListAdminEditModel
         {
-            Id = toDoListAdminDataTransferObject.Id,
+            Id = toDoListAdminDto.Id,
 
-            Title = toDoListAdminDataTransferObject.Title,
+            Title = toDoListAdminDto.Title,
             // DtoToModelPropertyPlaceholder
         };
     }
 
-    public static ToDoListAdminDataTransferObject ToToDoListAdminDataTransferObject(ToDoListAdminEditModel? toDoListAdminEditModel)
+    public static ToDoListAdminDto ToToDoListAdminDto(ToDoListAdminEditModel? toDoListAdminEditModel)
     {
         if (toDoListAdminEditModel == null)
         {
-            return new ToDoListAdminDataTransferObject();
+            return new ToDoListAdminDto();
         }
 
-        return new ToDoListAdminDataTransferObject
+        return new ToDoListAdminDto
         {
             Id = toDoListAdminEditModel.Id,
 

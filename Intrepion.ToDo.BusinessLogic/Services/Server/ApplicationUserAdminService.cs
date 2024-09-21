@@ -1,6 +1,6 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
 using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Server;
@@ -9,26 +9,26 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<ApplicationUserAdminDataTransferObject?> AddAsync(string userName, ApplicationUserAdminDataTransferObject applicationUserAdminDataTransferObject)
+    public async Task<ApplicationUserAdminDto?> AddAsync(ApplicationUserAdminDto applicationUserAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(userName))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpperInvariant().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => applicationUserAdminDto.ApplicationUserName.ToUpperInvariant().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
             throw new Exception("Authentication required.");
         }
 
-        if (string.IsNullOrWhiteSpace(applicationUserAdminDataTransferObject.Email))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.Email))
         {
             throw new Exception("Email required.");
         }
 
-        if (string.IsNullOrWhiteSpace(applicationUserAdminDataTransferObject.UserName))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.UserName))
         {
             throw new Exception("UserName required.");
         }
@@ -36,16 +36,16 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
         var applicationUser = new ApplicationUser
         {
             ApplicationUserUpdatedBy = user,
-            Email = applicationUserAdminDataTransferObject.Email,
-            NormalizedEmail = applicationUserAdminDataTransferObject.Email?.ToUpperInvariant(),
-            PhoneNumber = applicationUserAdminDataTransferObject.PhoneNumber,
-            UserName = applicationUserAdminDataTransferObject.UserName,
-            NormalizedUserName = applicationUserAdminDataTransferObject.UserName?.ToUpperInvariant()
+            Email = applicationUserAdminDto.Email,
+            NormalizedEmail = applicationUserAdminDto.Email?.ToUpperInvariant(),
+            PhoneNumber = applicationUserAdminDto.PhoneNumber,
+            UserName = applicationUserAdminDto.UserName,
+            NormalizedUserName = applicationUserAdminDto.UserName?.ToUpperInvariant()
         };
 
         var databaseApplicationUser = (await _applicationDbContext.Users.AddAsync(applicationUser)).Entity;
-        var databaseApplicationUserAdminDataTransferObject = ApplicationUserAdminDataTransferObject.FromApplicationUser(databaseApplicationUser);
-        var applicationRoleIds = applicationUserAdminDataTransferObject.ApplicationRoles.Select(x => x.Id);
+        var databaseApplicationUserAdminDto = ApplicationUserAdminDto.FromApplicationUser(databaseApplicationUser);
+        var applicationRoleIds = applicationUserAdminDto.ApplicationRoles.Select(x => x.Id);
         var applicationRoles = await _applicationDbContext.Roles.Where(x => applicationRoleIds.Contains(x.Id)).ToListAsync();
 
         foreach (var applicationRole in applicationRoles)
@@ -59,12 +59,12 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
 
             await _applicationDbContext.UserRoles.AddAsync(applicationUserRole);
 
-            databaseApplicationUserAdminDataTransferObject.ApplicationRoles.Add(ApplicationRoleAdminDataTransferObject.FromApplicationRole(applicationRole));
+            databaseApplicationUserAdminDto.ApplicationRoles.Add(ApplicationRoleAdminDto.FromApplicationRole(applicationRole));
         }
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseApplicationUserAdminDataTransferObject;
+        return databaseApplicationUserAdminDto;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -98,47 +98,47 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
         return true;
     }
 
-    public async Task<ApplicationUserAdminDataTransferObject?> EditAsync(string userName, Guid id, ApplicationUserAdminDataTransferObject applicationUserAdminDataTransferObject)
+    public async Task<ApplicationUserAdminDto?> EditAsync(ApplicationUserAdminDto applicationUserAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(userName))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpper().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => applicationUserAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
             throw new Exception("Authentication required.");
         }
 
-        var databaseApplicationUser = await _applicationDbContext.Users.FindAsync(id);
+        var databaseApplicationUser = await _applicationDbContext.Users.FindAsync(applicationUserAdminDto.Id);
 
         if (databaseApplicationUser == null)
         {
             throw new Exception("Application User not found.");
         }
 
-        if (string.IsNullOrWhiteSpace(applicationUserAdminDataTransferObject.Email))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.Email))
         {
             throw new Exception("Email required.");
         }
 
-        if (string.IsNullOrWhiteSpace(applicationUserAdminDataTransferObject.UserName))
+        if (string.IsNullOrWhiteSpace(applicationUserAdminDto.UserName))
         {
             throw new Exception("UserName required.");
         }
 
         databaseApplicationUser.ApplicationUserUpdatedBy = user;
-        databaseApplicationUser.Email = applicationUserAdminDataTransferObject.Email;
-        databaseApplicationUser.NormalizedEmail = applicationUserAdminDataTransferObject.Email?.ToUpper();
-        databaseApplicationUser.PhoneNumber = applicationUserAdminDataTransferObject.PhoneNumber;
-        databaseApplicationUser.UserName = applicationUserAdminDataTransferObject.UserName;
-        databaseApplicationUser.NormalizedUserName = applicationUserAdminDataTransferObject.UserName?.ToUpper();
+        databaseApplicationUser.Email = applicationUserAdminDto.Email;
+        databaseApplicationUser.NormalizedEmail = applicationUserAdminDto.Email?.ToUpper();
+        databaseApplicationUser.PhoneNumber = applicationUserAdminDto.PhoneNumber;
+        databaseApplicationUser.UserName = applicationUserAdminDto.UserName;
+        databaseApplicationUser.NormalizedUserName = applicationUserAdminDto.UserName?.ToUpper();
 
-        var applicationRoleIds = applicationUserAdminDataTransferObject.ApplicationRoles.Select(x => x.Id);
+        var applicationRoleIds = applicationUserAdminDto.ApplicationRoles.Select(x => x.Id);
         var deletedRoles = databaseApplicationUser.ApplicationUserRoles.Where(x => !(x.ApplicationRole != null && applicationRoleIds.Contains(x.ApplicationRole.Id)));
-        applicationUserAdminDataTransferObject.ApplicationRoles = applicationUserAdminDataTransferObject.ApplicationRoles.Where(x => !applicationRoleIds.Contains(x.Id)).ToList();
+        applicationUserAdminDto.ApplicationRoles = applicationUserAdminDto.ApplicationRoles.Where(x => !applicationRoleIds.Contains(x.Id)).ToList();
         var additionalApplicationRoleIds = applicationRoleIds.Where(x => !databaseApplicationUser.ApplicationUserRoles.Select(x => x.RoleId).Contains(x)).ToList();
         var additionalApplicationRoles = await _applicationDbContext.Roles.Where(x => additionalApplicationRoleIds.Contains(x.Id)).ToListAsync();
 
@@ -157,16 +157,28 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             };
 
             await _applicationDbContext.UserRoles.AddAsync(applicationUserRole);
-            applicationUserAdminDataTransferObject.ApplicationRoles.Add(ApplicationRoleAdminDataTransferObject.FromApplicationRole(additionalApplicationRole));
+            applicationUserAdminDto.ApplicationRoles.Add(ApplicationRoleAdminDto.FromApplicationRole(additionalApplicationRole));
         }
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return applicationUserAdminDataTransferObject;
+        return applicationUserAdminDto;
     }
 
-    public async Task<List<ApplicationUserAdminDataTransferObject>?> GetAllAsync()
+    public async Task<List<ApplicationUserAdminDto>?> GetAllAsync(string userName)
     {
+        if (string.IsNullOrWhiteSpace(userName))
+        {
+            throw new Exception("UserName is required.");
+        }
+
+        var applicationUser = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpperInvariant().Equals(x.NormalizedUserName));
+
+        if (applicationUser == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
         var result = await _applicationDbContext.Users.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.ApplicationRole).ToListAsync();
 
         if (result == null)
@@ -174,13 +186,25 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             return null;
         }
 
-        var applicationUserAdminDataTransferObject = new ApplicationUserAdminDataTransferObject();
+        var applicationUserAdminDto = new ApplicationUserAdminDto();
 
-        return result.Select(x => ApplicationUserAdminDataTransferObject.FromApplicationUser(x)).ToList();
+        return result.Select(x => ApplicationUserAdminDto.FromApplicationUser(x)).ToList();
     }
 
-    public async Task<ApplicationUserAdminDataTransferObject?> GetByIdAsync(Guid id)
+    public async Task<ApplicationUserAdminDto?> GetByIdAsync(string userName, Guid id)
     {
+        if (string.IsNullOrWhiteSpace(userName))
+        {
+            throw new Exception("UserName is required.");
+        }
+
+        var applicationUser = await _applicationDbContext.Users.FirstOrDefaultAsync(x => userName.ToUpperInvariant().Equals(x.NormalizedUserName));
+
+        if (applicationUser == null)
+        {
+            throw new Exception("Authentication required.");
+        }
+
         var result = await _applicationDbContext.Users.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.ApplicationRole).Where(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
         if (result == null)
@@ -188,6 +212,6 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             return null;
         }
 
-        return ApplicationUserAdminDataTransferObject.FromApplicationUser(result);
+        return ApplicationUserAdminDto.FromApplicationUser(result);
     }
 }

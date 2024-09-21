@@ -1,5 +1,4 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
-using Intrepion.ToDo.BusinessLogic.Entities.DataTransferObjects;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Intrepion.ToDo.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,77 +11,102 @@ public class ApplicationUserController(IApplicationUserAdminService adminApplica
     private readonly IApplicationUserAdminService _adminApplicationUserService = adminApplicationUserService;
 
     [HttpPost]
-    public async Task<ActionResult<ApplicationUserAdminDataTransferObject?>> Add(ApplicationUserAdminDataTransferObject applicationUserAdminDataTransferObject)
+    public async Task<ActionResult<ApplicationUserAdminDto?>> Add(ApplicationUserAdminDto applicationUserAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseApplicationUserAdminDataTransferObject = await _adminApplicationUserService.AddAsync(userName, applicationUserAdminDataTransferObject);
+        if (string.Equals(applicationUserAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(databaseApplicationUserAdminDataTransferObject);
+        var databaseApplicationUserAdminDto = await _adminApplicationUserService.AddAsync(applicationUserAdminDto);
+
+        return Ok(databaseApplicationUserAdminDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ApplicationUser?>> Delete(Guid id)
+    public async Task<ActionResult<bool?>> Delete(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var result = await _adminApplicationUserService.DeleteAsync(userName, id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
+
+        var result = await _adminApplicationUserService.DeleteAsync(userIdentityName, id);
 
         return Ok(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<ApplicationUserAdminDataTransferObject?>> Edit(Guid id, ApplicationUserAdminDataTransferObject applicationUserAdminDataTransferObject)
+    [HttpPut]
+    public async Task<ActionResult<ApplicationUserAdminDto?>> Edit(ApplicationUserAdminDto applicationUserAdminDto)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var databaseApplicationUserAdminDataTransferObject = await _adminApplicationUserService.EditAsync(userName, id, applicationUserAdminDataTransferObject);
+        if (string.Equals(applicationUserAdminDto.ApplicationUserName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(databaseApplicationUserAdminDataTransferObject);
+        var databaseApplicationUserAdminDto = await _adminApplicationUserService.EditAsync(applicationUserAdminDto);
+
+        return Ok(databaseApplicationUserAdminDto);
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ApplicationUserAdminDataTransferObject>?>> GetAll()
+    public async Task<ActionResult<List<ApplicationUserAdminDto>?>> GetAll(string userName)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var applicationUserAdminDataTransferObjects = await _adminApplicationUserService.GetAllAsync();
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(applicationUserAdminDataTransferObjects);
+        var applicationUserAdminDtos = await _adminApplicationUserService.GetAllAsync(userIdentityName);
+
+        return Ok(applicationUserAdminDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApplicationUserAdminDataTransferObject?>> GetById(Guid id)
+    public async Task<ActionResult<ApplicationUserAdminDto?>> GetById(string userName, Guid id)
     {
-        var userName = User.Identity?.Name;
+        var userIdentityName = User.Identity?.Name;
 
-        if (userName == null)
+        if (string.IsNullOrWhiteSpace(userIdentityName))
         {
             return Ok(null);
         }
 
-        var applicationUserAdminDataTransferObject = await _adminApplicationUserService.GetByIdAsync(id);
+        if (string.Equals(userName, userIdentityName, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return Ok(null);
+        }
 
-        return Ok(applicationUserAdminDataTransferObject);
+        var applicationUserAdminDto = await _adminApplicationUserService.GetByIdAsync(userIdentityName, id);
+
+        return Ok(applicationUserAdminDto);
     }
 }
