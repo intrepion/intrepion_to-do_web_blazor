@@ -35,6 +35,7 @@ public class ToDoListAdminDto
             ApplicationUserUpdatedBy = applicationUser,
             Id = toDoListAdminDto.Id,
 
+            Title = toDoListAdminDto.Title,
             // DtoToEntityPropertyPlaceholder
             // Title = toDoListAdminDto.Title,
             // ToDoList = toDoListAdminDto.ToDoList,
