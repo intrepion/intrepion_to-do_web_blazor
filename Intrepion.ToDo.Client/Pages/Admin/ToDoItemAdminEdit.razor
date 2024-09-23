@@ -3,7 +3,7 @@
 @rendermode InteractiveAuto
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
-@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+@inject IToDoItemAdminService ToDoItemAdminService
 
 @* InjectionCodePlaceholder *@
 @* @inject IToDoListAdminService ToDoListAdminService *@
@@ -73,7 +73,7 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    EntityNamePlaceholderAdminEditModel toDoItemAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
+    ToDoItemAdminEditModel toDoItemAdminEditModel { get; set; } = new ToDoItemAdminEditModel();
 
     @* ListDeclarationCodePlaceholder *@
     @* List<ToDoList>? toDoListList { get; set; } *@
@@ -113,15 +113,15 @@
             return;
         }
 
-        var databaseEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminService.GetByIdAsync(userName, Id);
+        var databaseToDoItemAdminDto = await ToDoItemAdminService.GetByIdAsync(userName, Id);
 
-        if (databaseEntityNamePlaceholderAdminDto == null)
+        if (databaseToDoItemAdminDto == null)
         {
-            toDoItemAdminEditModel = new EntityNamePlaceholderAdminEditModel();
+            toDoItemAdminEditModel = new ToDoItemAdminEditModel();
         }
         else
         {
-            toDoItemAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDto(databaseEntityNamePlaceholderAdminDto);
+            toDoItemAdminEditModel = ToDoItemAdminEditModel.FromToDoItemAdminDto(databaseToDoItemAdminDto);
         }
     }
 
@@ -140,23 +140,23 @@
             return;
         } *@
 
-        var toDoItemAdminDto = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDto(toDoItemAdminEditModel);
+        var toDoItemAdminDto = ToDoItemAdminEditModel.ToToDoItemAdminDto(toDoItemAdminEditModel);
         toDoItemAdminDto.ApplicationUserName = userName;
 
         if (Id.Equals(Guid.Empty))
         {
-            var newEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminService.AddAsync(toDoItemAdminDto);
+            var newToDoItemAdminDto = await ToDoItemAdminService.AddAsync(toDoItemAdminDto);
 
-            if (newEntityNamePlaceholderAdminDto == null)
+            if (newToDoItemAdminDto == null)
             {
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newEntityNamePlaceholderAdminDto.Id}");
+            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newToDoItemAdminDto.Id}");
         }
         else
         {
-            await EntityNamePlaceholderAdminService.EditAsync(toDoItemAdminDto);
+            await ToDoItemAdminService.EditAsync(toDoItemAdminDto);
         }
     }
 
@@ -175,7 +175,7 @@
             return;
         }
 
-        await EntityNamePlaceholderAdminService.DeleteAsync(userName, Id);
+        await ToDoItemAdminService.DeleteAsync(userName, Id);
         NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
     }
 
