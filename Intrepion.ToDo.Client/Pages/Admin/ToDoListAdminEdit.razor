@@ -1,0 +1,194 @@
+@page "/admin/UrlNamePlaceholder-edit"
+@page "/admin/UrlNamePlaceholder-edit/{id:guid}"
+@rendermode InteractiveAuto
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+@inject IEntityNamePlaceholderAdminService EntityNamePlaceholderAdminService
+
+@* InjectionCodePlaceholder *@
+@* @inject IToDoListAdminService ToDoListAdminService *@
+
+<section>
+  @if (Id.Equals(Guid.Empty))
+  {
+    <h1>Create HumanNamePlaceholder</h1>
+  }
+  else
+  {
+    <h1>Edit HumanNamePlaceholder</h1>
+  }
+  <article>
+    <EditForm class="container" Model="EntityLowercaseNamePlaceholderAdminEditModel" OnSubmit="HandleSubmit">
+
+      @* EditRowCodePlaceholder *@
+      @* <div class="row">
+                <div class="col">
+                    <label>
+                        To Do List:
+                        <select @onchange="ToDoListOnChange">
+                            <option>Select to Do List...</option>
+                            @if (toDoListList != null)
+                            {
+                                @foreach (var toDoList in toDoListList)
+                                {
+                                    if (EntityLowercaseNamePlaceholderAdminEditModel.ToDoList != null && EntityLowercaseNamePlaceholderAdminEditModel.ToDoList.Id.Equals(toDoList.Id))
+                                    {
+                                        <option value="@toDoList.Id" selected>@toDoList.Title</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@toDoList.Id">@toDoList.Title</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Title:
+                        <InputText @bind-Value="EntityLowercaseNamePlaceholderAdminEditModel.Title" />
+                    </label>
+                </div>
+            </div> *@
+
+            <div class="row">
+                <div class="col">
+                    @if (!Id.Equals(Guid.Empty))
+                    {
+                        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+                <div class="col">
+                    <a href="/admin/UrlNamePlaceholder-list">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </EditForm>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    EntityNamePlaceholderAdminEditModel EntityLowercaseNamePlaceholderAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
+
+    @* ListDeclarationCodePlaceholder *@
+    @* List<ToDoList>? toDoListList { get; set; } *@
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        await base.OnInitializedAsync();
+
+        @* OnInitializedCodePlaceholder *@
+        @* var toDoListListResult = await ToDoListAdminService.GetAllAsync(userName);
+        if (toDoListListResult != null)
+        {
+            toDoListList = toDoListListResult;
+        } *@
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        var databaseEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminService.GetByIdAsync(userName, Id);
+
+        if (databaseEntityNamePlaceholderAdminDto == null)
+        {
+            EntityLowercaseNamePlaceholderAdminEditModel = new EntityNamePlaceholderAdminEditModel();
+        }
+        else
+        {
+            EntityLowercaseNamePlaceholderAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDto(databaseEntityNamePlaceholderAdminDto);
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        @* if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholderAdminEditModel.Name))
+        {
+            return;
+        } *@
+
+        var EntityLowercaseNamePlaceholderAdminDto = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDto(EntityLowercaseNamePlaceholderAdminEditModel);
+        EntityLowercaseNamePlaceholderAdminDto.ApplicationUserName = userName;
+
+        if (Id.Equals(Guid.Empty))
+        {
+            var newEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminService.AddAsync(EntityLowercaseNamePlaceholderAdminDto);
+
+            if (newEntityNamePlaceholderAdminDto == null)
+            {
+                return;
+            }
+
+            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newEntityNamePlaceholderAdminDto.Id}");
+        }
+        else
+        {
+            await EntityNamePlaceholderAdminService.EditAsync(EntityLowercaseNamePlaceholderAdminDto);
+        }
+    }
+
+    async Task Delete()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        await EntityNamePlaceholderAdminService.DeleteAsync(userName, Id);
+        NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
+    }
+
+
+    @* OnChangeCodePlaceholder *@
+    @* void ToDoListOnChange(ChangeEventArgs args)
+    {
+        if (args.Value == null)
+        {
+            return;
+        }
+
+        var id = (string)args.Value;
+        EntityLowercaseNamePlaceholderAdminEditModel.ToDoList = toDoListList?.Where(x => x.Id.ToString().Equals(id)).FirstOrDefault();
+    } *@
+}
