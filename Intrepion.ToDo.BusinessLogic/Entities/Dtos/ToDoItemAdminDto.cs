@@ -9,33 +9,33 @@ public class EntityNamePlaceholderAdminDto
     // public string Title { get; set; } = string.Empty;
     // public ToDoList? ToDoList { get; set; }
 
-    public static EntityNamePlaceholderAdminDto FromEntityNamePlaceholder(EntityNamePlaceholder? EntityLowercaseNamePlaceholder)
+    public static EntityNamePlaceholderAdminDto FromEntityNamePlaceholder(EntityNamePlaceholder? toDoItem)
     {
-        if (EntityLowercaseNamePlaceholder == null)
+        if (toDoItem == null)
         {
             return new EntityNamePlaceholderAdminDto();
         }
 
         return new EntityNamePlaceholderAdminDto
         {
-            Id = EntityLowercaseNamePlaceholder.Id,
+            Id = toDoItem.Id,
 
             // EntityToDtoPropertyPlaceholder
-            // Title = EntityLowercaseNamePlaceholder.Title,
-            // ToDoList = EntityLowercaseNamePlaceholder.ToDoList,
+            // Title = toDoItem.Title,
+            // ToDoList = toDoItem.ToDoList,
         };
     }
 
-    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser applicationUser, EntityNamePlaceholderAdminDto EntityLowercaseNamePlaceholderAdminDto)
+    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser applicationUser, EntityNamePlaceholderAdminDto toDoItemAdminDto)
     {
         return new EntityNamePlaceholder
         {
             ApplicationUserUpdatedBy = applicationUser,
-            Id = EntityLowercaseNamePlaceholderAdminDto.Id,
+            Id = toDoItemAdminDto.Id,
 
             // DtoToEntityPropertyPlaceholder
-            // Title = EntityLowercaseNamePlaceholderAdminDto.Title,
-            // ToDoList = EntityLowercaseNamePlaceholderAdminDto.ToDoList,
+            // Title = toDoItemAdminDto.Title,
+            // ToDoList = toDoItemAdminDto.ToDoList,
         };
     }
 }
