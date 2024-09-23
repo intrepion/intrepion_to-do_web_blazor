@@ -42,14 +42,14 @@
                             <td>@toDoItem.ToDoList?.Title</td>
                             @* ListItemCodePlaceholder *@
                             <td>
-                                <NavLink Href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</NavLink>
+                                <a href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</a>
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <NavLink Href="/admin/to-do-item-edit">Create</NavLink>
+        <a href="/admin/to-do-item-edit">Create</a>
     </article>
 </section>
 

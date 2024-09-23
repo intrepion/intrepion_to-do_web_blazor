@@ -19,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @if (applicationUserAdminDtos == null)
+                @if (applicationUsers == null)
                 {
                     <tr>
                         <td colspan="6">Loading...</td>
                     </tr>
                 }
-                else if (applicationUserAdminDtos.Count == 0)
+                else if (applicationUsers.Count == 0)
                 {
                     <tr>
                         <td colspan="6">No application users found.</td>
@@ -33,34 +33,39 @@
                 }
                 else
                 {
-                    @foreach (var applicationUserAdminDto in applicationUserAdminDtos)
+                    @foreach (var applicationUser in applicationUsers)
                     {
                         <tr>
-                            @if (applicationUserAdminDto == null)
+                            @if (applicationUser == null)
                             {
                                 <td colspan="6">Application user is null.</td>
                             }
                             else
                             {
                                 <td>
-                                    @if (applicationUserAdminDto.ApplicationRoles != null)
+                                    @if (applicationUser.ApplicationUserRoles != null)
                                     {
-                                        @for (var i = 0; i < applicationUserAdminDto.ApplicationRoles.Count; i += 1)
+                                        var first = true;
+                                        foreach (var applicationUserRole in applicationUser.ApplicationUserRoles)
                                         {
-                                            if (i > 0)
+                                            if (first)
+                                            {
+                                                first = false;
+                                            }
+                                            else
                                             {
                                                 <span>, </span>
                                             }
-                                            <span>@applicationUserAdminDto.ApplicationRoles.ToList()[i].Name</span>
+                                            <span>@applicationUserRole.ApplicationRole?.Name</span>
                                         }
                                     }
                                 </td>
-                                <td>@applicationUserAdminDto.Email</td>
-                                <td>@applicationUserAdminDto.Id</td>
-                                <td>@applicationUserAdminDto.PhoneNumber</td>
-                                <td>@applicationUserAdminDto.UserName</td>
+                                <td>@applicationUser.Email</td>
+                                <td>@applicationUser.Id</td>
+                                <td>@applicationUser.PhoneNumber</td>
+                                <td>@applicationUser.UserName</td>
                                 <td>
-                                    <NavLink href="@("/admin/application-user-edit/" + applicationUserAdminDto.Id)">Edit</NavLink>
+                                    <a href="@("/admin/application-user-edit/" + applicationUser.Id)">Edit</a>
                                 </td>
                             }
                         </tr>
@@ -68,12 +73,12 @@
                 }
             </tbody>
         </table>
-        <NavLink href="/admin/application-user-edit">Create</NavLink>
+        <a href="/admin/application-user-edit">Create</a>
     </article>
 </section>
 
 @code {
-    List<ApplicationUserAdminDto>? applicationUserAdminDtos;
+    List<ApplicationUser>? applicationUsers;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +90,6 @@
             return;
         }
 
-        applicationUserAdminDtos = await ApplicationUserAdminService.GetAllAsync(userName);
+        applicationUsers = await ApplicationUserAdminService.GetAllAsync(userName);
     }
 }

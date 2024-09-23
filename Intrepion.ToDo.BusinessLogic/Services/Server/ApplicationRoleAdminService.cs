@@ -1,4 +1,5 @@
 ﻿using Intrepion.ToDo.BusinessLogic.Data;
+using Intrepion.ToDo.BusinessLogic.Entities;
 using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
@@ -102,7 +103,7 @@ public class ApplicationRoleAdminService(ApplicationDbContext applicationDbConte
         return applicationRoleAdminDto;
     }
 
-    public async Task<List<ApplicationRoleAdminDto>?> GetAllAsync(string userName)
+    public async Task<List<ApplicationRole>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -116,16 +117,7 @@ public class ApplicationRoleAdminService(ApplicationDbContext applicationDbConte
             throw new Exception("Authentication required.");
         }
 
-        var result = await _applicationDbContext.Roles.ToListAsync();
-
-        if (result == null)
-        {
-            return null;
-        }
-
-        var applicationRoleAdminDto = new ApplicationRoleAdminDto();
-
-        return result.Select(x => ApplicationRoleAdminDto.FromApplicationRole(x)).ToList();
+        return await _applicationDbContext.Roles.ToListAsync();
     }
 
     public async Task<ApplicationRoleAdminDto?> GetByIdAsync(string userName, Guid id)

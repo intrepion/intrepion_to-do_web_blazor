@@ -33,15 +33,7 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             throw new Exception("UserName required.");
         }
 
-        var applicationUser = new ApplicationUser
-        {
-            ApplicationUserUpdatedBy = user,
-            Email = applicationUserAdminDto.Email,
-            NormalizedEmail = applicationUserAdminDto.Email?.ToUpperInvariant(),
-            PhoneNumber = applicationUserAdminDto.PhoneNumber,
-            UserName = applicationUserAdminDto.UserName,
-            NormalizedUserName = applicationUserAdminDto.UserName?.ToUpperInvariant()
-        };
+        var applicationUser = ApplicationUserAdminDto.ToApplicationUser(user, applicationUserAdminDto);
 
         var databaseApplicationUser = (await _applicationDbContext.Users.AddAsync(applicationUser)).Entity;
         var databaseApplicationUserAdminDto = ApplicationUserAdminDto.FromApplicationUser(databaseApplicationUser);
@@ -59,7 +51,6 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
 
             await _applicationDbContext.UserRoles.AddAsync(applicationUserRole);
 
-            databaseApplicationUserAdminDto.ApplicationRoles.Add(ApplicationRoleAdminDto.FromApplicationRole(applicationRole));
         }
 
         await _applicationDbContext.SaveChangesAsync();
@@ -157,7 +148,6 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             };
 
             await _applicationDbContext.UserRoles.AddAsync(applicationUserRole);
-            applicationUserAdminDto.ApplicationRoles.Add(ApplicationRoleAdminDto.FromApplicationRole(additionalApplicationRole));
         }
 
         await _applicationDbContext.SaveChangesAsync();
@@ -165,7 +155,7 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
         return applicationUserAdminDto;
     }
 
-    public async Task<List<ApplicationUserAdminDto>?> GetAllAsync(string userName)
+    public async Task<List<ApplicationUser>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -179,16 +169,7 @@ public class ApplicationUserAdminService(ApplicationDbContext applicationDbConte
             throw new Exception("Authentication required.");
         }
 
-        var result = await _applicationDbContext.Users.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.ApplicationRole).ToListAsync();
-
-        if (result == null)
-        {
-            return null;
-        }
-
-        var applicationUserAdminDto = new ApplicationUserAdminDto();
-
-        return result.Select(x => ApplicationUserAdminDto.FromApplicationUser(x)).ToList();
+        return await _applicationDbContext.Users.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.ApplicationRole).ToListAsync();
     }
 
     public async Task<ApplicationUserAdminDto?> GetByIdAsync(string userName, Guid id)

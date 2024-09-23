@@ -1,5 +1,5 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
-using Bogus;
+﻿using Bogus;
+using Intrepion.ToDo.BusinessLogic.Entities;
 
 namespace Intrepion.ToDo.BusinessLogic.Data;
 
@@ -11,10 +11,9 @@ public static class FakeData
 
         var applicationRoleFakes = new Faker<ApplicationRole>()
             .RuleFor(x => x.Name, f =>
-                f.Hacker.IngVerb()
-                    + " " + f.Hacker.Adjective()
+                f.Hacker.Adjective()
                     + " " + f.Hacker.Noun());
-        var applicationRoles = applicationRoleFakes.Generate(256);
+        var applicationRoles = applicationRoleFakes.Generate(8);
         applicationDbContext.Roles.AddRange(applicationRoles);
 
         var applicationUserFakes = new Faker<ApplicationUser>()
@@ -22,13 +21,13 @@ public static class FakeData
             .RuleFor(x => x.NormalizedEmail, (f, x) => x.Email?.ToUpperInvariant())
             .RuleFor(x => x.NormalizedUserName, (f, x) => x.NormalizedEmail)
             .RuleFor(x => x.UserName, (f, x) => x.Email);
-        var applicationUsers = applicationUserFakes.Generate(256);
+        var applicationUsers = applicationUserFakes.Generate(8);
         applicationDbContext.Users.AddRange(applicationUsers);
 
         var applicationUserRoleFakes = new Faker<ApplicationUserRole>()
             .RuleFor(x => x.ApplicationRole, f => f.PickRandom(applicationRoles))
             .RuleFor(x => x.ApplicationUser, f => f.PickRandom(applicationUsers));
-        var applicationUserRoles = applicationUserRoleFakes.Generate(256);
+        var applicationUserRoles = applicationUserRoleFakes.Generate(4);
         applicationDbContext.UserRoles.AddRange(applicationUserRoles);
 
         // FakeEntityPlaceholder

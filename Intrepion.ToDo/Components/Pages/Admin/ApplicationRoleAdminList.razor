@@ -16,13 +16,13 @@
                 </tr>
             </thead>
             <tbody>
-                @if (applicationRoleAdminDtos == null)
+                @if (applicationRoles == null)
                 {
                     <tr>
                         <td colspan="3">Loading...</td>
                     </tr>
                 }
-                else if (applicationRoleAdminDtos.Count == 0)
+                else if (applicationRoles.Count == 0)
                 {
                     <tr>
                         <td colspan="3">No application roles found.</td>
@@ -30,25 +30,25 @@
                 }
                 else
                 {
-                    @foreach (var applicationRoleAdminDto in applicationRoleAdminDtos)
+                    @foreach (var applicationRole in applicationRoles)
                     {
                         <tr>
-                            <td>@applicationRoleAdminDto.Id</td>
-                            <td>@applicationRoleAdminDto.Name</td>
+                            <td>@applicationRole.Id</td>
+                            <td>@applicationRole.Name</td>
                             <td>
-                                <NavLink href="@("/admin/application-role-edit/" + applicationRoleAdminDto.Id)">Edit</NavLink>
+                                <a href="@("/admin/application-role-edit/" + applicationRole.Id)">Edit</a>
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <NavLink Href="/admin/application-role-edit">Create</NavLink>
+        <a href="/admin/application-role-edit">Create</a>
     </article>
 </section>
 
 @code {
-    List<ApplicationRoleAdminDto>? applicationRoleAdminDtos = null;
+    List<ApplicationRole>? applicationRoles = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,6 +60,6 @@
             return;
         }
 
-        applicationRoleAdminDtos = await ApplicationRoleAdminService.GetAllAsync(userName);
+        applicationRoles = await ApplicationRoleAdminService.GetAllAsync(userName);
     }
 }

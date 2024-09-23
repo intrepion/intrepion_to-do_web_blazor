@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using Intrepion.ToDo.BusinessLogic.Entities;
 using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
 namespace Intrepion.ToDo.BusinessLogic.Services.Client;
@@ -28,9 +29,9 @@ public class ApplicationUserClientAdminService(HttpClient httpClient) : IApplica
         return await result.Content.ReadFromJsonAsync<ApplicationUserAdminDto>();
     }
 
-    public async Task<List<ApplicationUserAdminDto>?> GetAllAsync(string userName)
+    public async Task<List<ApplicationUser>?> GetAllAsync(string userName)
     {
-        var result = await _httpClient.GetFromJsonAsync<List<ApplicationUserAdminDto>>($"/api/admin/applicationUserAdmin?userName={userName}");
+        var result = await _httpClient.GetFromJsonAsync<List<ApplicationUser>>($"/api/admin/applicationUserAdmin?userName={userName}");
 
         return result;
     }

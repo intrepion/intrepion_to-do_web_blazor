@@ -40,14 +40,14 @@
                             <td>@toDoList.Title</td>
                             @* ListItemCodePlaceholder *@
                             <td>
-                                <NavLink Href="@("/admin/to-do-list-edit/" + toDoList.Id)">Edit</NavLink>
+                                <a href="@("/admin/to-do-list-edit/" + toDoList.Id)">Edit</a>
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <NavLink Href="/admin/to-do-list-edit">Create</NavLink>
+        <a href="/admin/to-do-list-edit">Create</a>
     </article>
 </section>
 

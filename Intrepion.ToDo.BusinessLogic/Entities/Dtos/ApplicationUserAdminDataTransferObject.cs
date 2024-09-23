@@ -2,25 +2,25 @@
 
 public class ApplicationUserAdminDto
 {
-    public ICollection<ApplicationRoleAdminDto> ApplicationRoles { get; set; } = [];
+    public List<ApplicationRole> ApplicationRoles { get; set; } = [];
     public string ApplicationUserName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public Guid Id { get; set; }
     public string PhoneNumber { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
 
-    public static ApplicationUserAdminDto FromApplicationUser(ApplicationUser? applicationUser)
+    public static ApplicationUserAdminDto FromApplicationUser(ApplicationUser applicationUser)
     {
         if (applicationUser == null)
         {
             return new ApplicationUserAdminDto();
         }
 
-        var applicationRoleAdminDtos = applicationUser.ApplicationUserRoles.Select(x => ApplicationRoleAdminDto.FromApplicationRole(x.ApplicationRole)).ToList();
+        var applicationUserRoles = applicationUser.ApplicationUserRoles;
 
         return new ApplicationUserAdminDto
         {
-            ApplicationRoles = applicationRoleAdminDtos,
+            ApplicationRoles = applicationUser.ApplicationUserRoles.Select(x => x.ApplicationRole ?? new ApplicationRole()).ToList(),
             Email = applicationUser.Email ?? string.Empty,
             Id = applicationUser.Id,
             PhoneNumber = applicationUser.PhoneNumber ?? string.Empty,
@@ -28,26 +28,15 @@ public class ApplicationUserAdminDto
         };
     }
 
-    public static ApplicationUser ToApplicationUser(ApplicationUserAdminDto applicationUserAdminDto)
+    public static ApplicationUser ToApplicationUser(ApplicationUser applicationUser, ApplicationUserAdminDto applicationUserAdminDto)
     {
-        var applicationUser = new ApplicationUser
+        return new ApplicationUser
         {
+            ApplicationUserUpdatedBy = applicationUser,
             Email = applicationUserAdminDto.Email,
             Id = applicationUserAdminDto.Id,
             PhoneNumber = applicationUserAdminDto.PhoneNumber,
             UserName = applicationUserAdminDto.UserName,
         };
-
-        applicationUser.ApplicationUserRoles = applicationUserAdminDto.ApplicationRoles.Select(x => new ApplicationUserRole
-        {
-            ApplicationRole = new ApplicationRole
-            {
-                Id = x.Id,
-                Name = x.Name,
-            },
-            ApplicationUser = applicationUser,
-        }).ToList();
-
-        return applicationUser;
     }
 }
