@@ -1,0 +1,132 @@
+@page "/admin/application-role-edit"
+@page "/admin/application-role-edit/{id:guid}"
+@rendermode InteractiveAuto
+@inject IApplicationRoleAdminService ApplicationRoleAdminService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject NavigationManager NavigationManager
+
+<section>
+    @if (Id.Equals(Guid.Empty))
+    {
+        <h1>Create Application Role</h1>
+    }
+    else
+    {
+        <h1>Edit Application Role</h1>
+    }
+    <article>
+        <EditForm class="container" Model="applicationRoleAdminEditModel" OnSubmit="HandleSubmit">
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Name:
+                        <InputText @bind-Value="applicationRoleAdminEditModel.Name">@applicationRoleAdminEditModel.Name</InputText>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @if (!Id.Equals(Guid.Empty))
+                    {
+                        <button @onclick="Delete" type="button" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+                <div class="col">
+                    <a href="/admin/application-role-list">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </EditForm>
+    </article>
+</section>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    ApplicationRoleAdminEditModel applicationRoleAdminEditModel { get; set; } = new ApplicationRoleAdminEditModel();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        var databaseApplicationRoleAdminDto = await ApplicationRoleAdminService.GetByIdAsync(userName, Id);
+
+        if (databaseApplicationRoleAdminDto == null)
+        {
+            applicationRoleAdminEditModel = new ApplicationRoleAdminEditModel();
+        }
+        else
+        {
+            applicationRoleAdminEditModel = ApplicationRoleAdminEditModel.FromApplicationRoleAdminDto(databaseApplicationRoleAdminDto);
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (applicationRoleAdminEditModel == null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(applicationRoleAdminEditModel.Name))
+        {
+            return;
+        }
+
+        var applicationRoleAdminDto = ApplicationRoleAdminEditModel.ToApplicationRoleAdminDto(applicationRoleAdminEditModel);
+
+        if (Id.Equals(Guid.Empty))
+        {
+            var databaseApplicationRoleAdminDto = await ApplicationRoleAdminService.AddAsync(applicationRoleAdminDto);
+
+            if (databaseApplicationRoleAdminDto == null)
+            {
+                return;
+            }
+
+            NavigationManager.NavigateTo($"/admin/application-role-edit/{databaseApplicationRoleAdminDto.Id}");
+        }
+        else
+        {
+            await ApplicationRoleAdminService.EditAsync(applicationRoleAdminDto);
+        }
+    }
+
+    async Task Delete()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var userName = authState.User.Identity?.Name!;
+
+        if (userName == null)
+        {
+            return;
+        }
+
+        if (Id.Equals(Guid.Empty))
+        {
+            return;
+        }
+
+        await ApplicationRoleAdminService.DeleteAsync(userName, Id);
+        NavigationManager.NavigateTo($"/admin/application-role-list");
+    }
+}
