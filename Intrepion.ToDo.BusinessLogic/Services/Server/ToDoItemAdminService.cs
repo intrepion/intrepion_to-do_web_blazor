@@ -31,7 +31,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 
         var toDoItem = ToDoItemAdminDto.ToToDoItem(user, toDoItemAdminDto);
 
-        var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoItem);
+        var result = await _applicationDbContext.ToDoItems.AddAsync(toDoItem);
         var databaseToDoItemAdminDto = ToDoItemAdminDto.FromToDoItem(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
@@ -52,7 +52,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (databaseToDoItem == null)
         {
@@ -83,7 +83,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoItemAdminDto.Id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(toDoItemAdminDto.Id);
 
         if (databaseToDoItem == null)
         {
@@ -122,7 +122,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        return await _applicationDbContext.TableNamePlaceholder.ToListAsync();
+        return await _applicationDbContext.ToDoItems.ToListAsync();
     }
 
     public async Task<ToDoItemAdminDto?> GetByIdAsync(string userName, Guid id)
@@ -139,7 +139,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var result = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (result == null)
         {
