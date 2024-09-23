@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services.Server;
 
-public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationDbContext) : IEntityNamePlaceholderAdminService
+public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : IToDoListAdminService
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<EntityNamePlaceholderAdminDto?> AddAsync(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ToDoListAdminDto?> AddAsync(ToDoListAdminDto toDoListAdminDto)
     {
         if (string.IsNullOrWhiteSpace(toDoListAdminDto.ApplicationUserName))
         {
@@ -29,13 +29,13 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
         //     throw new Exception("Title required.");
         // }
 
-        var toDoList = EntityNamePlaceholderAdminDto.ToEntityNamePlaceholder(user, toDoListAdminDto);
+        var toDoList = ToDoListAdminDto.ToToDoList(user, toDoListAdminDto);
 
         var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoList);
-        var databaseEntityNamePlaceholderAdminDto = EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(result.Entity);
+        var databaseToDoListAdminDto = ToDoListAdminDto.FromToDoList(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseEntityNamePlaceholderAdminDto;
+        return databaseToDoListAdminDto;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -52,24 +52,24 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoList == null)
         {
             return false;
         }
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoList.ApplicationUserUpdatedBy = user;
         await _applicationDbContext.SaveChangesAsync();
 
-        _applicationDbContext.Remove(databaseEntityNamePlaceholder);
+        _applicationDbContext.Remove(databaseToDoList);
 
         await _applicationDbContext.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> EditAsync(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ToDoListAdminDto?> EditAsync(ToDoListAdminDto toDoListAdminDto)
     {
         if (string.IsNullOrWhiteSpace(toDoListAdminDto.ApplicationUserName))
         {
@@ -83,9 +83,9 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoListAdminDto.Id);
+        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoListAdminDto.Id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoList == null)
         {
             throw new Exception("HumanNamePlaceholder not found.");
         }
@@ -96,19 +96,19 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
         //     throw new Exception("Title required.");
         // }
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoList.ApplicationUserUpdatedBy = user;
 
         // EditDatabasePropertyCodePlaceholder
-        // databaseEntityNamePlaceholder.Title = toDoListAdminDto.Title;
-        // databaseEntityNamePlaceholder.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
-        // databaseEntityNamePlaceholder.ToDoList = toDoListAdminDto.ToDoList;
+        // databaseToDoList.Title = toDoListAdminDto.Title;
+        // databaseToDoList.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
+        // databaseToDoList.ToDoList = toDoListAdminDto.ToDoList;
 
         await _applicationDbContext.SaveChangesAsync();
 
         return toDoListAdminDto;
     }
 
-    public async Task<List<EntityNamePlaceholder>?> GetAllAsync(string userName)
+    public async Task<List<ToDoList>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -125,7 +125,7 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
         return await _applicationDbContext.TableNamePlaceholder.ToListAsync();
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> GetByIdAsync(string userName, Guid id)
+    public async Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -146,6 +146,6 @@ public class EntityNamePlaceholderAdminService(ApplicationDbContext applicationD
             return null;
         }
 
-        return EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(result);
+        return ToDoListAdminDto.FromToDoList(result);
     }
 }
