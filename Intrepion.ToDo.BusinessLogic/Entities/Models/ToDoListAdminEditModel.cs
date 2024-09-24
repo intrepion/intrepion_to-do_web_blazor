@@ -21,6 +21,7 @@ public class ToDoListAdminEditModel
         {
             Id = toDoListAdminDto.Id,
 
+            Title = toDoListAdminDto.Title,
             // DtoToModelPropertyPlaceholder
             // Title = toDoListAdminDto.Title,
             // ToDoList = toDoListAdminDto.ToDoList,
