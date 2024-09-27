@@ -40,6 +40,7 @@ public class ToDoItemAdminEditModel
         {
             Id = toDoItemAdminEditModel.Id,
 
+            ToDoList = toDoItemAdminEditModel.ToDoList,
             // ModelToDtoPropertyPlaceholder
             // Title = toDoItemAdminEditModel.Title,
             // ToDoList = toDoItemAdminEditModel.ToDoList,
