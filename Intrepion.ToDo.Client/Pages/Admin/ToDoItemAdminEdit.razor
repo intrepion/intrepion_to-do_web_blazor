@@ -132,6 +132,11 @@
 
         await base.OnInitializedAsync();
 
+        var toDoListListResult = await ToDoListAdminService.GetAllAsync(userName);
+        if (toDoListListResult != null)
+        {
+            toDoListList = toDoListListResult;
+        }
         @* OnInitializedCodePlaceholder *@
         @* var toDoListListResult = await ToDoListAdminService.GetAllAsync(userName);
         if (toDoListListResult != null)
