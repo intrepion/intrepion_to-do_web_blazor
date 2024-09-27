@@ -12,10 +12,10 @@ public partial class ApplicationRoleAdminPages : PageTest
     {
         await Expect(Page).ToHaveTitleAsync("Home");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Application Roles" }).ClickAsync();
-        await Expect(Page).ToHaveURLAsync("ClientUriPlaceholder/admin/application-role-list");
+        await Expect(Page).ToHaveURLAsync("http://localhost:5232/admin/application-role-list");
         await Expect(Page).ToHaveTitleAsync("Application Role List");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Create" }).ClickAsync();
-        await Expect(Page).ToHaveURLAsync("ClientUriPlaceholder/admin/application-role-edit");
+        await Expect(Page).ToHaveURLAsync("http://localhost:5232/admin/application-role-edit");
         await Expect(Page).ToHaveTitleAsync("Application Role Creation");
         await Page.GetByTestId("applicationRoleAdminEditName").FillAsync("a applicationRole");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create" }).ClickAsync();
@@ -24,14 +24,14 @@ public partial class ApplicationRoleAdminPages : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Modify" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("Application Role Modification");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Remove" }).ClickAsync();
-        await Expect(Page).ToHaveURLAsync("ClientUriPlaceholder/admin/application-role-list");
+        await Expect(Page).ToHaveURLAsync("http://localhost:5232/admin/application-role-list");
         await Expect(Page).ToHaveTitleAsync("Application Role List");
     }
 
     [SetUp]
     public async Task SetUp()
     {
-        await Page.GotoAsync("ClientUriPlaceholder");
+        await Page.GotoAsync("http://localhost:5232");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("Log in");
         await Page.GetByTestId("loginEmail").FillAsync("Admin1@ApplicationNamePlaceholder.com");
