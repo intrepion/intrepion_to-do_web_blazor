@@ -15,10 +15,10 @@ public partial class EntityNamePlaceholderAdminPages : PageTest
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder List");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Create" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Creation");
-        await Page.GetByTestId("EntityLowercaseNamePlaceholderAdminEditName").FillAsync("a EntityLowercaseNamePlaceholder");
+        await Page.GetByTestId("toDoListAdminEditName").FillAsync("a toDoList");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
-        await Page.GetByTestId("EntityLowercaseNamePlaceholderAdminEditName").FillAsync("some EntityLowercaseNamePlaceholder");
+        await Page.GetByTestId("toDoListAdminEditName").FillAsync("some toDoList");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Modify" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Remove" }).ClickAsync();
