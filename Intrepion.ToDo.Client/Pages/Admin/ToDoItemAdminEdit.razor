@@ -10,21 +10,21 @@
 
   @if (Id.Equals(Guid.Empty))
   {
-    <PageTitle>HumanNamePlaceholder Creation</PageTitle>
+    <PageTitle>To Do Item Creation</PageTitle>
   }
   else
   {
-    <PageTitle>HumanNamePlaceholder Modification</PageTitle>
+    <PageTitle>To Do Item Modification</PageTitle>
   }
 
 <section>
   @if (Id.Equals(Guid.Empty))
   {
-    <h1>HumanNamePlaceholder Creation</h1>
+    <h1>To Do Item Creation</h1>
   }
   else
   {
-    <h1>HumanNamePlaceholder Modification</h1>
+    <h1>To Do Item Modification</h1>
   }
   <article>
     <EditForm class="container" Model="toDoItemAdminEditModel" OnSubmit="HandleSubmit">
