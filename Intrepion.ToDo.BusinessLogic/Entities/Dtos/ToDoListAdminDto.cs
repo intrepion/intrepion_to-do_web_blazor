@@ -21,6 +21,7 @@ public class ToDoListAdminDto
         {
             Id = toDoList.Id,
 
+            Title = toDoList.Title,
             // EntityToDtoPropertyPlaceholder
             // Title = toDoList.Title,
             // ToDoList = toDoList.ToDoList,
