@@ -23,6 +23,7 @@ public class ToDoItemAdminEditModel
             Id = toDoItemAdminDto.Id,
 
             ToDoList = toDoItemAdminDto.ToDoList,
+            Title = toDoItemAdminDto.Title,
             // DtoToModelPropertyPlaceholder
             // Title = toDoItemAdminDto.Title,
             // ToDoList = toDoItemAdminDto.ToDoList,
