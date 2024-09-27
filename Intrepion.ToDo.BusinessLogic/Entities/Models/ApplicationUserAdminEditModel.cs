@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Models;
+namespace Intrepion.ToDo.BusinessLogic.Entities.Models;
 
 public class ApplicationUserAdminEditModel
 {
