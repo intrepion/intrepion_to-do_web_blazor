@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Json;
-using ApplicationNamePlaceholder.BusinessLogic.Entities;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos;
+using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Services.Client;
+namespace Intrepion.ToDo.BusinessLogic.Services.Client;
 
 public class ApplicationRoleClientAdminService(HttpClient httpClient) : IApplicationRoleAdminService
 {
