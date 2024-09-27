@@ -1,5 +1,5 @@
-@page "/admin/UrlNamePlaceholder-edit"
-@page "/admin/UrlNamePlaceholder-edit/{id:guid}"
+@page "/admin/to-do-list-edit"
+@page "/admin/to-do-list-edit/{id:guid}"
 @rendermode InteractiveAuto
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
@@ -71,7 +71,7 @@
                     }
                 </div>
                 <div class="col">
-                    <a href="/admin/UrlNamePlaceholder-list">Cancel</a>
+                    <a href="/admin/to-do-list-list">Cancel</a>
                     @if (Id.Equals(Guid.Empty))
                     {
                         <button type="submit" class="btn btn-primary">Create</button>
@@ -168,7 +168,7 @@
                 return;
             }
 
-            NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newToDoListAdminDto.Id}");
+            NavigationManager.NavigateTo($"/admin/to-do-list-edit/{newToDoListAdminDto.Id}");
         }
         else
         {
@@ -192,7 +192,7 @@
         }
 
         await ToDoListAdminService.DeleteAsync(userName, Id);
-        NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
+        NavigationManager.NavigateTo($"/admin/to-do-list-list");
     }
 
 
