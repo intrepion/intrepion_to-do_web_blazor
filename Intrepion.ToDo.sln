@@ -1,10 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.0.0
 MinimumVisualStudioVersion = 16.0.0.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo", "Intrepion.ToDo\Intrepion.ToDo.csproj", "{ADD8780F-0113-4558-897B-6E176A16A0AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo.Client", "Intrepion.ToDo.Client\Intrepion.ToDo.Client.csproj", "{EBE9D7A0-C2F6-4764-A527-080085C00801}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.ComponentTests", "Intrepion.ToDo.ComponentTests\Intrepion.ToDo.ComponentTests.csproj", "{0F2F8644-A045-479E-B85E-E03ED85EFAD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,18 @@ Global
 		{ADD8780F-0113-4558-897B-6E176A16A0AC}.Release|x64.Build.0 = Release|Any CPU
 		{ADD8780F-0113-4558-897B-6E176A16A0AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{ADD8780F-0113-4558-897B-6E176A16A0AC}.Release|x86.Build.0 = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|x64.Build.0 = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Debug|x86.Build.0 = Debug|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|x64.ActiveCfg = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|x64.Build.0 = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|x86.ActiveCfg = Release|Any CPU
+		{0F2F8644-A045-479E-B85E-E03ED85EFAD0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
