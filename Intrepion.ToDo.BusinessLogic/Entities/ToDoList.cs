@@ -5,5 +5,6 @@ public class ToDoList
     public ApplicationUser? ApplicationUserUpdatedBy { get; set; }
     public Guid Id { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
