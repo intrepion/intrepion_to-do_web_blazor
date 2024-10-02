@@ -23,6 +23,7 @@ public class ToDoItemAdminDto
             Id = toDoItem.Id,
 
             ToDoList = toDoItem.ToDoList,
+            Title = toDoItem.Title,
             // EntityToDtoPlaceholder
             // Title = toDoItem.Title,
             // ToDoList = toDoItem.ToDoList,
