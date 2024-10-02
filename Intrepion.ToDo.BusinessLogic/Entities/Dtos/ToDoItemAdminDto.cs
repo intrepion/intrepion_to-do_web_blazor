@@ -6,6 +6,7 @@ public class ToDoItemAdminDto
     public Guid Id { get; set; }
 
     public ToDoList? ToDoList { get; set; }
+    public string Title { get; set; } = string.Empty;
     // DtoPropertyPlaceholder
     // public string Title { get; set; } = string.Empty;
     // public ToDoList? ToDoList { get; set; }
