@@ -4,15 +4,15 @@ using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Services.Client;
 
-public class EntityNamePlaceholderClientAdminService(HttpClient httpClient) : IEntityNamePlaceholderAdminService
+public class ToDoListClientAdminService(HttpClient httpClient) : IToDoListAdminService
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<EntityNamePlaceholderAdminDto?> AddAsync(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ToDoListAdminDto?> AddAsync(ToDoListAdminDto toDoListAdminDto)
     {
         var result = await _httpClient.PostAsJsonAsync("/api/admin/toDoListAdmin", toDoListAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholderAdminDto>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDto>();
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -22,23 +22,23 @@ public class EntityNamePlaceholderClientAdminService(HttpClient httpClient) : IE
         return await result.Content.ReadFromJsonAsync<bool>();
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> EditAsync(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ToDoListAdminDto?> EditAsync(ToDoListAdminDto toDoListAdminDto)
     {
         var result = await _httpClient.PutAsJsonAsync($"/api/admin/toDoListAdmin/{toDoListAdminDto.Id}", toDoListAdminDto);
 
-        return await result.Content.ReadFromJsonAsync<EntityNamePlaceholderAdminDto>();
+        return await result.Content.ReadFromJsonAsync<ToDoListAdminDto>();
     }
 
-    public async Task<List<EntityNamePlaceholder>?> GetAllAsync(string userName)
+    public async Task<List<ToDoList>?> GetAllAsync(string userName)
     {
-        var result = await _httpClient.GetFromJsonAsync<List<EntityNamePlaceholder>>($"/api/admin/toDoListAdmin?userName={userName}");
+        var result = await _httpClient.GetFromJsonAsync<List<ToDoList>>($"/api/admin/toDoListAdmin?userName={userName}");
 
         return result;
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> GetByIdAsync(string userName, Guid id)
+    public async Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id)
     {
-        var result = await _httpClient.GetFromJsonAsync<EntityNamePlaceholderAdminDto>($"/api/admin/toDoListAdmin/{id}?userName={userName}");
+        var result = await _httpClient.GetFromJsonAsync<ToDoListAdminDto>($"/api/admin/toDoListAdmin/{id}?userName={userName}");
 
         return result;
     }
