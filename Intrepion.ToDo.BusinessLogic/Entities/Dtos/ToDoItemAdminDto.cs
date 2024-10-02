@@ -38,6 +38,7 @@ public class ToDoItemAdminDto
             Id = toDoItemAdminDto.Id,
 
             ToDoList = toDoItemAdminDto.ToDoList,
+            Title = toDoItemAdminDto.Title,
             // DtoToEntityPropertyPlaceholder
             // Title = toDoItemAdminDto.Title,
             // ToDoList = toDoItemAdminDto.ToDoList,
