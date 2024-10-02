@@ -41,7 +41,8 @@
             <tr>
               <td>@toDoItem.Id</td>
               <td>@toDoItem.ToDoList?.Title</td>
-              @* ListItemCodePlaceholder *@
+              <td>@toDoItem.Title</td>
+          @* ListItemCodePlaceholder *@
               <td>
                 <a href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</a>
               </td>
