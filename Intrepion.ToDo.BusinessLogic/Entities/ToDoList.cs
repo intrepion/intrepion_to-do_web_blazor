@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities;
+﻿namespace Intrepion.ToDo.BusinessLogic.Entities;
 
 public class ToDoList
 {
