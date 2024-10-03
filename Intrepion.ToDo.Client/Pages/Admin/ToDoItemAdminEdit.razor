@@ -206,5 +206,16 @@
     NavigationManager.NavigateTo($"/admin/to-do-item-list");
   }
 
-  @* OnChangeCodePlaceholder *@
+  void ToDoListOnChange(ChangeEventArgs args)
+    {
+        if (args.Value == null)
+        {
+            return;
+        }
+
+        var id = (string)args.Value;
+        toDoItemAdminEditModel.ToDoList = toDoListList?.Where(x => x.Id.ToString().Equals(id)).FirstOrDefault();
+    }
+
+    @* OnChangeCodePlaceholder *@
 }
