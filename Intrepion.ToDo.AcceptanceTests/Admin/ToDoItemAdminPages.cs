@@ -17,13 +17,13 @@ public partial class EntityNamePlaceholderAdminPages : PageTest
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Creation");
 
         // CreatePropertyCodePlaceholder
-        // await Page.GetByTestId("EntityLowercaseNamePlaceholderAdminEditName").FillAsync("a EntityLowercaseNamePlaceholder");
+        // await Page.GetByTestId("toDoItemAdminEditName").FillAsync("a toDoItem");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
 
         // ModifyPropertyCodePlaceholder
-        // await Page.GetByTestId("EntityLowercaseNamePlaceholderAdminEditName").FillAsync("some EntityLowercaseNamePlaceholder");
+        // await Page.GetByTestId("toDoItemAdminEditName").FillAsync("some toDoItem");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Modify" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
