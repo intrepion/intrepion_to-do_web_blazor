@@ -40,10 +40,7 @@
                 "property": "Title"
               }
             ],
-            "names": {
-              "entity": "ToDoList",
-              "human": "To Do List"
-            }
+            "entity": "ToDoList"
           },
           "names": {
             "human": "To Do List",
@@ -88,16 +85,11 @@
                 "property": "Title"
               }
             ],
-            "names": {
-              "entity": "ToDoItem",
-              "human": "List Item",
-              "list": "ListItems",
-              "plural": "List Items"
-            }
+            "entity": "ToDoItem"
           },
           "names": {
-            "human": "To Do Item",
-            "property": "ToDoItem"
+            "human": "List Items",
+            "property": "ListItems"
           },
           "type": "oneToMany"
         },
