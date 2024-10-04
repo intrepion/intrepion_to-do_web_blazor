@@ -17,6 +17,7 @@ public partial class ToDoItemAdminPages : PageTest
         await Expect(Page).ToHaveTitleAsync("To Do Item Creation");
 
         await Page.GetByTestId("toDoItemAdminEditOrdering").FillAsync("1");
+        await Page.GetByTestId("toDoItemAdminEditTitle").FillAsync("a toDoItem");
         // CreatePropertyCodePlaceholder
         // await Page.GetByTestId("toDoItemAdminEditName").FillAsync("a toDoItem");
 
