@@ -43,9 +43,26 @@
             <tr>
               <td>@toDoList.Id</td>
 
-              <td>@toDoList.ListItems?.Title</td>
+              <td>
+                @if (toDoList.ListItems != null)
+                {
+                  var first = true;
+                  foreach (var listItem in toDoList.ListItems)
+                  {
+                    if (first)
+                    {
+                      first = false;
+                    }
+                    else
+                    {
+                      <span>, </span>
+                    }
+                    <span>@listItem.Title</span>
+                  }
+                }
+              </td>
               <td>@toDoList.Title</td>
-          @* ListItemCodePlaceholder *@
+              @* ListItemCodePlaceholder *@
 
               <td>
                 <a href="@("/admin/to-do-list-edit/" + toDoList.Id)">Edit</a>

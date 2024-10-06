@@ -1,0 +1,83 @@
+[[entities]]
+[[entities.compositeKeys]]
+[[entities.compositeKeys.keys]]
+key = "NormalizedTitle"
+
+[entities.names]
+entity = "ToDoItem"
+human = "To Do Item"
+plural = "To Do Items"
+table = "ToDoItems"
+url = "to-do-item"
+
+[[entities.properties]]
+type = "boolean"
+
+  [entities.properties.names]
+  human = "IsCompleted"
+  property = "IsCompleted"
+
+[[entities.properties]]
+type = "integer"
+
+  [entities.properties.names]
+  human = "Ordering"
+  property = "Ordering"
+
+[[entities.properties]]
+type = "manyToOne"
+
+  [entities.properties.foreign]
+  entity = "ToDoList"
+
+    [[entities.properties.foreign.display]]
+    ordering = 1
+    property = "Title"
+
+  [entities.properties.names]
+  human = "To Do List"
+  property = "ToDoList"
+
+[[entities.properties]]
+normalized = true
+required = true
+type = "text"
+
+  [entities.properties.names]
+  human = "Title"
+  property = "Title"
+
+[[entities]]
+[[entities.compositeKeys]]
+[[entities.compositeKeys.keys]]
+key = "NormalizedTitle"
+
+[entities.names]
+entity = "ToDoList"
+human = "To Do List"
+plural = "To Do Lists"
+table = "ToDoLists"
+url = "to-do-list"
+
+[[entities.properties]]
+type = "oneToMany"
+
+  [entities.properties.foreign]
+  entity = "ToDoItem"
+
+    [[entities.properties.foreign.display]]
+    ordering = 1
+    property = "Title"
+
+  [entities.properties.names]
+  human = "List Items"
+  property = "ListItems"
+
+[[entities.properties]]
+normalized = true
+required = true
+type = "text"
+
+  [entities.properties.names]
+  human = "Title"
+  property = "Title"

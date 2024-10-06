@@ -137,7 +137,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
             throw new Exception("Authentication required.");
         }
 
-        return await _applicationDbContext.ToDoLists.ToListAsync();
+        return await _applicationDbContext.ToDoLists.Include(x => x.ListItems).ToListAsync();
     }
 
     public async Task<ToDoListAdminDto?> GetByIdAsync(string userName, Guid id)
