@@ -61,6 +61,7 @@ builder.Services.AddScoped<IApplicationRoleAdminService, ApplicationRoleAdminSer
 builder.Services.AddScoped<IApplicationUserAdminService, ApplicationUserAdminService>();
 
 builder.Services.AddScoped<IToDoItemAdminService, ToDoItemAdminService>();
+builder.Services.AddScoped<IToDoListAdminService, ToDoListAdminService>();
 // RegisterServerServiceCodePlaceholder
 
 var app = builder.Build();
