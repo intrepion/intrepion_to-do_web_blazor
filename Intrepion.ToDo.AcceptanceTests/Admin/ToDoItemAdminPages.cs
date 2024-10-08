@@ -11,7 +11,7 @@ public partial class ToDoItemAdminPages : PageTest
     public async Task MainNavigation()
     {
         await Expect(Page).ToHaveTitleAsync("Home");
-        await Page.GetByRole(AriaRole.Link, new() { Name = "PluralNamePlaceholder" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "To Do Items" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("To Do Item List");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Create" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("To Do Item Creation");
