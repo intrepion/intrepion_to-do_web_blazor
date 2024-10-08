@@ -6,12 +6,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
-public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService toDoListAdminService) : ControllerBase
+public class ToDoListController(IToDoListAdminService toDoListAdminService) : ControllerBase
 {
-    private readonly IEntityNamePlaceholderAdminService _toDoListAdminService = toDoListAdminService;
+    private readonly IToDoListAdminService _toDoListAdminService = toDoListAdminService;
 
     [HttpPost]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Add(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ActionResult<ToDoListAdminDto?>> Add(ToDoListAdminDto toDoListAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -25,9 +25,9 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholderAdminDto = await _toDoListAdminService.AddAsync(toDoListAdminDto);
+        var databaseToDoListAdminDto = await _toDoListAdminService.AddAsync(toDoListAdminDto);
 
-        return Ok(databaseEntityNamePlaceholderAdminDto);
+        return Ok(databaseToDoListAdminDto);
     }
 
     [HttpDelete("{id}")]
@@ -51,7 +51,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
     }
 
     [HttpPut]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Edit(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ActionResult<ToDoListAdminDto?>> Edit(ToDoListAdminDto toDoListAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -65,13 +65,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholder = await _toDoListAdminService.EditAsync(toDoListAdminDto);
+        var databaseToDoList = await _toDoListAdminService.EditAsync(toDoListAdminDto);
 
-        return Ok(databaseEntityNamePlaceholder);
+        return Ok(databaseToDoList);
     }
 
     [HttpGet]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto>?> GetAll(string userName)
+    public async Task<ActionResult<ToDoListAdminDto>?> GetAll(string userName)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -91,7 +91,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminService 
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> GetById(string userName, Guid id)
+    public async Task<ActionResult<ToDoListAdminDto?>> GetById(string userName, Guid id)
     {
         var userIdentityName = User.Identity?.Name;
 
