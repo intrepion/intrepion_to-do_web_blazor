@@ -7,6 +7,7 @@ public class ToDoItemAdminDto
 
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public ToDoList? ListItems { get; set; }
     // DtoPropertyPlaceholder
     // public string Title { get; set; } = string.Empty;
     // public ToDoList? ToDoList { get; set; }
