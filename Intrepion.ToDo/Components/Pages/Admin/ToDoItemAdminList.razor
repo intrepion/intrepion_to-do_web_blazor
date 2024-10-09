@@ -44,7 +44,8 @@
 
               <td>@toDoItem.IsCompleted</td>
               <td>@toDoItem.Ordering</td>
-          @* ListItemCodePlaceholder *@
+          <td>@toDoItem.ListItems?.Title</td>
+              @* ListItemCodePlaceholder *@
 
               <td>
                 <a href="@("/admin/to-do-item-edit/" + toDoItem.Id)">Edit</a>
