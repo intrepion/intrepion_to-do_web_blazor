@@ -28,6 +28,7 @@ public class ToDoItemAdminEditModel
             IsCompleted = toDoItemAdminDto.IsCompleted,
             Ordering = toDoItemAdminDto.Ordering,
             ListItems = toDoItemAdminDto.ListItems,
+            Title = toDoItemAdminDto.Title,
             // DtoToModelPlaceholder
             // Title = toDoItemAdminDto.Title,
             // ToDoList = toDoItemAdminDto.ToDoList,
