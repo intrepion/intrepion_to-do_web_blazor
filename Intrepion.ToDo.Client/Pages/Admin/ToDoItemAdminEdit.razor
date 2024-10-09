@@ -46,6 +46,30 @@
           </label>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <label>
+            List Items:
+            <select @onchange="ListItemsOnChange">
+              <option>Select list items...</option>
+                @if (listItemsList != null)
+                {
+                  @foreach (var listItems in listItemsList)
+                  {
+                    if (toDoItemAdminEditModel.ListItems != null && toDoItemAdminEditModel.ListItems.Id.Equals(listItems.Id))
+                    {
+                      <option value="@listItems.Id" selected>@listItems?.Title</option>
+                    }
+                    else
+                    {
+                      <option value="@listItems.Id">@listItems?.Title</option>
+                    }
+                  }
+                }
+              </select>
+          </label>
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
