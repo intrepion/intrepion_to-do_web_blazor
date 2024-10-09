@@ -8,6 +8,7 @@ public class ToDoItemAdminEditModel
 
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public ToDoList? ListItems { get; set; }
     // JustModelPropertyPlaceholder
     // public string Title { get; set; } = string.Empty;
     // public ToDoList? ToDoList { get; set; }
