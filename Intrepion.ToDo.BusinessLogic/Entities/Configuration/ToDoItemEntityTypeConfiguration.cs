@@ -9,6 +9,9 @@ public class ToDoItemEntityTypeConfiguration : IEntityTypeConfiguration<ToDoItem
     {
         builder.ToTable("ToDoItems", x => x.IsTemporal());
 
+        builder.HasOne(x => x.ToDoList)
+            .WithMany(x => x.ListItems)
+            .OnDelete(DeleteBehavior.Restrict);
         // EntityConfigurationCodePlaceholder
         // builder.Property(x => x.PropertyNamePlaceholder);
 
