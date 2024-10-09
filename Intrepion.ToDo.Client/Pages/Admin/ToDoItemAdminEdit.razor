@@ -115,7 +115,12 @@
 
     await base.OnInitializedAsync();
 
-    @* OnInitializedCodePlaceholder *@
+    var listItemsListResult = await ToDoListAdminService.GetAllAsync(userName);
+        if (listItemsListResult != null)
+        {
+            listItemsList = listItemsListResult;
+        }
+        @* OnInitializedCodePlaceholder *@
   }
 
   protected override async Task OnParametersSetAsync()
