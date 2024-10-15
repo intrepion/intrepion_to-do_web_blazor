@@ -41,6 +41,7 @@ public class ToDoItemAdminDto
 
             IsCompleted = toDoItemAdminDto.IsCompleted,
             Ordering = toDoItemAdminDto.Ordering,
+            ToDoList = toDoItemAdminDto.ToDoList,
             // DtoToEntityPropertyPlaceholder
             // Title = toDoItemAdminDto.Title,
             // ToDoList = toDoItemAdminDto.ToDoList,
