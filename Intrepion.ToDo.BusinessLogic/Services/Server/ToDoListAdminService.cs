@@ -102,6 +102,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
         databaseToDoList.ApplicationUserUpdatedBy = user;
 
         databaseToDoList.Title = toDoListAdminDto.Title;
+        databaseToDoList.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
         // databaseToDoList.Title = toDoListAdminDto.Title;
         // databaseToDoList.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
