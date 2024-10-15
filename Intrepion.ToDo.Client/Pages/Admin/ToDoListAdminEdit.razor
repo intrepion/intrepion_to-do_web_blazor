@@ -3,7 +3,7 @@
 @rendermode InteractiveAuto
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject NavigationManager NavigationManager
-@inject IEntityNamePlaceholderAdminRepository EntityNamePlaceholderAdminRepository
+@inject IToDoListAdminRepository ToDoListAdminRepository
 @attribute [Authorize(Roles = "Admin")]
 
 @* InjectionCodePlaceholder *@
@@ -58,7 +58,7 @@
 @code {
   [Parameter]
   public Guid Id { get; set; }
-  EntityNamePlaceholderAdminEditModel toDoListAdminEditModel { get; set; } = new EntityNamePlaceholderAdminEditModel();
+  ToDoListAdminEditModel toDoListAdminEditModel { get; set; } = new ToDoListAdminEditModel();
 
   @* ListDeclarationCodePlaceholder *@
 
@@ -92,15 +92,15 @@
       return;
     }
 
-    var databaseEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminRepository.GetByIdAsync(userName, Id);
+    var databaseToDoListAdminDto = await ToDoListAdminRepository.GetByIdAsync(userName, Id);
 
-    if (databaseEntityNamePlaceholderAdminDto == null)
+    if (databaseToDoListAdminDto == null)
     {
-      toDoListAdminEditModel = new EntityNamePlaceholderAdminEditModel();
+      toDoListAdminEditModel = new ToDoListAdminEditModel();
     }
     else
     {
-      toDoListAdminEditModel = EntityNamePlaceholderAdminEditModel.FromEntityNamePlaceholderAdminDto(databaseEntityNamePlaceholderAdminDto);
+      toDoListAdminEditModel = ToDoListAdminEditModel.FromToDoListAdminDto(databaseToDoListAdminDto);
     }
   }
 
@@ -121,23 +121,23 @@
       return;
     } *@
 
-    var toDoListAdminDto = EntityNamePlaceholderAdminEditModel.ToEntityNamePlaceholderAdminDto(toDoListAdminEditModel);
+    var toDoListAdminDto = ToDoListAdminEditModel.ToToDoListAdminDto(toDoListAdminEditModel);
     toDoListAdminDto.ApplicationUserName = userName;
 
     if (Id.Equals(Guid.Empty))
     {
-      var newEntityNamePlaceholderAdminDto = await EntityNamePlaceholderAdminRepository.AddAsync(toDoListAdminDto);
+      var newToDoListAdminDto = await ToDoListAdminRepository.AddAsync(toDoListAdminDto);
 
-      if (newEntityNamePlaceholderAdminDto == null)
+      if (newToDoListAdminDto == null)
       {
         return;
       }
 
-      NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newEntityNamePlaceholderAdminDto.Id}");
+      NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-edit/{newToDoListAdminDto.Id}");
     }
     else
     {
-      await EntityNamePlaceholderAdminRepository.EditAsync(toDoListAdminDto);
+      await ToDoListAdminRepository.EditAsync(toDoListAdminDto);
     }
   }
 
@@ -156,7 +156,7 @@
       return;
     }
 
-    await EntityNamePlaceholderAdminRepository.DeleteAsync(userName, Id);
+    await ToDoListAdminRepository.DeleteAsync(userName, Id);
     NavigationManager.NavigateTo($"/admin/UrlNamePlaceholder-list");
   }
 
