@@ -103,6 +103,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
 
         databaseToDoItem.ToDoList = toDoItemAdminDto.ToDoList;
         databaseToDoItem.Title = toDoItemAdminDto.Title;
+        databaseToDoItem.NormalizedTitle = toDoItemAdminDto.Title.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
         // databaseToDoItem.Title = toDoItemAdminDto.Title;
         // databaseToDoItem.NormalizedTitle = toDoItemAdminDto.Title.ToUpperInvariant();
