@@ -21,6 +21,7 @@ public class ToDoItemAdminDto
         {
             Id = toDoItem.Id,
 
+            IsCompleted = toDoItem.IsCompleted,
             // EntityToDtoPlaceholder
             // Title = toDoItem.Title,
             // ToDoList = toDoItem.ToDoList,
