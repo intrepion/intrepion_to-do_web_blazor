@@ -30,6 +30,14 @@
   <article>
     <EditForm class="container" Model="toDoListAdminEditModel" OnSubmit="HandleSubmit">
 
+      <div class="row">
+        <div class="col">
+          <label>
+            Title:
+            <InputText @bind-Value="toDoListAdminEditModel.Title" data-testid="toDoListAdminEditTitle" />
+          </label>
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
