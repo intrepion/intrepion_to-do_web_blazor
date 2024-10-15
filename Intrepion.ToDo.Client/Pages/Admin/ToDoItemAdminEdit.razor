@@ -30,6 +30,14 @@
   <article>
     <EditForm class="container" Model="toDoItemAdminEditModel" OnSubmit="HandleSubmit">
 
+      <div class="row">
+        <div class="col">
+          <label>
+            IsCompleted:
+            <InputCheckbox @bind-Value="toDoItemAdminEditModel.IsCompleted" data-testid="toDoItemAdminEditIsCompleted" />
+          </label>
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
