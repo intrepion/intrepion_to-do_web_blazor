@@ -100,6 +100,7 @@ public class ToDoItemAdminService(ApplicationDbContext applicationDbContext) : I
 
         databaseToDoItem.ApplicationUserUpdatedBy = user;
 
+        databaseToDoItem.ToDoList = toDoItemAdminDto.ToDoList;
         // EditDatabasePropertyCodePlaceholder
         // databaseToDoItem.Title = toDoItemAdminDto.Title;
         // databaseToDoItem.NormalizedTitle = toDoItemAdminDto.Title.ToUpperInvariant();
