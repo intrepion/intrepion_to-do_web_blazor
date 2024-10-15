@@ -140,7 +140,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
         return await _applicationDbContext.ToDoLists
 
             .Include(x => x.ToDoItems)
-    // IncludeTableCodePlaceholder
+            // IncludeTableCodePlaceholder
 
             .ToListAsync();
     }
