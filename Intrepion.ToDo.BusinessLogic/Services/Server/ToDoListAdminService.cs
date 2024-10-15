@@ -31,6 +31,7 @@ public class ToDoListAdminService(ApplicationDbContext applicationDbContext) : I
 
         var toDoList = ToDoListAdminDto.ToToDoList(user, toDoListAdminDto);
 
+        toDoList.NormalizedTitle = toDoListAdminDto.Title.ToUpperInvariant();
         // AddDatabasePropertyCodePlaceholder
 
         var result = await _applicationDbContext.ToDoLists.AddAsync(toDoList);
