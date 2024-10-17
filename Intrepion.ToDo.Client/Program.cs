@@ -18,6 +18,7 @@ builder.Services.AddScoped<IApplicationRoleAdminRepository, ApplicationRoleClien
 builder.Services.AddScoped<IApplicationUserAdminRepository, ApplicationUserClientAdminRepository>();
 
 builder.Services.AddScoped<IToDoItemAdminRepository, ToDoItemClientAdminRepository>();
+builder.Services.AddScoped<IToDoListAdminRepository, ToDoListClientAdminRepository>();
 // RegisterClientServiceCodePlaceholder
 
 await builder.Build().RunAsync();
