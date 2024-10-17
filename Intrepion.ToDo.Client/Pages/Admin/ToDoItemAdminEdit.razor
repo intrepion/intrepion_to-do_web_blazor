@@ -115,6 +115,11 @@
 
     await base.OnInitializedAsync();
 
+    var toDoListAdminDtoListResult = await ToDoListAdminRepository.GetAllAsync(userName);
+    if (toDoListAdminDtoListResult != null)
+    {
+        toDoListAdminDtoList = toDoListAdminDtoListResult;
+    }
     @* OnInitializedCodePlaceholder *@
   }
 
