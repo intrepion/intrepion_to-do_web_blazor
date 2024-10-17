@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Repositories;
-using ApplicationNamePlaceholder.BusinessLogic.Repositories.Client;
-using ApplicationNamePlaceholder.Client;
+﻿using Intrepion.ToDo.BusinessLogic.Repositories;
+using Intrepion.ToDo.BusinessLogic.Repositories.Client;
+using Intrepion.ToDo.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
