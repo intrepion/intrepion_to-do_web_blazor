@@ -22,6 +22,7 @@ public class ToDoItemAdminEditModel
             Id = toDoItemAdminDto.Id,
 
             IsCompleted = toDoItemAdminDto.IsCompleted,
+            Ordering = toDoItemAdminDto.Ordering,
             // DtoToModelPlaceholder
         };
     }
