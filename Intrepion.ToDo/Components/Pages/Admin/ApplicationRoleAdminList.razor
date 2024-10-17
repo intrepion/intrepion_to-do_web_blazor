@@ -1,0 +1,75 @@
+@page "/admin/application-role-list"
+@rendermode InteractiveServer
+@inject IApplicationRoleAdminRepository ApplicationRoleAdminRepository
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@attribute [Authorize(Roles = "Admin")]
+@attribute [StreamRendering]
+
+<PageTitle>Application Role List</PageTitle>
+
+<section>
+  <h1>Application Role List</h1>
+  <article>
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (applicationRoleAdminDtos == null)
+        {
+          <tr>
+            <td colspan="3">Loading...</td>
+          </tr>
+        }
+        else if (applicationRoleAdminDtos.Count == 0)
+        {
+          <tr>
+            <td colspan="3">No application roles found.</td>
+          </tr>
+        }
+        else
+        {
+          @foreach (var applicationRoleAdminDto in applicationRoleAdminDtos)
+          {
+            <tr>
+              @if (applicationRoleAdminDto == null)
+              {
+                <td colspan="3">Application role is null.</td>
+              }
+              else
+              {
+                <td>@applicationRoleAdminDto.Id</td>
+                <td>@applicationRoleAdminDto.Name</td>
+                <td>
+                  <a href="@("/admin/application-role-edit/" + applicationRoleAdminDto?.Id)">Edit</a>
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+    <a href="/admin/application-role-edit">Create</a>
+  </article>
+</section>
+
+@code {
+  List<ApplicationRoleAdminDto>? applicationRoleAdminDtos;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+    var userName = authState.User.Identity?.Name;
+
+    if (userName == null)
+    {
+      return;
+    }
+
+    applicationRoleAdminDtos = await ApplicationRoleAdminRepository.GetAllAsync(userName);
+  }
+}
