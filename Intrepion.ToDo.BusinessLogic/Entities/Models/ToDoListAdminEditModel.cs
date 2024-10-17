@@ -36,6 +36,7 @@ public class ToDoListAdminEditModel
         {
             Id = toDoListAdminEditModel.Id,
 
+            Title = toDoListAdminEditModel.Title,
             // ModelToDtoPlaceholder
         };
     }
