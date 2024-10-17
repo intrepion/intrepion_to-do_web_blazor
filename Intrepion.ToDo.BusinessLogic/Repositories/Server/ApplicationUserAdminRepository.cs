@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ApplicationNamePlaceholder.BusinessLogic.Data;
-using ApplicationNamePlaceholder.BusinessLogic.Entities;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos;
+using Intrepion.ToDo.BusinessLogic.Data;
+using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Repositories.Server;
+namespace Intrepion.ToDo.BusinessLogic.Repositories.Server;
 
 public class ApplicationUserAdminRepository(ApplicationDbContext applicationDbContext) : IApplicationUserAdminRepository
 {
