@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Repositories;
+namespace Intrepion.ToDo.BusinessLogic.Repositories;
 
 public interface IApplicationUserAdminRepository
 {
