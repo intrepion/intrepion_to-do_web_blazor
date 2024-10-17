@@ -21,13 +21,13 @@
         </tr>
       </thead>
       <tbody>
-        @if (TableLowercaseNamePlaceholderAdminDto == null)
+        @if (toDoListsAdminDto == null)
         {
           <tr>
             @* LoadingCountCodePlaceholder *@
           </tr>
         }
-        else if (TableLowercaseNamePlaceholderAdminDto.Count == 0)
+        else if (toDoListsAdminDto.Count == 0)
         {
           <tr>
             @* ZeroCountCodePlaceholder *@
@@ -35,7 +35,7 @@
         }
         else
         {
-          @foreach (var toDoListAdminDto in TableLowercaseNamePlaceholderAdminDto)
+          @foreach (var toDoListAdminDto in toDoListsAdminDto)
           {
             <tr>
               <td>@toDoListAdminDto.Id</td>
@@ -55,7 +55,7 @@
 </section>
 
 @code {
-  List<ToDoListAdminDto>? TableLowercaseNamePlaceholderAdminDto = null;
+  List<ToDoListAdminDto>? toDoListsAdminDto = null;
 
   protected override async Task OnInitializedAsync()
   {
@@ -67,6 +67,6 @@
       return;
     }
 
-    TableLowercaseNamePlaceholderAdminDto = await ToDoListAdminRepository.GetAllAsync(userName);
+    toDoListsAdminDto = await ToDoListAdminRepository.GetAllAsync(userName);
   }
 }
