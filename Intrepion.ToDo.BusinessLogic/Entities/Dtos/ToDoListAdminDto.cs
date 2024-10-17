@@ -5,6 +5,7 @@ public class ToDoListAdminDto
     public string ApplicationUserName { get; set; } = string.Empty;
     public Guid Id { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     // DtoPropertyPlaceholder
 
     public static ToDoListAdminDto FromToDoList(ToDoList? toDoList)
