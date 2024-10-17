@@ -23,6 +23,7 @@ public class ToDoItemAdminDto
 
             IsCompleted = toDoItem.IsCompleted,
             Ordering = toDoItem.Ordering,
+            ToDoList = toDoItem.ToDoList,
             // EntityToDtoPlaceholder
         };
     }
