@@ -6,6 +6,7 @@ public class ToDoListAdminEditModel
 {
     public Guid Id { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     // JustModelPropertyPlaceholder
 
     public static ToDoListAdminEditModel FromToDoListAdminDto(ToDoListAdminDto toDoListAdminDto)
