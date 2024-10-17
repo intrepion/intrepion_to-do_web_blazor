@@ -6,6 +6,7 @@ public class ToDoItemAdminEditModel
 {
     public Guid Id { get; set; }
 
+    public bool IsCompleted { get; set; }
     // JustModelPropertyPlaceholder
 
     public static ToDoItemAdminEditModel FromToDoItemAdminDto(ToDoItemAdminDto toDoItemAdminDto)
