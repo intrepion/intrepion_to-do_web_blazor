@@ -34,6 +34,7 @@ public class ToDoItemAdminDto
             Id = toDoItemAdminDto.Id,
 
             IsCompleted = toDoItemAdminDto.IsCompleted,
+            Ordering = toDoItemAdminDto.Ordering,
             // DtoToEntityPropertyPlaceholder
         };
     }
