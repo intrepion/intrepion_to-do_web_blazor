@@ -37,6 +37,7 @@ public class ToDoItemAdminDto
 
             IsCompleted = toDoItemAdminDto.IsCompleted,
             Ordering = toDoItemAdminDto.Ordering,
+            ToDoList = toDoItemAdminDto.ToDoList,
             // DtoToEntityPropertyPlaceholder
         };
     }
