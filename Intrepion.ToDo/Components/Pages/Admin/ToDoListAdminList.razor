@@ -1,7 +1,7 @@
 @page "/admin/UrlNamePlaceholder-list"
 @rendermode InteractiveServer
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
-@inject IEntityNamePlaceholderAdminRepository EntityNamePlaceholderAdminRepository
+@inject IToDoListAdminRepository ToDoListAdminRepository
 @attribute [StreamRendering]
 @attribute [Authorize(Roles = "Admin")]
 
@@ -55,7 +55,7 @@
 </section>
 
 @code {
-  List<EntityNamePlaceholderAdminDto>? TableLowercaseNamePlaceholderAdminDto = null;
+  List<ToDoListAdminDto>? TableLowercaseNamePlaceholderAdminDto = null;
 
   protected override async Task OnInitializedAsync()
   {
@@ -67,6 +67,6 @@
       return;
     }
 
-    TableLowercaseNamePlaceholderAdminDto = await EntityNamePlaceholderAdminRepository.GetAllAsync(userName);
+    TableLowercaseNamePlaceholderAdminDto = await ToDoListAdminRepository.GetAllAsync(userName);
   }
 }
