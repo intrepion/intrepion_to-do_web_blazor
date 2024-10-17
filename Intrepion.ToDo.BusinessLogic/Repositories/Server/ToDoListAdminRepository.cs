@@ -29,7 +29,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
 
         // AddDatabasePropertyCodePlaceholder
 
-        var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoList);
+        var result = await _applicationDbContext.ToDoLists.AddAsync(toDoList);
         var databaseToDoListAdminDto = ToDoListAdminDto.FromToDoList(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
@@ -50,7 +50,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (databaseToDoList == null)
         {
@@ -81,7 +81,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoList = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoListAdminDto.Id);
+        var databaseToDoList = await _applicationDbContext.ToDoLists.FindAsync(toDoListAdminDto.Id);
 
         if (databaseToDoList == null)
         {
@@ -113,7 +113,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        return await _applicationDbContext.TableNamePlaceholder
+        return await _applicationDbContext.ToDoLists
 
             // IncludeTableCodePlaceholder
 
@@ -135,7 +135,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var result = await _applicationDbContext.ToDoLists.FindAsync(id);
 
         if (result == null)
         {
