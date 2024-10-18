@@ -24,6 +24,7 @@ public partial class ToDoItemAdminPages : PageTest
         await Expect(Page).ToHaveTitleAsync("To Do Item Modification");
 
         await Page.GetByTestId("toDoItemAdminEditIsCompleted").CheckAsync();
+        await Page.GetByTestId("toDoItemAdminEditOrdering").FillAsync("2");
         // ModifyPropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Modify" }).ClickAsync();
