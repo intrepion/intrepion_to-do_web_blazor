@@ -1,0 +1,48 @@
+@page "/todolists/details"
+@using Microsoft.EntityFrameworkCore
+@using Intrepion.ToDo.BusinessLogic.Entities
+@inject IDbContextFactory<Intrepion.ToDo.BusinessLogic.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>ToDoList</h2>
+    <hr />
+    @if (todolist is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Title</dt>
+            <dd class="col-sm-10">@todolist.Title</dd>
+            <dt class="col-sm-2">NormalizedTitle</dt>
+            <dd class="col-sm-10">@todolist.NormalizedTitle</dd>
+        </dl>
+        <div>
+            <a href="@($"/todolists/edit?id={todolist.Id}")">Edit</a> |
+            <a href="@($"/todolists")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private ToDoList? todolist;
+
+    [SupplyParameterFromQuery]
+    private Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        todolist = await context.ToDoLists.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (todolist is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

@@ -1,0 +1,94 @@
+@page "/todolists/edit"
+@using Microsoft.EntityFrameworkCore
+@using Intrepion.ToDo.BusinessLogic.Entities
+@inject IDbContextFactory<Intrepion.ToDo.BusinessLogic.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>ToDoList</h2>
+<hr />
+@if (ToDoList is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="ToDoList" OnValidSubmit="UpdateToDoList" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="ToDoList.Id" value="@ToDoList.Id" />
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <InputText id="title" @bind-Value="ToDoList.Title" class="form-control" />
+                    <ValidationMessage For="() => ToDoList.Title" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="normalizedtitle" class="form-label">NormalizedTitle:</label>
+                    <InputText id="normalizedtitle" @bind-Value="ToDoList.NormalizedTitle" class="form-control" />
+                    <ValidationMessage For="() => ToDoList.NormalizedTitle" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/todolists">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private Guid Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private ToDoList? ToDoList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        ToDoList ??= await context.ToDoLists.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (ToDoList is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateToDoList()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(ToDoList!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ToDoListExists(ToDoList!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/todolists");
+    }
+
+    private bool ToDoListExists(Guid id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.ToDoLists.Any(e => e.Id == id);
+    }
+}
