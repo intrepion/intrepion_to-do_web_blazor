@@ -1,0 +1,39 @@
+@page "/todoitems"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Intrepion.ToDo.BusinessLogic.Entities
+@using Intrepion.ToDo.BusinessLogic.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<Intrepion.ToDo.BusinessLogic.Data.ApplicationDbContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="todoitems/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.ToDoItems">
+    <PropertyColumn Property="todoitem => todoitem.IsCompleted" />
+    <PropertyColumn Property="todoitem => todoitem.Ordering" />
+    <PropertyColumn Property="todoitem => todoitem.Title" />
+    <PropertyColumn Property="todoitem => todoitem.NormalizedTitle" />
+
+    <TemplateColumn Context="todoitem">
+        <a href="@($"todoitems/edit?id={todoitem.Id}")">Edit</a> |
+        <a href="@($"todoitems/details?id={todoitem.Id}")">Details</a> |
+        <a href="@($"todoitems/delete?id={todoitem.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ApplicationDbContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

@@ -1,0 +1,104 @@
+@page "/todoitems/edit"
+@using Microsoft.EntityFrameworkCore
+@using Intrepion.ToDo.BusinessLogic.Entities
+@inject IDbContextFactory<Intrepion.ToDo.BusinessLogic.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>ToDoItem</h2>
+<hr />
+@if (ToDoItem is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="ToDoItem" OnValidSubmit="UpdateToDoItem" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="ToDoItem.Id" value="@ToDoItem.Id" />
+                <div class="mb-3">
+                    <label for="iscompleted" class="form-label">IsCompleted:</label>
+                    <InputCheckbox id="iscompleted" @bind-Value="ToDoItem.IsCompleted" class="form-check-input" />
+                    <ValidationMessage For="() => ToDoItem.IsCompleted" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="ordering" class="form-label">Ordering:</label>
+                    <InputNumber id="ordering" @bind-Value="ToDoItem.Ordering" class="form-control" />
+                    <ValidationMessage For="() => ToDoItem.Ordering" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <InputText id="title" @bind-Value="ToDoItem.Title" class="form-control" />
+                    <ValidationMessage For="() => ToDoItem.Title" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="normalizedtitle" class="form-label">NormalizedTitle:</label>
+                    <InputText id="normalizedtitle" @bind-Value="ToDoItem.NormalizedTitle" class="form-control" />
+                    <ValidationMessage For="() => ToDoItem.NormalizedTitle" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/todoitems">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private Guid Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private ToDoItem? ToDoItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        ToDoItem ??= await context.ToDoItems.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (ToDoItem is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateToDoItem()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(ToDoItem!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ToDoItemExists(ToDoItem!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/todoitems");
+    }
+
+    private bool ToDoItemExists(Guid id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.ToDoItems.Any(e => e.Id == id);
+    }
+}

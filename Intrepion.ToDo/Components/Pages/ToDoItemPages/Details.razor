@@ -1,0 +1,52 @@
+@page "/todoitems/details"
+@using Microsoft.EntityFrameworkCore
+@using Intrepion.ToDo.BusinessLogic.Entities
+@inject IDbContextFactory<Intrepion.ToDo.BusinessLogic.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>ToDoItem</h2>
+    <hr />
+    @if (todoitem is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">IsCompleted</dt>
+            <dd class="col-sm-10">@todoitem.IsCompleted</dd>
+            <dt class="col-sm-2">Ordering</dt>
+            <dd class="col-sm-10">@todoitem.Ordering</dd>
+            <dt class="col-sm-2">Title</dt>
+            <dd class="col-sm-10">@todoitem.Title</dd>
+            <dt class="col-sm-2">NormalizedTitle</dt>
+            <dd class="col-sm-10">@todoitem.NormalizedTitle</dd>
+        </dl>
+        <div>
+            <a href="@($"/todoitems/edit?id={todoitem.Id}")">Edit</a> |
+            <a href="@($"/todoitems")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private ToDoItem? todoitem;
+
+    [SupplyParameterFromQuery]
+    private Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        todoitem = await context.ToDoItems.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (todoitem is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}
