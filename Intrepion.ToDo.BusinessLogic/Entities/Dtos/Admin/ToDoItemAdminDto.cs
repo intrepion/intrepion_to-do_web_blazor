@@ -6,6 +6,7 @@ public class ToDoItemAdminDto
     public Guid Id { get; set; }
 
     public bool IsCompleted { get; set; }
+    public int Ordering { get; set; }
     // DtoPropertyPlaceholder
 
     public static ToDoItemAdminDto FromToDoItem(ToDoItem? toDoItem)
