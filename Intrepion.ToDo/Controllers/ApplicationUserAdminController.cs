@@ -1,8 +1,8 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
-using ApplicationNamePlaceholder.BusinessLogic.Repositories.Admin;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos.Admin;
+using Intrepion.ToDo.BusinessLogic.Repositories.Admin;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApplicationNamePlaceholder.Controllers;
+namespace Intrepion.ToDo.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
