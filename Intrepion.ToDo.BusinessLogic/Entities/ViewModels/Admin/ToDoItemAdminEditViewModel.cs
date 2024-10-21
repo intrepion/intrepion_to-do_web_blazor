@@ -24,6 +24,7 @@ public class ToDoItemAdminEditViewModel
 
             IsCompleted = toDoItemAdminDto.IsCompleted,
             Ordering = toDoItemAdminDto.Ordering,
+            ToDoList = toDoItemAdminDto.ToDoList,
             // DtoToModelPlaceholder
         };
     }
