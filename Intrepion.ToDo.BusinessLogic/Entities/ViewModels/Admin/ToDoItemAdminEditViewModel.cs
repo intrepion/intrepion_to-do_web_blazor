@@ -45,6 +45,7 @@ public class ToDoItemAdminEditViewModel
             IsCompleted = toDoItemAdminEditViewModel.IsCompleted,
             Ordering = toDoItemAdminEditViewModel.Ordering,
             ToDoList = toDoItemAdminEditViewModel.ToDoList,
+            Title = toDoItemAdminEditViewModel.Title,
             // ModelToDtoPlaceholder
         };
     }
