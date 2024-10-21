@@ -8,6 +8,7 @@ public class ToDoItemAdminEditViewModel
 
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public ToDoList? ToDoList { get; set; }
     // JustModelPropertyPlaceholder
 
     public static ToDoItemAdminEditViewModel FromToDoItemAdminDto(ToDoItemAdminDto toDoItemAdminDto)
