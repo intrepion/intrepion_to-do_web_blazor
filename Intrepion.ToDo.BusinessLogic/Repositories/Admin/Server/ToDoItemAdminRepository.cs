@@ -26,6 +26,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
 
         var toDoItem = ToDoItemAdminDto.ToToDoItem(user, toDoItemAdminDto);
 
+        toDoItem.NormalizedTitle = toDoItemAdminDto.Title.ToUpperInvariant();
         // AddDatabasePropertyCodePlaceholder
 
         var result = await _applicationDbContext.ToDoItems.AddAsync(toDoItem);
