@@ -36,6 +36,7 @@ public class ToDoListAdminEditViewModel
         {
             Id = toDoListAdminEditViewModel.Id,
 
+            Title = toDoListAdminEditViewModel.Title,
             // ModelToDtoPlaceholder
         };
     }
