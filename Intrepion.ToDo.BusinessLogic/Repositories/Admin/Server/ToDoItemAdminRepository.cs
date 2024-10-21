@@ -28,7 +28,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
 
         // AddDatabasePropertyCodePlaceholder
 
-        var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoItem);
+        var result = await _applicationDbContext.ToDoItems.AddAsync(toDoItem);
         var databaseToDoItemAdminDto = ToDoItemAdminDto.FromToDoItem(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
@@ -49,7 +49,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (databaseToDoItem == null)
         {
@@ -80,7 +80,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoItemAdminDto.Id);
+        var databaseToDoItem = await _applicationDbContext.ToDoItems.FindAsync(toDoItemAdminDto.Id);
 
         if (databaseToDoItem == null)
         {
@@ -112,7 +112,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        return await _applicationDbContext.TableNamePlaceholder
+        return await _applicationDbContext.ToDoItems
 
             // IncludeTableCodePlaceholder
 
@@ -134,7 +134,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
-        var result = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var result = await _applicationDbContext.ToDoItems.FindAsync(id);
 
         if (result == null)
         {
