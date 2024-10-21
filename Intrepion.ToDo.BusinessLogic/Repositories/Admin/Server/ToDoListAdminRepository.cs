@@ -91,6 +91,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
 
         databaseToDoList.ApplicationUserUpdatedBy = user;
 
+        databaseToDoList.Title = toDoListAdminDto.Title;
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
