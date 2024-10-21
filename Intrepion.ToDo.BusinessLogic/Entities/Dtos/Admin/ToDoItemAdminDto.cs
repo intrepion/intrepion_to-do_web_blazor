@@ -7,6 +7,7 @@ public class ToDoItemAdminDto
 
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public ToDoList? ToDoList { get; set; }
     // DtoPropertyPlaceholder
 
     public static ToDoItemAdminDto FromToDoItem(ToDoItem? toDoItem)
