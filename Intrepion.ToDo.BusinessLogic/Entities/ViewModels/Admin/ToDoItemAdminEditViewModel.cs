@@ -1,6 +1,6 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
+﻿using Intrepion.ToDo.BusinessLogic.Entities.Dtos.Admin;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities.ViewModels.Admin;
+namespace Intrepion.ToDo.BusinessLogic.Entities.ViewModels.Admin;
 
 public class ToDoItemAdminEditViewModel
 {
