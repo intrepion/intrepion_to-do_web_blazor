@@ -92,6 +92,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
         databaseToDoItem.ApplicationUserUpdatedBy = user;
 
         databaseToDoItem.ToDoList = toDoItemAdminDto?.ToDoList;
+        databaseToDoItem.Title = toDoItemAdminDto?.Title ?? string.Empty;
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
