@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos.Admin;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Repositories.Admin.Client;
+namespace Intrepion.ToDo.BusinessLogic.Repositories.Admin.Client;
 
 public class ToDoItemClientAdminRepository(HttpClient httpClient) : IToDoItemAdminRepository
 {
