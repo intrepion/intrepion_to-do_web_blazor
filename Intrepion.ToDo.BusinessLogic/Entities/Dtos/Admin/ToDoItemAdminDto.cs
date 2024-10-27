@@ -19,6 +19,7 @@ public class ToDoItemAdminDto
         {
             Id = toDoItem.Id,
 
+            IsCompleted = toDoItem.IsCompleted,
             // EntityToDtoPlaceholder
         };
     }
