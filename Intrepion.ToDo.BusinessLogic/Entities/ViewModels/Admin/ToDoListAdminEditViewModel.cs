@@ -2,20 +2,20 @@
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Entities.ViewModels.Admin;
 
-public class EntityNamePlaceholderAdminEditViewModel
+public class ToDoListAdminEditViewModel
 {
     public Guid Id { get; set; }
 
     // JustModelPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminEditViewModel FromEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public static ToDoListAdminEditViewModel FromToDoListAdminDto(ToDoListAdminDto toDoListAdminDto)
     {
         if (toDoListAdminDto == null)
         {
-            return new EntityNamePlaceholderAdminEditViewModel();
+            return new ToDoListAdminEditViewModel();
         }
 
-        return new EntityNamePlaceholderAdminEditViewModel
+        return new ToDoListAdminEditViewModel
         {
             Id = toDoListAdminDto.Id,
 
@@ -23,14 +23,14 @@ public class EntityNamePlaceholderAdminEditViewModel
         };
     }
 
-    public static EntityNamePlaceholderAdminDto ToEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminEditViewModel toDoListAdminEditViewModel)
+    public static ToDoListAdminDto ToToDoListAdminDto(ToDoListAdminEditViewModel toDoListAdminEditViewModel)
     {
         if (toDoListAdminEditViewModel == null)
         {
-            return new EntityNamePlaceholderAdminDto();
+            return new ToDoListAdminDto();
         }
 
-        return new EntityNamePlaceholderAdminDto
+        return new ToDoListAdminDto
         {
             Id = toDoListAdminEditViewModel.Id,
 
