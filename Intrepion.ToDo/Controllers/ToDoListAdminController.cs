@@ -6,12 +6,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
-public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminRepository toDoListAdminRepository) : ControllerBase
+public class ToDoListController(IToDoListAdminRepository toDoListAdminRepository) : ControllerBase
 {
-    private readonly IEntityNamePlaceholderAdminRepository _toDoListAdminRepository = toDoListAdminRepository;
+    private readonly IToDoListAdminRepository _toDoListAdminRepository = toDoListAdminRepository;
 
     [HttpPost]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Add(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ActionResult<ToDoListAdminDto?>> Add(ToDoListAdminDto toDoListAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -25,9 +25,9 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholderAdminDto = await _toDoListAdminRepository.AddAsync(toDoListAdminDto);
+        var databaseToDoListAdminDto = await _toDoListAdminRepository.AddAsync(toDoListAdminDto);
 
-        return Ok(databaseEntityNamePlaceholderAdminDto);
+        return Ok(databaseToDoListAdminDto);
     }
 
     [HttpDelete("{id}")]
@@ -51,7 +51,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
     }
 
     [HttpPut]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Edit(EntityNamePlaceholderAdminDto toDoListAdminDto)
+    public async Task<ActionResult<ToDoListAdminDto?>> Edit(ToDoListAdminDto toDoListAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -65,13 +65,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholder = await _toDoListAdminRepository.EditAsync(toDoListAdminDto);
+        var databaseToDoList = await _toDoListAdminRepository.EditAsync(toDoListAdminDto);
 
-        return Ok(databaseEntityNamePlaceholder);
+        return Ok(databaseToDoList);
     }
 
     [HttpGet]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto>?> GetAll(string userName)
+    public async Task<ActionResult<ToDoListAdminDto>?> GetAll(string userName)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -91,7 +91,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> GetById(string userName, Guid id)
+    public async Task<ActionResult<ToDoListAdminDto?>> GetById(string userName, Guid id)
     {
         var userIdentityName = User.Identity?.Name;
 
