@@ -100,7 +100,8 @@
   public Guid Id { get; set; }
   ToDoItemAdminEditViewModel toDoItemAdminEditViewModel { get; set; } = new ToDoItemAdminEditViewModel();
 
-  @* ListDeclarationCodePlaceholder *@
+  List<ToDoListAdminDto> toDoListAdminDtos { get; set; } = [];
+    @* ListDeclarationCodePlaceholder *@
 
   protected override async Task OnInitializedAsync()
   {
