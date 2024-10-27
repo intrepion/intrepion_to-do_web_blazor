@@ -31,6 +31,7 @@ public class ToDoItemAdminDto
             ApplicationUserUpdatedBy = applicationUser ?? new ApplicationUser(),
             Id = toDoItemAdminDto?.Id ?? new Guid(),
 
+            IsCompleted = toDoItemAdminDto?.IsCompleted ?? false,
             // DtoToEntityPropertyPlaceholder
         };
     }
