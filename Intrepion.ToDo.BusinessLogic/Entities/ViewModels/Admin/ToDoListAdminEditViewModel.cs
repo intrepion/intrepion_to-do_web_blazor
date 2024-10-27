@@ -20,6 +20,7 @@ public class ToDoListAdminEditViewModel
         {
             Id = toDoListAdminDto.Id,
 
+            Title = toDoListAdminDto?.Title ?? string.Empty,
             // DtoToModelPlaceholder
         };
     }
