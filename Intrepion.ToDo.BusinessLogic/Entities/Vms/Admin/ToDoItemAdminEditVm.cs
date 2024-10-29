@@ -21,6 +21,7 @@ public class ToDoItemAdminEditVm
         {
             Id = toDoItemAdminDto.Id,
 
+            IsCompleted = toDoItemAdminDto?.IsCompleted ?? false,
             // DtoToModelPlaceholder
         };
     }
