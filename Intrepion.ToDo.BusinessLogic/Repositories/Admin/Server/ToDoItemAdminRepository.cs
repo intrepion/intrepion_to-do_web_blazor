@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Repositories.Admin.Server;
 
-public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicationDbContext) : IEntityNamePlaceholderAdminRepository
+public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) : IToDoItemAdminRepository
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<EntityNamePlaceholderAdminDto?> AddAsync(EntityNamePlaceholderAdminDto toDoItemAdminDto)
+    public async Task<ToDoItemAdminDto?> AddAsync(ToDoItemAdminDto toDoItemAdminDto)
     {
         if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
         {
@@ -24,15 +24,15 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
 
         // AddRequiredPropertyCodePlaceholder
 
-        var toDoItem = EntityNamePlaceholderAdminDto.ToEntityNamePlaceholder(user, toDoItemAdminDto);
+        var toDoItem = ToDoItemAdminDto.ToToDoItem(user, toDoItemAdminDto);
 
         // AddDatabasePropertyCodePlaceholder
 
         var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoItem);
-        var databaseEntityNamePlaceholderAdminDto = EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(result.Entity);
+        var databaseToDoItemAdminDto = ToDoItemAdminDto.FromToDoItem(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
-        return databaseEntityNamePlaceholderAdminDto;
+        return databaseToDoItemAdminDto;
     }
 
     public async Task<bool> DeleteAsync(string userName, Guid id)
@@ -49,24 +49,24 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
+        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoItem == null)
         {
             return false;
         }
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoItem.ApplicationUserUpdatedBy = user;
         await _applicationDbContext.SaveChangesAsync();
 
-        _applicationDbContext.Remove(databaseEntityNamePlaceholder);
+        _applicationDbContext.Remove(databaseToDoItem);
 
         await _applicationDbContext.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> EditAsync(EntityNamePlaceholderAdminDto toDoItemAdminDto)
+    public async Task<ToDoItemAdminDto?> EditAsync(ToDoItemAdminDto toDoItemAdminDto)
     {
         if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
         {
@@ -80,16 +80,16 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoItemAdminDto.Id);
+        var databaseToDoItem = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoItemAdminDto.Id);
 
-        if (databaseEntityNamePlaceholder == null)
+        if (databaseToDoItem == null)
         {
             throw new Exception("HumanNamePlaceholder not found.");
         }
 
         // EditRequiredPropertyCodePlaceholder
 
-        databaseEntityNamePlaceholder.ApplicationUserUpdatedBy = user;
+        databaseToDoItem.ApplicationUserUpdatedBy = user;
 
         // EditDatabasePropertyCodePlaceholder
 
@@ -98,7 +98,7 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
         return toDoItemAdminDto;
     }
 
-    public async Task<List<EntityNamePlaceholderAdminDto>?> GetAllAsync(string userName)
+    public async Task<List<ToDoItemAdminDto>?> GetAllAsync(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -117,12 +117,12 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
 
             // IncludeTableCodePlaceholder
 
-            .Select(x => EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(x))
+            .Select(x => ToDoItemAdminDto.FromToDoItem(x))
             .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> GetByIdAsync(string userName, Guid id)
+    public async Task<ToDoItemAdminDto?> GetByIdAsync(string userName, Guid id)
     {
         if (string.IsNullOrWhiteSpace(userName))
         {
@@ -143,6 +143,6 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
             return null;
         }
 
-        return EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(result);
+        return ToDoItemAdminDto.FromToDoItem(result);
     }
 }
