@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities;
+namespace Intrepion.ToDo.BusinessLogic.Entities;
 
 public class ApplicationUserLogin : IdentityUserLogin<Guid>
 {
