@@ -20,6 +20,7 @@ public class ToDoItemAdminEditViewModel
         {
             Id = toDoItemAdminDto.Id,
 
+            IsCompleted = toDoItemAdminDto?.IsCompleted ?? false,
             // DtoToModelPlaceholder
         };
     }
