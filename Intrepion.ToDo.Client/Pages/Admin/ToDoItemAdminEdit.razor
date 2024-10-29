@@ -31,6 +31,14 @@
       <DataAnnotationsValidator />
       <ValidationSummary class="text-danger" />
 
+      <div class="row">
+        <div class="col">
+          <label>
+            IsCompleted:
+            <InputCheckbox @bind-Value="toDoItemAdminEditViewModel.IsCompleted" data-testid="toDoItemAdminEditIsCompleted" />
+          </label>
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
