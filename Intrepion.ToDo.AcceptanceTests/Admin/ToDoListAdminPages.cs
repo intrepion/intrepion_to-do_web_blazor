@@ -13,21 +13,21 @@ public partial class ToDoListAdminPages : PageTest
     {
         await Expect(Page).ToHaveTitleAsync("Home");
         await Page.GetByTestId("toDoListNavLink").ClickAsync();
-        await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder List");
+        await Expect(Page).ToHaveTitleAsync("To Do List List");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Create" }).ClickAsync();
-        await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Creation");
+        await Expect(Page).ToHaveTitleAsync("To Do List Creation");
 
         // CreatePropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create" }).ClickAsync();
-        await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
+        await Expect(Page).ToHaveTitleAsync("To Do List Modification");
 
         // ModifyPropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Modify" }).ClickAsync();
-        await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder Modification");
+        await Expect(Page).ToHaveTitleAsync("To Do List Modification");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Remove" }).ClickAsync();
-        await Expect(Page).ToHaveTitleAsync("HumanNamePlaceholder List");
+        await Expect(Page).ToHaveTitleAsync("To Do List List");
     }
 
     [SetUp]
