@@ -40,6 +40,7 @@ public class ToDoItemAdminEditVm
             Id = toDoItemAdminEditVm.Id,
 
             IsCompleted = toDoItemAdminEditVm.IsCompleted,
+            Ordering = toDoItemAdminEditVm.Ordering,
             // ModelToDtoPlaceholder
         };
     }
