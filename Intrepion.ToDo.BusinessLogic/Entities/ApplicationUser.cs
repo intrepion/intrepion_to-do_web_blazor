@@ -15,5 +15,6 @@ public class ApplicationUser : IdentityUser<Guid>
     public ICollection<ApplicationUserToken> UpdatedApplicationUserTokens { get; set; } = [];
 
     public ICollection<ToDoItem> UpdatedToDoItems { get; set; } = [];
+    public ICollection<ToDoList> UpdatedToDoLists { get; set; } = [];
     // ActualPropertyPlaceholder
 }
