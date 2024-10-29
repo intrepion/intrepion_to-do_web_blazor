@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Configuration;
+namespace Intrepion.ToDo.BusinessLogic.Entities.Configuration;
 
 public class ApplicationUserLoginEtc : IEntityTypeConfiguration<ApplicationUserLogin>
 {
