@@ -6,12 +6,12 @@ namespace ApplicationNamePlaceholder.Controllers;
 
 [Route("api/admin/[controller]")]
 [ApiController]
-public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminRepository toDoItemAdminRepository) : ControllerBase
+public class ToDoItemController(IToDoItemAdminRepository toDoItemAdminRepository) : ControllerBase
 {
-    private readonly IEntityNamePlaceholderAdminRepository _toDoItemAdminRepository = toDoItemAdminRepository;
+    private readonly IToDoItemAdminRepository _toDoItemAdminRepository = toDoItemAdminRepository;
 
     [HttpPost]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Add(EntityNamePlaceholderAdminDto toDoItemAdminDto)
+    public async Task<ActionResult<ToDoItemAdminDto?>> Add(ToDoItemAdminDto toDoItemAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -25,9 +25,9 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholderAdminDto = await _toDoItemAdminRepository.AddAsync(toDoItemAdminDto);
+        var databaseToDoItemAdminDto = await _toDoItemAdminRepository.AddAsync(toDoItemAdminDto);
 
-        return Ok(databaseEntityNamePlaceholderAdminDto);
+        return Ok(databaseToDoItemAdminDto);
     }
 
     [HttpDelete("{id}")]
@@ -51,7 +51,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
     }
 
     [HttpPut]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> Edit(EntityNamePlaceholderAdminDto toDoItemAdminDto)
+    public async Task<ActionResult<ToDoItemAdminDto?>> Edit(ToDoItemAdminDto toDoItemAdminDto)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -65,13 +65,13 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
             return Ok(null);
         }
 
-        var databaseEntityNamePlaceholder = await _toDoItemAdminRepository.EditAsync(toDoItemAdminDto);
+        var databaseToDoItem = await _toDoItemAdminRepository.EditAsync(toDoItemAdminDto);
 
-        return Ok(databaseEntityNamePlaceholder);
+        return Ok(databaseToDoItem);
     }
 
     [HttpGet]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto>?> GetAll(string userName)
+    public async Task<ActionResult<ToDoItemAdminDto>?> GetAll(string userName)
     {
         var userIdentityName = User.Identity?.Name;
 
@@ -91,7 +91,7 @@ public class EntityNamePlaceholderController(IEntityNamePlaceholderAdminReposito
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<EntityNamePlaceholderAdminDto?>> GetById(string userName, Guid id)
+    public async Task<ActionResult<ToDoItemAdminDto?>> GetById(string userName, Guid id)
     {
         var userIdentityName = User.Identity?.Name;
 
