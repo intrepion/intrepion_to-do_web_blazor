@@ -11,6 +11,7 @@ public class ToDoItemAdminEditVm
     public int Ordering { get; set; }
     public ToDoList? ToDoList { get; set; }
     [Required]
+    public string Title { get; set; } = string.Empty;
     // JustModelPropertyPlaceholder
 
     public static ToDoItemAdminEditVm FromToDoItemAdminDto(ToDoItemAdminDto toDoItemAdminDto)
