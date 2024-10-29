@@ -22,6 +22,7 @@ public class ToDoListAdminEditVm
         {
             Id = toDoListAdminDto.Id,
 
+            Title = toDoListAdminDto?.Title ?? string.Empty,
             // DtoToModelPlaceholder
         };
     }
