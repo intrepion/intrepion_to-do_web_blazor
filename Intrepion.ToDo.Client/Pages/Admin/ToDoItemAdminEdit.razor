@@ -50,6 +50,31 @@
 
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <label>
+            To Do List:
+            <select @onchange="ToDoListOnChange">
+              <option>Select to do list...</option>
+                @if (toDoListAdminDtos != null)
+                {
+                  @foreach (var toDoList in toDoListAdminDtos)
+                  {
+                    if (toDoItemAdminEditVm.ToDoList != null && toDoItemAdminEditVm.ToDoList.Id.Equals(toDoList.Id))
+                    {
+                      <option value="@toDoList.Id" selected>@toDoList?.Title</option>
+                    }
+                    else
+                    {
+                      <option value="@toDoList.Id">@toDoList?.Title</option>
+                    }
+                  }
+                }
+              </select>
+          </label>
+          <ValidationMessage For="() => toDoItemAdminEditVm.ToDoList" />
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
