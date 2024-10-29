@@ -105,7 +105,8 @@
   public Guid Id { get; set; }
   ToDoItemAdminEditVm toDoItemAdminEditVm { get; set; } = new ToDoItemAdminEditVm();
 
-  @* ListDeclarationCodePlaceholder *@
+  List<ToDoListAdminDto> toDoListAdminDtos { get; set; } = [];
+    @* ListDeclarationCodePlaceholder *@
 
   protected override async Task OnInitializedAsync()
   {
