@@ -47,6 +47,7 @@ public class ToDoItemAdminEditVm
             IsCompleted = toDoItemAdminEditVm.IsCompleted,
             Ordering = toDoItemAdminEditVm.Ordering,
             ToDoList = toDoItemAdminEditVm.ToDoList,
+            Title = toDoItemAdminEditVm.Title,
             // ModelToDtoPlaceholder
         };
     }
