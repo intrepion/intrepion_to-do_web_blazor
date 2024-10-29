@@ -19,6 +19,7 @@ public class ToDoListAdminDto
         {
             Id = toDoList.Id,
 
+            Title = toDoList.Title,
             // EntityToDtoPlaceholder
         };
     }
