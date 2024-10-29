@@ -75,6 +75,15 @@
           <ValidationMessage For="() => toDoItemAdminEditVm.ToDoList" />
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <label>
+            Title:
+            <InputText @bind-Value="toDoItemAdminEditVm.Title" data-testid="toDoItemAdminEditTitle" />
+          </label>          <ValidationMessage For="() => toDoItemAdminEditVm.Title" />
+
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
