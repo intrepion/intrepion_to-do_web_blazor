@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
+using Intrepion.ToDo.BusinessLogic.Entities.Dtos.Admin;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Vms.Admin;
+namespace Intrepion.ToDo.BusinessLogic.Entities.Vms.Admin;
 
 public class ApplicationUserAdminEditVm
 {
