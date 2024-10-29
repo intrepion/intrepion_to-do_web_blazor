@@ -9,31 +9,31 @@ public class EntityNamePlaceholderAdminEditVm
 
     // JustModelPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminEditVm FromEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminDto EntityLowercaseNamePlaceholderAdminDto)
+    public static EntityNamePlaceholderAdminEditVm FromEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminDto toDoItemAdminDto)
     {
-        if (EntityLowercaseNamePlaceholderAdminDto == null)
+        if (toDoItemAdminDto == null)
         {
             return new EntityNamePlaceholderAdminEditVm();
         }
 
         return new EntityNamePlaceholderAdminEditVm
         {
-            Id = EntityLowercaseNamePlaceholderAdminDto.Id,
+            Id = toDoItemAdminDto.Id,
 
             // DtoToModelPlaceholder
         };
     }
 
-    public static EntityNamePlaceholderAdminDto ToEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminEditVm EntityLowercaseNamePlaceholderAdminEditVm)
+    public static EntityNamePlaceholderAdminDto ToEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminEditVm toDoItemAdminEditVm)
     {
-        if (EntityLowercaseNamePlaceholderAdminEditVm == null)
+        if (toDoItemAdminEditVm == null)
         {
             return new EntityNamePlaceholderAdminDto();
         }
 
         return new EntityNamePlaceholderAdminDto
         {
-            Id = EntityLowercaseNamePlaceholderAdminEditVm.Id,
+            Id = toDoItemAdminEditVm.Id,
 
             // ModelToDtoPlaceholder
         };
