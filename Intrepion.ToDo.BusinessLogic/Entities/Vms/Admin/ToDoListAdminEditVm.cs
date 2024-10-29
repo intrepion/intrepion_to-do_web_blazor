@@ -7,6 +7,7 @@ public class ToDoListAdminEditVm
 {
     public Guid Id { get; set; }
 
+    [Required]
     // JustModelPropertyPlaceholder
 
     public static ToDoListAdminEditVm FromToDoListAdminDto(ToDoListAdminDto toDoListAdminDto)
