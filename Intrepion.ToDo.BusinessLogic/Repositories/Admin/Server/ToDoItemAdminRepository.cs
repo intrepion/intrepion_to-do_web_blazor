@@ -8,14 +8,14 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
 {
     private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
 
-    public async Task<EntityNamePlaceholderAdminDto?> AddAsync(EntityNamePlaceholderAdminDto EntityLowercaseNamePlaceholderAdminDto)
+    public async Task<EntityNamePlaceholderAdminDto?> AddAsync(EntityNamePlaceholderAdminDto toDoItemAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholderAdminDto.ApplicationUserName))
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => EntityLowercaseNamePlaceholderAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoItemAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
@@ -24,11 +24,11 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
 
         // AddRequiredPropertyCodePlaceholder
 
-        var EntityLowercaseNamePlaceholder = EntityNamePlaceholderAdminDto.ToEntityNamePlaceholder(user, EntityLowercaseNamePlaceholderAdminDto);
+        var toDoItem = EntityNamePlaceholderAdminDto.ToEntityNamePlaceholder(user, toDoItemAdminDto);
 
         // AddDatabasePropertyCodePlaceholder
 
-        var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(EntityLowercaseNamePlaceholder);
+        var result = await _applicationDbContext.TableNamePlaceholder.AddAsync(toDoItem);
         var databaseEntityNamePlaceholderAdminDto = EntityNamePlaceholderAdminDto.FromEntityNamePlaceholder(result.Entity);
         await _applicationDbContext.SaveChangesAsync();
 
@@ -66,21 +66,21 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
         return true;
     }
 
-    public async Task<EntityNamePlaceholderAdminDto?> EditAsync(EntityNamePlaceholderAdminDto EntityLowercaseNamePlaceholderAdminDto)
+    public async Task<EntityNamePlaceholderAdminDto?> EditAsync(EntityNamePlaceholderAdminDto toDoItemAdminDto)
     {
-        if (string.IsNullOrWhiteSpace(EntityLowercaseNamePlaceholderAdminDto.ApplicationUserName))
+        if (string.IsNullOrWhiteSpace(toDoItemAdminDto.ApplicationUserName))
         {
             throw new Exception("UserName is required.");
         }
 
-        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => EntityLowercaseNamePlaceholderAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
+        var user = await _applicationDbContext.Users.FirstOrDefaultAsync(x => toDoItemAdminDto.ApplicationUserName.ToUpper().Equals(x.NormalizedUserName));
 
         if (user == null)
         {
             throw new Exception("Authentication required.");
         }
 
-        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(EntityLowercaseNamePlaceholderAdminDto.Id);
+        var databaseEntityNamePlaceholder = await _applicationDbContext.TableNamePlaceholder.FindAsync(toDoItemAdminDto.Id);
 
         if (databaseEntityNamePlaceholder == null)
         {
@@ -95,7 +95,7 @@ public class EntityNamePlaceholderAdminRepository(ApplicationDbContext applicati
 
         await _applicationDbContext.SaveChangesAsync();
 
-        return EntityLowercaseNamePlaceholderAdminDto;
+        return toDoItemAdminDto;
     }
 
     public async Task<List<EntityNamePlaceholderAdminDto>?> GetAllAsync(string userName)
