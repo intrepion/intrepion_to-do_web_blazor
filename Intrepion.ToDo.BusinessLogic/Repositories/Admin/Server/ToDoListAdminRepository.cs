@@ -93,6 +93,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
         databaseToDoList.ApplicationUserUpdatedBy = user;
 
         databaseToDoList.Title = toDoListAdminDto?.Title ?? string.Empty;
+        databaseToDoList.NormalizedTitle = toDoListAdminDto?.Title ?? string.Empty.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
