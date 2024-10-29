@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
+﻿namespace Intrepion.ToDo.BusinessLogic.Entities.Dtos.Admin;
 
 public class ToDoItemAdminDto
 {
