@@ -1,20 +1,20 @@
 ﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
 
-public class EntityNamePlaceholderAdminDto
+public class ToDoListAdminDto
 {
     public string ApplicationUserName { get; set; } = string.Empty;
     public Guid Id { get; set; }
 
     // DtoPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminDto FromEntityNamePlaceholder(EntityNamePlaceholder? toDoList)
+    public static ToDoListAdminDto FromToDoList(ToDoList? toDoList)
     {
         if (toDoList == null)
         {
-            return new EntityNamePlaceholderAdminDto();
+            return new ToDoListAdminDto();
         }
 
-        return new EntityNamePlaceholderAdminDto
+        return new ToDoListAdminDto
         {
             Id = toDoList.Id,
 
@@ -22,9 +22,9 @@ public class EntityNamePlaceholderAdminDto
         };
     }
 
-    public static EntityNamePlaceholder ToEntityNamePlaceholder(ApplicationUser? applicationUser, EntityNamePlaceholderAdminDto? toDoListAdminDto)
+    public static ToDoList ToToDoList(ApplicationUser? applicationUser, ToDoListAdminDto? toDoListAdminDto)
     {
-        return new EntityNamePlaceholder
+        return new ToDoList
         {
             ApplicationUserUpdatedBy = applicationUser ?? new ApplicationUser(),
             Id = toDoListAdminDto?.Id ?? new Guid(),
