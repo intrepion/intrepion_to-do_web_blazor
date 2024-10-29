@@ -37,6 +37,7 @@ public class ToDoItemAdminEditVm
         {
             Id = toDoItemAdminEditVm.Id,
 
+            IsCompleted = toDoItemAdminEditVm.IsCompleted,
             // ModelToDtoPlaceholder
         };
     }
