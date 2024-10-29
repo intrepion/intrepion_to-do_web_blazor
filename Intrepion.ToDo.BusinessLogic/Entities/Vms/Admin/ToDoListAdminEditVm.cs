@@ -8,6 +8,7 @@ public class ToDoListAdminEditVm
     public Guid Id { get; set; }
 
     [Required]
+    public string Title { get; set; } = string.Empty;
     // JustModelPropertyPlaceholder
 
     public static ToDoListAdminEditVm FromToDoListAdminDto(ToDoListAdminDto toDoListAdminDto)
