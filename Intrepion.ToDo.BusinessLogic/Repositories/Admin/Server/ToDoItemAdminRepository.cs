@@ -94,6 +94,7 @@ public class ToDoItemAdminRepository(ApplicationDbContext applicationDbContext) 
 
         databaseToDoItem.ToDoList = toDoItemAdminDto?.ToDoList;
         databaseToDoItem.Title = toDoItemAdminDto?.Title ?? string.Empty;
+        databaseToDoItem.NormalizedTitle = toDoItemAdminDto?.Title ?? string.Empty.ToUpperInvariant();
         // EditDatabasePropertyCodePlaceholder
 
         await _applicationDbContext.SaveChangesAsync();
