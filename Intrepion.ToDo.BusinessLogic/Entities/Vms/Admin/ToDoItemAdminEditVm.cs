@@ -3,20 +3,20 @@ using ApplicationNamePlaceholder.BusinessLogic.Entities.Dtos.Admin;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Vms.Admin;
 
-public class EntityNamePlaceholderAdminEditVm
+public class ToDoItemAdminEditVm
 {
     public Guid Id { get; set; }
 
     // JustModelPropertyPlaceholder
 
-    public static EntityNamePlaceholderAdminEditVm FromEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminDto toDoItemAdminDto)
+    public static ToDoItemAdminEditVm FromToDoItemAdminDto(ToDoItemAdminDto toDoItemAdminDto)
     {
         if (toDoItemAdminDto == null)
         {
-            return new EntityNamePlaceholderAdminEditVm();
+            return new ToDoItemAdminEditVm();
         }
 
-        return new EntityNamePlaceholderAdminEditVm
+        return new ToDoItemAdminEditVm
         {
             Id = toDoItemAdminDto.Id,
 
@@ -24,14 +24,14 @@ public class EntityNamePlaceholderAdminEditVm
         };
     }
 
-    public static EntityNamePlaceholderAdminDto ToEntityNamePlaceholderAdminDto(EntityNamePlaceholderAdminEditVm toDoItemAdminEditVm)
+    public static ToDoItemAdminDto ToToDoItemAdminDto(ToDoItemAdminEditVm toDoItemAdminEditVm)
     {
         if (toDoItemAdminEditVm == null)
         {
-            return new EntityNamePlaceholderAdminDto();
+            return new ToDoItemAdminDto();
         }
 
-        return new EntityNamePlaceholderAdminDto
+        return new ToDoItemAdminDto
         {
             Id = toDoItemAdminEditVm.Id,
 
