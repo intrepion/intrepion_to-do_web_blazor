@@ -26,6 +26,7 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
 
         var toDoList = ToDoListAdminDto.ToToDoList(user, toDoListAdminDto);
 
+        toDoList.NormalizedTitle = toDoListAdminDto?.Title ?? string.Empty.ToUpperInvariant();
         // AddDatabasePropertyCodePlaceholder
 
         var result = await _applicationDbContext.ToDoLists.AddAsync(toDoList);
