@@ -40,6 +40,15 @@
           <ValidationMessage For="() => toDoItemAdminEditVm.IsCompleted" />
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <label>
+            Ordering:
+            <InputNumber @bind-Value="toDoItemAdminEditVm.Ordering" data-testid="toDoItemAdminEditOrdering" />
+          </label>          <ValidationMessage For="() => toDoItemAdminEditVm.Ordering" />
+
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
