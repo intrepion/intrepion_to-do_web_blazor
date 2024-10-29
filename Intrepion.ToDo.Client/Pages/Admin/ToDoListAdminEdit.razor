@@ -31,6 +31,14 @@
       <DataAnnotationsValidator />
       <ValidationSummary class="text-danger" />
 
+      <div class="row">
+        <div class="col">
+          <label>
+            Title:
+            <InputText @bind-Value="toDoListAdminEditViewModel.Title" data-testid="toDoListAdminEditTitle" />
+          </label>
+        </div>
+      </div>
       @* EditRowCodePlaceholder *@
 
       <div class="row">
