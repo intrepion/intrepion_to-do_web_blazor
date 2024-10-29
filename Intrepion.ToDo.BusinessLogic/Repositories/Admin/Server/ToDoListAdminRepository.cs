@@ -22,6 +22,11 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("Authentication required.");
         }
 
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto?.Title ?? string.Empty))
+        {
+            throw new Exception("Title required.");
+        }
+
         // AddRequiredPropertyCodePlaceholder
 
         var toDoList = ToDoListAdminDto.ToToDoList(user, toDoListAdminDto);
