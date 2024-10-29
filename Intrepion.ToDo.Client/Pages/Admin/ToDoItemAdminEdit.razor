@@ -117,7 +117,12 @@
 
     await base.OnInitializedAsync();
 
-    @* OnInitializedCodePlaceholder *@
+    var toDoListAdminDtosResult = await ToDoListAdminRepository.GetAllAsync(userName);
+        if (toDoListAdminDtosResult != null)
+        {
+            toDoListAdminDtos = toDoListAdminDtosResult;
+        }
+        @* OnInitializedCodePlaceholder *@
   }
 
   protected override async Task OnParametersSetAsync()
