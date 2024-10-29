@@ -93,6 +93,11 @@ public class ToDoListAdminRepository(ApplicationDbContext applicationDbContext) 
             throw new Exception("HumanNamePlaceholder not found.");
         }
 
+        if (string.IsNullOrWhiteSpace(toDoListAdminDto?.Title ?? string.Empty))
+        {
+            throw new Exception("Title required.");
+        }
+
         // EditRequiredPropertyCodePlaceholder
 
         databaseToDoList.ApplicationUserUpdatedBy = user;
