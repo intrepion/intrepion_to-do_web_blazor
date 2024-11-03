@@ -15,6 +15,7 @@ public class ToDoListGridQueryAdapter
     private readonly Dictionary<ToDoListFilterColumns, Expression<Func<ToDoList, string>>> expressions =
         new()
         {
+            { ToDoListFilterColumns.Title, c => c != null && c.Title != null ? c.Title : string.Empty },
             // SortExpressionCodePlaceholder
             // { ToDoListFilterColumns.Name, c => c != null && c.Name != null ? c.Name : string.Empty },
         };
