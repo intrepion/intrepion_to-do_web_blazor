@@ -66,6 +66,9 @@
     // isValid: True when field validation passed.
     private async Task HandleSubmitAsync(bool isValid) => await ValidationResult.InvokeAsync(isValid);
 
+    private void HandleTitleChange(ChangeEventArgs changeEventArgs)
+    {
+    }
     // HandleChangeCodePlaceholder
 
     @* private void HandleNameChange(ChangeEventArgs changeEventArgs)
