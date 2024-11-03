@@ -2,5 +2,6 @@
 
 public enum ToDoItemFilterColumns
 {
+    IsCompleted,
     // FilterColumnCodePlaceholder
 }
