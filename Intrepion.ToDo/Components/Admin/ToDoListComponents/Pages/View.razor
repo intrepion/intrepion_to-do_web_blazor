@@ -123,9 +123,9 @@ else
 
         using var context = DbFactory.CreateDbContext();
 
-        if (context.TableNamePlaceholder is not null)
+        if (context.ToDoLists is not null)
         {
-            ToDoList = await context.TableNamePlaceholder
+            ToDoList = await context.ToDoLists
                 .AsNoTracking()
                 .SingleOrDefaultAsync(
                     c => c.Id == ToDoListId);
@@ -153,12 +153,12 @@ else
 
         if (context?.Roles is not null)
         {
-            var contact = await context.TableNamePlaceholder
+            var contact = await context.ToDoLists
                 .SingleOrDefaultAsync(c => c.Id == ToDoListId);
 
             if (contact is not null)
             {
-                context.TableNamePlaceholder?.Remove(contact);
+                context.ToDoLists?.Remove(contact);
                 await context.SaveChangesAsync();
                 Loading = false;
                 Deleted = true;
