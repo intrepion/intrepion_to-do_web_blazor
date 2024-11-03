@@ -29,6 +29,7 @@ public partial class ToDoListAdminPages : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "aName" + aRandomString, Exact = true }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Edit" }).ClickAsync();
 
+        await Page.GetByLabel("Title:").FillAsync("someTitle" + someRandomString);
         // ModifyPropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
