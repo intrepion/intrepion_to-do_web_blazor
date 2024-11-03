@@ -8,5 +8,6 @@ public class ToDoItem
     public Guid Id { get; set; }
 
     public bool IsCompleted { get; set; }
+    public int Ordering { get; set; }
     // ActualPropertyPlaceholder
 }
