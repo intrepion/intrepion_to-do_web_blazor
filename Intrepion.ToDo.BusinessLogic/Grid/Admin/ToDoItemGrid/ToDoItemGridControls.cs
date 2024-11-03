@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 
 // State of grid filters.
 public class ToDoItemGridControls(IPageHelper pageHelper) : IToDoItemFilters
