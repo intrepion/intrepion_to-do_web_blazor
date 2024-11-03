@@ -16,6 +16,7 @@ public class ToDoItemGridQueryAdapter
         new()
         {
             { ToDoItemFilterColumns.IsCompleted, c => c != null && c.IsCompleted != null ? c.IsCompleted.ToString() : string.Empty },
+            { ToDoItemFilterColumns.Ordering, c => c != null && c.Ordering != null ? c.Ordering.ToString() : string.Empty },
             // SortExpressionCodePlaceholder
             // { ToDoItemFilterColumns.Name, c => c != null && c.Name != null ? c.Name : string.Empty },
         };
