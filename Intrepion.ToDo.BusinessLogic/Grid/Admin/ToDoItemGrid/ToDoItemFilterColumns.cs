@@ -3,5 +3,6 @@
 public enum ToDoItemFilterColumns
 {
     IsCompleted,
+    Ordering,
     // FilterColumnCodePlaceholder
 }
