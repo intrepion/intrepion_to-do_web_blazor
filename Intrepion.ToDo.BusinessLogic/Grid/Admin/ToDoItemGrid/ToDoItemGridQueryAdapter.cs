@@ -15,6 +15,7 @@ public class ToDoItemGridQueryAdapter
     private readonly Dictionary<ToDoItemFilterColumns, Expression<Func<ToDoItem, string>>> expressions =
         new()
         {
+            { ToDoItemFilterColumns.IsCompleted, c => c != null && c.IsCompleted != null ? c.IsCompleted.ToString() : string.Empty },
             // SortExpressionCodePlaceholder
             // { ToDoItemFilterColumns.Name, c => c != null && c.Name != null ? c.Name : string.Empty },
         };
