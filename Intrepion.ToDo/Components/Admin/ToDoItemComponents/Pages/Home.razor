@@ -160,14 +160,14 @@
         using var context = DbFactory.CreateDbContext();
         Filters.Loading = true;
 
-        if (Wrapper is not null && context.TableNamePlaceholder is not null)
+        if (Wrapper is not null && context.ToDoItems is not null)
         {
-            var contact = await context.TableNamePlaceholder
+            var contact = await context.ToDoItems
                 .FirstAsync(c => c.Id == Wrapper.DeleteRequestId);
 
             if (contact is not null)
             {
-                context.TableNamePlaceholder?.Remove(contact);
+                context.ToDoItems?.Remove(contact);
                 await context.SaveChangesAsync();
             }
         }
@@ -196,7 +196,7 @@
         ToDoItems = new List<ToDoItem>();
 
         using var context = DbFactory.CreateDbContext();
-        var query = context.TableNamePlaceholder?.AsQueryable();
+        var query = context.ToDoItems?.AsQueryable();
 
         if (query is not null)
         {
