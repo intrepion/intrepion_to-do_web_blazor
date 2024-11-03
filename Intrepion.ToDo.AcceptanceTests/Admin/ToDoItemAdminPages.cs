@@ -29,6 +29,7 @@ public partial class ToDoItemAdminPages : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "aName" + aRandomString, Exact = true }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Edit" }).ClickAsync();
 
+        await Page.GetByLabel("IsCompleted:").CheckAsync();
         // ModifyPropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
