@@ -3,28 +3,28 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Intrepion.ToDo.BusinessLogic.Entities;
 
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 
 // Creates the correct expressions to filter and sort.
-public class EntityNamePlaceholderGridQueryAdapter
+public class ToDoItemGridQueryAdapter
 {
     // Holds state of the grid.
-    private readonly IEntityNamePlaceholderFilters controls;
+    private readonly IToDoItemFilters controls;
 
     // Expressions for sorting.
-    private readonly Dictionary<EntityNamePlaceholderFilterColumns, Expression<Func<EntityNamePlaceholder, string>>> expressions =
+    private readonly Dictionary<ToDoItemFilterColumns, Expression<Func<ToDoItem, string>>> expressions =
         new()
         {
             // SortExpressionCodePlaceholder
-            // { EntityNamePlaceholderFilterColumns.Name, c => c != null && c.Name != null ? c.Name : string.Empty },
+            // { ToDoItemFilterColumns.Name, c => c != null && c.Name != null ? c.Name : string.Empty },
         };
 
     // Queryables for filtering.
-    private readonly Dictionary<EntityNamePlaceholderFilterColumns, Func<IQueryable<EntityNamePlaceholder>, IQueryable<EntityNamePlaceholder>>> filterQueries = [];
+    private readonly Dictionary<ToDoItemFilterColumns, Func<IQueryable<ToDoItem>, IQueryable<ToDoItem>>> filterQueries = [];
 
     // Creates a new instance of the GridQueryAdapter class.
-    // controls: The IEntityNamePlaceholderFilters" to use.
-    public EntityNamePlaceholderGridQueryAdapter(IEntityNamePlaceholderFilters controls)
+    // controls: The IToDoItemFilters" to use.
+    public ToDoItemGridQueryAdapter(IToDoItemFilters controls)
     {
         this.controls = controls;
 
@@ -33,14 +33,14 @@ public class EntityNamePlaceholderGridQueryAdapter
             new()
             {
                 // QueryExpressionCodePlaceholder
-                // { EntityNamePlaceholderFilterColumns.Name, cs => cs.Where(c => c != null && c.Name != null && this.controls.FilterText != null && c.Name.Contains(this.controls.FilterText) ) },
+                // { ToDoItemFilterColumns.Name, cs => cs.Where(c => c != null && c.Name != null && this.controls.FilterText != null && c.Name.Contains(this.controls.FilterText) ) },
             };
     }
 
     // Uses the query to return a count and a page.
-    // query: The IQueryable{EntityNamePlaceholder} to work from.
-    // Returns the resulting ICollection{EntityNamePlaceholder}.
-    public async Task<ICollection<EntityNamePlaceholder>> FetchAsync(IQueryable<EntityNamePlaceholder> query)
+    // query: The IQueryable{ToDoItem} to work from.
+    // Returns the resulting ICollection{ToDoItem}.
+    public async Task<ICollection<ToDoItem>> FetchAsync(IQueryable<ToDoItem> query)
     {
         query = FilterAndQuery(query);
         await CountAsync(query);
@@ -50,23 +50,23 @@ public class EntityNamePlaceholderGridQueryAdapter
     }
 
     // Get total filtered items count.
-    // query: The IQueryable{EntityNamePlaceholder} to use.
-    public async Task CountAsync(IQueryable<EntityNamePlaceholder> query) =>
+    // query: The IQueryable{ToDoItem} to use.
+    public async Task CountAsync(IQueryable<ToDoItem> query) =>
         controls.PageHelper.TotalItemCount = await query.CountAsync();
 
     // Build the query to bring back a single page.
-    // query: The <see IQueryable{EntityNamePlaceholder} to modify.
-    // Returns the new IQueryable{EntityNamePlaceholder} for a page.
-    public IQueryable<EntityNamePlaceholder> FetchPageQuery(IQueryable<EntityNamePlaceholder> query) =>
+    // query: The <see IQueryable{ToDoItem} to modify.
+    // Returns the new IQueryable{ToDoItem} for a page.
+    public IQueryable<ToDoItem> FetchPageQuery(IQueryable<ToDoItem> query) =>
         query
             .Skip(controls.PageHelper.Skip)
             .Take(controls.PageHelper.PageSize)
             .AsNoTracking();
 
     // Builds the query.
-    // root: The IQueryable{EntityNamePlaceholder} to start with.
-    // Returns the resulting IQueryable{EntityNamePlaceholder} with sorts and filters applied.
-    private IQueryable<EntityNamePlaceholder> FilterAndQuery(IQueryable<EntityNamePlaceholder> root)
+    // root: The IQueryable{ToDoItem} to start with.
+    // Returns the resulting IQueryable{ToDoItem} with sorts and filters applied.
+    private IQueryable<ToDoItem> FilterAndQuery(IQueryable<ToDoItem> root)
     {
         var sb = new System.Text.StringBuilder();
 
