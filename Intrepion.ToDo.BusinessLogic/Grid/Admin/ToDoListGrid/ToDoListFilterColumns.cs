@@ -2,5 +2,6 @@
 
 public enum ToDoListFilterColumns
 {
+    Title,
     // FilterColumnCodePlaceholder
 }
