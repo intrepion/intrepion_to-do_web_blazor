@@ -1,9 +1,9 @@
-<h1>@Mode EntityNamePlaceholder</h1>
+<h1>@Mode ToDoItem</h1>
 
 <hr />
-@if (EntityNamePlaceholder is not null)
+@if (ToDoItem is not null)
 {
-    <EditForm Model="EntityNamePlaceholder"
+    <EditForm Model="ToDoItem"
               OnInvalidSubmit="(async () => await HandleSubmitAsync(false))"
               OnValidSubmit="(async () => await HandleSubmitAsync(true))">
         <DataAnnotationsValidator />
@@ -14,9 +14,9 @@
         <p>
             <label>
                 Name:
-                <InputText @bind-Value="EntityNamePlaceholder.Name" @oninput="HandleNameChange" />
-                <ConcurrencyField Model="EntityNamePlaceholder"
-                                  DbModel="DbEntityNamePlaceholder"
+                <InputText @bind-Value="ToDoItem.Name" @oninput="HandleNameChange" />
+                <ConcurrencyField Model="ToDoItem"
+                                  DbModel="DbToDoItem"
                                   Property="obj => obj?.Name" />
             </label>
         </p> *@
@@ -44,13 +44,13 @@
     [Parameter]
     public bool IsAdd { get; set; }
 
-    // The EntityNamePlaceholder to upsert.
+    // The ToDoItem to upsert.
     [Parameter]
-    public EntityNamePlaceholder? EntityNamePlaceholder { get; set; }
+    public ToDoItem? ToDoItem { get; set; }
 
-    // The database version of EntityNamePlaceholder if a concurrency issue.
+    // The database version of ToDoItem if a concurrency issue.
     [Parameter]
-    public EntityNamePlaceholder? DbEntityNamePlaceholder { get; set; }
+    public ToDoItem? DbToDoItem { get; set; }
 
     // Prevent multiple asynchronous operations at the same time.
     [Parameter]
