@@ -19,6 +19,7 @@ public partial class ToDoItemAdminPages : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Create New" }).ClickAsync();
         await Expect(Page).ToHaveTitleAsync("To Do Item Add");
 
+        await Page.GetByLabel("Is Completed?:").CheckAsync();
         // CreatePropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
