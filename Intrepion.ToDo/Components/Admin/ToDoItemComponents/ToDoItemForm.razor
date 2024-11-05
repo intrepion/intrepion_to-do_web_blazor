@@ -7,6 +7,14 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
+        <h2>Is Completed?</h2>
+        <p>
+            <label>
+                Is Completed?:
+                <InputCheckbox @bind-Value="ToDoItem.IsCompleted" @oninput="HandleIsCompletedChange"/>
+                <ConcurrencyField Model="ToDoItem" DbModel="DbToDoItem" Property="obj => obj?.IsCompleted" />
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
