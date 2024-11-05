@@ -1,14 +1,14 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Json;
+using Intrepion.ToDo.Components.Account.Pages;
+using Intrepion.ToDo.Components.Account.Pages.Manage;
+using Intrepion.ToDo.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Intrepion.ToDo.Components.Account.Pages;
-using Intrepion.ToDo.Components.Account.Pages.Manage;
-using Intrepion.ToDo.Data;
 
 namespace Microsoft.AspNetCore.Routing;
 
