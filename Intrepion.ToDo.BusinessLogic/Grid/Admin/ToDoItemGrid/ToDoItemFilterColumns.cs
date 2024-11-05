@@ -1,6 +1,6 @@
-﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 
-public enum EntityNamePlaceholderFilterColumns
+public enum ToDoItemFilterColumns
 {
     Id,
 
