@@ -17,6 +17,7 @@ public class ToDoListGridQueryAdapter
         {
             { ToDoListFilterColumns.Id, x => !x.Id.Equals(Guid.Empty) ? x.Id.ToString() : string.Empty },
 
+            { ToDoListFilterColumns.Title, x => x != null && x.Title != null ? x.Title : string.Empty },
             // SortExpressionCodePlaceholder
             // { ToDoListFilterColumns.Name, x => x != null && x.Name != null ? x.Name : string.Empty },
         };
