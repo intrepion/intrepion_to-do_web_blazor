@@ -23,6 +23,14 @@
                 <ConcurrencyField Model="ToDoItem" DbModel="DbToDoItem" Property="obj => obj?.Ordering" />
             </label>
         </p>
+        <h2>Title</h2>
+        <p>
+            <label>
+                Title:
+                <InputText @bind-Value="ToDoItem.Title" @oninput="HandleTitleChange"/>
+                <ConcurrencyField Model="ToDoItem" DbModel="DbToDoItem" Property="obj => obj?.Title" />
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
