@@ -1,2 +1,36 @@
-# intrepion_to-do_web_blazor
-intrepion To Do web app written using .NET Blazor framework
+# Intrepion.ToDo
+
+## Build
+
+dotnet build
+
+## Update database
+
+```bash
+dotnet tool install --global dotnet-ef
+dotnet ef --project Intrepion.ToDo.BusinessLogic --startup-project Intrepion.ToDo database update
+```
+
+## Run
+
+```bash
+dotnet run --project Intrepion.ToDo
+```
+
+## Test
+
+### terminal window 1
+
+```bash
+dotnet tool install --global PowerShell
+cd Intrepion.ToDo.AcceptanceTests
+pwsh ./bin/Debug/net8.0/playwright.ps1 install --with-deps
+cd ..
+dotnet run --environment Test --project Intrepion.ToDo --urls http://localhost:8765
+```
+
+### terminal window 2
+
+```bash
+BASE_URL=http://localhost:8765 HEADED=1 dotnet test
+```
