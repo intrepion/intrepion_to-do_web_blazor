@@ -21,6 +21,7 @@ public partial class ToDoItemAdminPages : PageTest
 
         await Page.GetByLabel("Is Completed?:").CheckAsync();
         await Page.GetByLabel("Ordering:").FillAsync("1");
+        await Page.GetByLabel("Title:").FillAsync("aTitle" + aRandomString);
         // CreatePropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
