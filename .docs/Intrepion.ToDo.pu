@@ -52,6 +52,13 @@ entity ToDoItem {
     ' PropertyCodePlaceholder
 }
 
+entity ToDoList {
+    Id : Guid
+    --
+    ' IdCodePlaceholder--
+    ' PropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ApplicationRole ||--o{ ApplicationUserRole
