@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
 
 // Interface for filtering.
 public interface IEntityNamePlaceholderFilters
