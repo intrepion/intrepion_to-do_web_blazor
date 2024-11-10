@@ -45,6 +45,13 @@ entity ApplicationUserRole {
     --
 }
 
+entity ToDoItem {
+    Id : Guid
+    --
+    ' IdCodePlaceholder--
+    ' PropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ApplicationRole ||--o{ ApplicationUserRole
