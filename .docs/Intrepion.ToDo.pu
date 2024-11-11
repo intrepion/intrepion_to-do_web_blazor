@@ -90,6 +90,7 @@ entity ToDoItem {
     ApplicationUserUpdatedBy : ApplicationUser
     ' ToDoItemKeyCodePlaceholder
     --
+    IsCompleted : bool
     ' ToDoItemPropertyCodePlaceholder
 }
 
