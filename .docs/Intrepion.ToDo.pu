@@ -97,6 +97,15 @@ entity ToDoItem {
     ' ToDoItemPropertyCodePlaceholder
 }
 
+entity ToDoList {
+    Id : Guid
+    --
+    ApplicationUserUpdatedBy : ApplicationUser
+    ' ToDoListKeyCodePlaceholder
+    --
+    ' ToDoListPropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ApplicationRole ||--o{ ApplicationUserRole
