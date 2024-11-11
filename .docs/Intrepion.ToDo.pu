@@ -101,6 +101,7 @@ entity ToDoList {
     Id : Guid
     --
     ApplicationUserUpdatedBy : ApplicationUser
+    ToDoItems : ICollection<ToDoList>
     ' ToDoListKeyCodePlaceholder
     --
     ' ToDoListPropertyCodePlaceholder
