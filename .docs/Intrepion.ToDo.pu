@@ -84,6 +84,15 @@ entity ApplicationUserToken {
     Value : string
 }
 
+entity ToDoItem {
+    Id : Guid
+    --
+    ApplicationUserUpdatedBy : ApplicationUser
+    ' ToDoItemKeyCodePlaceholder
+    --
+    ' ToDoItemPropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ApplicationRole ||--o{ ApplicationUserRole
