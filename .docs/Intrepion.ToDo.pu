@@ -104,6 +104,7 @@ entity ToDoList {
     ToDoItems : ICollection<ToDoList>
     ' ToDoListKeyCodePlaceholder
     --
+    Title : string
     ' ToDoListPropertyCodePlaceholder
 }
 
