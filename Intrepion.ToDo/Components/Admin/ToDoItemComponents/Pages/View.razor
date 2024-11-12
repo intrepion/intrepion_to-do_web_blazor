@@ -129,9 +129,9 @@ else
 
         using var context = DbFactory.CreateDbContext();
 
-        if (context.TableNamePlaceholder is not null)
+        if (context.ToDoItems is not null)
         {
-            ToDoItem = await context.TableNamePlaceholder
+            ToDoItem = await context.ToDoItems
                 .AsNoTracking()
                 .SingleOrDefaultAsync(
                     x => x.Id == ToDoItemId);
@@ -159,12 +159,12 @@ else
 
         if (context?.Roles is not null)
         {
-            var LowercaseNamePlaceholder = await context.TableNamePlaceholder
+            var LowercaseNamePlaceholder = await context.ToDoItems
                 .SingleOrDefaultAsync(x => x.Id == ToDoItemId);
 
             if (LowercaseNamePlaceholder is not null)
             {
-                context.TableNamePlaceholder?.Remove(LowercaseNamePlaceholder);
+                context.ToDoItems?.Remove(LowercaseNamePlaceholder);
                 await context.SaveChangesAsync();
                 Loading = false;
                 Deleted = true;
