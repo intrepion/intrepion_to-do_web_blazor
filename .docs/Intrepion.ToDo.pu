@@ -96,6 +96,7 @@ entity ToDoItem {
     Id : Guid
     --
     ApplicationUserUpdatedBy : ApplicationUser
+    ToDoList : ToDoList
     ' ToDoItemKeyCodePlaceholder
     --
     IsCompleted : bool
