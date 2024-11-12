@@ -74,6 +74,9 @@ builder.Services.AddScoped<ApplicationUserGridQueryAdapter>();
 builder.Services.AddScoped<IToDoItemFilters, ToDoItemGridControls>();
 builder.Services.AddScoped<ToDoItemGridQueryAdapter>();
 
+builder.Services.AddScoped<IToDoListFilters, ToDoListGridControls>();
+builder.Services.AddScoped<ToDoListGridQueryAdapter>();
+
 // RegisterServerServiceCodePlaceholder
 
 var app = builder.Build();
