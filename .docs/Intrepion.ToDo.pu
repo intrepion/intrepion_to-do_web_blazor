@@ -130,6 +130,7 @@ ApplicationUserToken }o--|| ApplicationUser
 
 ToDoItem }o--|| ApplicationUser
 ToDoItem }o--|| ToDoList
+ToDoList }o--|| ApplicationUser
 ' RelationshipCodePlaceholder
 
 @enduml
