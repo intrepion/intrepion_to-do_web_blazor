@@ -34,6 +34,7 @@ entity ApplicationUser {
     UpdatedApplicationUserRoles : ICollection<ApplicationUserRole>
     UpdatedApplicationUserTokens : ICollection<ApplicationUserToken>
     UpdatedToDoItems : ICollection<ToDoItem>
+    UpdatedToDoLists : ICollection<ToDoList>
     ' ApplicationUserKeyCodePlaceholder
     --
     AccessFailedCount : int
