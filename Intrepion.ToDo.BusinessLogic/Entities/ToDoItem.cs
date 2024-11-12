@@ -10,5 +10,6 @@ public class ToDoItem
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
     public ToDoList? ToDoList { get; set; }
+    [Required]
     // ActualPropertyPlaceholder
 }
