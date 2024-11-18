@@ -56,6 +56,7 @@ public static class ToDoListImporter
 
             var dbToDoList = await context.ToDoLists.SingleOrDefaultAsync(
                 x => true
+                && x.NormalizedTitle == toDoList.NormalizedTitle
                 // CompositeKeyCodePlaceholder
             );
 
