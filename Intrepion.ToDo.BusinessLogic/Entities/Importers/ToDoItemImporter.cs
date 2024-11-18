@@ -48,12 +48,19 @@ public static class ToDoItemImporter
 
         foreach (var record in records)
         {
+            var toDoList = toDoListList.FirstOrDefault(x =>
+                x.NormalizedTitle == record.ToDoList_NormalizedTitle
+            );
+
             var toDoItem = new ToDoItem
             {
                 ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
+                IsCompleted = record.IsCompleted,
+                Ordering = record.Ordering,
                 Title = record.Title,
                 NormalizedTitle = record.Title.ToUpper(CultureInfo.InvariantCulture),
+                ToDoList = toDoList,
                 // NewEntityCodePlaceholder
             };
 
@@ -70,6 +77,10 @@ public static class ToDoItemImporter
             else
             {
                 dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
+
+                dbToDoItem.IsCompleted = record.IsCompleted;
+                dbToDoItem.Ordering = record.Ordering;
+                dbToDoItem.ToDoList = toDoList;
             }
         }
 
