@@ -1,7 +1,7 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using Intrepion.ToDo.BusinessLogic.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
 
