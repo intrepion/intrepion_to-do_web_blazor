@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Grid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid;
 
 public class PageHelper : IPageHelper
 {
