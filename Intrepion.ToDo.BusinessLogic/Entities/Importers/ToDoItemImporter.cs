@@ -52,6 +52,7 @@ public static class ToDoItemImporter
             {
                 ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
+                Title = record.Title,
                 // NewEntityCodePlaceholder
             };
 
