@@ -47,7 +47,7 @@ public static class ToDoListImporter
 
         foreach (var record in records)
         {
-            var LowercaseNamePlaceholder = new ToDoList
+            var toDoList = new ToDoList
             {
                 ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
@@ -61,7 +61,7 @@ public static class ToDoListImporter
 
             if (dbToDoList is null)
             {
-                await context.TableNamePlaceholder.AddAsync(LowercaseNamePlaceholder);
+                await context.TableNamePlaceholder.AddAsync(toDoList);
             }
             else
             {
