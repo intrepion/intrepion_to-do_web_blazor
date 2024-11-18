@@ -1,13 +1,13 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Security.Claims;
+using Intrepion.ToDo.Client;
+using Intrepion.ToDo.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Intrepion.ToDo.Client;
-using Intrepion.ToDo.Data;
 
 namespace Intrepion.ToDo.Components.Account;
 
