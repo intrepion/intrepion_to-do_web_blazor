@@ -51,6 +51,7 @@ public static class ToDoListImporter
             {
                 ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
+                Title = record.Title,
                 // NewEntityCodePlaceholder
             };
 
