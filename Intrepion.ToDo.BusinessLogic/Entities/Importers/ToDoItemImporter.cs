@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Importers;
 
-public static class EntityNamePlaceholderImporter
+public static class ToDoItemImporter
 {
     public static async Task ImportAsync(
        ApplicationDbContext context,
@@ -41,31 +41,31 @@ public static class EntityNamePlaceholderImporter
             PrepareHeaderForMatch = x => x.Header.ToUpper(CultureInfo.InvariantCulture)
         });
 
-        var records = csv.GetRecords<EntityNamePlaceholderRecord>();
+        var records = csv.GetRecords<ToDoItemRecord>();
 
         // EntityListCodePlaceholder
 
         foreach (var record in records)
         {
-            var LowercaseNamePlaceholder = new EntityNamePlaceholder
+            var LowercaseNamePlaceholder = new ToDoItem
             {
                 ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
                 // NewEntityCodePlaceholder
             };
 
-            var dbEntityNamePlaceholder = await context.TableNamePlaceholder.SingleOrDefaultAsync(
+            var dbToDoItem = await context.TableNamePlaceholder.SingleOrDefaultAsync(
                 x => true
                 // CompositeKeyCodePlaceholder
             );
 
-            if (dbEntityNamePlaceholder is null)
+            if (dbToDoItem is null)
             {
                 await context.TableNamePlaceholder.AddAsync(LowercaseNamePlaceholder);
             }
             else
             {
-                dbEntityNamePlaceholder.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
+                dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
             }
         }
 
