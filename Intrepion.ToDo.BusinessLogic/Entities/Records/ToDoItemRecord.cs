@@ -2,5 +2,6 @@
 
 public class ToDoItemRecord
 {
+    public bool IsCompleted { get; set; }
     // RecordPropertyCodePlaceholder
 }
