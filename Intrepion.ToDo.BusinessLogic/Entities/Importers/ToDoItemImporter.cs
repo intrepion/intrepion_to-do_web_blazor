@@ -78,6 +78,7 @@ public static class ToDoItemImporter
                     dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
                     dbToDoItem.IsCompleted = record.IsCompleted;
+                    dbToDoItem.Ordering = record.Ordering;
                     // ExistingEntityCodePlaceholder
                 }
             }
