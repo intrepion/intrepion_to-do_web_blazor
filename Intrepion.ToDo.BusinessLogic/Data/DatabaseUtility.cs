@@ -1,9 +1,9 @@
-﻿using ApplicationNamePlaceholder.BusinessLogic.Entities;
-using ApplicationNamePlaceholder.BusinessLogic.Entities.Importers;
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
+using Intrepion.ToDo.BusinessLogic.Entities.Importers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ApplicationNamePlaceholder.BusinessLogic.Data;
+namespace Intrepion.ToDo.BusinessLogic.Data;
 
 public static class DatabaseUtility
 {
@@ -17,7 +17,7 @@ public static class DatabaseUtility
         var isNewDatabase = await applicationDbContext.Database.EnsureCreatedAsync();
 
         var adminName = "Admin";
-        var adminUserPass = adminName + "1@ApplicationNamePlaceholder.com";
+        var adminUserPass = adminName + "1@Intrepion.ToDo.com";
         var adminNormalizedUserName = adminUserPass.ToUpperInvariant();
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
