@@ -6,6 +6,7 @@ entity ToDoItem {
     ' ToDoItemKeyCodePlaceholder
     --
     IsCompleted : bool
+    Ordering : int
     ' ToDoItemPropertyCodePlaceholder
 }
 
