@@ -59,6 +59,7 @@ public static class ToDoListImporter
                     ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
                     Title = record.Title,
+                    NormalizedTitle = record.Title.ToUpper(CultureInfo.InvariantCulture),
                     // NewEntityCodePlaceholder
                 };
 
