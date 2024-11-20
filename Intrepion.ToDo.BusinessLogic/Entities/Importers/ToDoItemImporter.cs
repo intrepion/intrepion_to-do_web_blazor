@@ -68,6 +68,7 @@ public static class ToDoItemImporter
                     Ordering = record.Ordering,
                     ToDoList = toDoList,
                     Title = record.Title,
+                    NormalizedTitle = record.Title.ToUpper(CultureInfo.InvariantCulture),
                     // NewEntityCodePlaceholder
                 };
 
