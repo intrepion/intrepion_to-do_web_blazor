@@ -76,6 +76,7 @@ public static class ToDoListImporter
                 {
                     dbToDoList.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
+                    dbToDoList.Title = record.Title;
                     // ExistingEntityCodePlaceholder
                 }
             }
