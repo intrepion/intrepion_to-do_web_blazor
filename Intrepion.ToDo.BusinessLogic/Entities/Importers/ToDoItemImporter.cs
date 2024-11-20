@@ -20,9 +20,9 @@ public static class ToDoItemImporter
             return;
         }
 
-        if (context.TableNamePlaceholder is null)
+        if (context.ToDoItems is null)
         {
-            Console.WriteLine("Database table not found: context.TableNamePlaceholder");
+            Console.WriteLine("Database table not found: context.ToDoItems");
             return;
         }
 
@@ -61,14 +61,14 @@ public static class ToDoItemImporter
                     // NewEntityCodePlaceholder
                 };
 
-                var dbToDoItem = await context.TableNamePlaceholder.SingleOrDefaultAsync(
+                var dbToDoItem = await context.ToDoItems.SingleOrDefaultAsync(
                     x => true
                     // CompositeKeyCodePlaceholder
                 );
 
                 if (dbToDoItem is null)
                 {
-                    await context.TableNamePlaceholder.AddAsync(toDoItem);
+                    await context.ToDoItems.AddAsync(toDoItem);
                 }
                 else
                 {
