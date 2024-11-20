@@ -12,6 +12,14 @@ entity ToDoItem {
     ' ToDoItemPropertyCodePlaceholder
 }
 
+entity ToDoList {
+    Id : Guid
+    --
+    ' ToDoListKeyCodePlaceholder
+    --
+    ' ToDoListPropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ToDoItem }o--o| ToDoList
