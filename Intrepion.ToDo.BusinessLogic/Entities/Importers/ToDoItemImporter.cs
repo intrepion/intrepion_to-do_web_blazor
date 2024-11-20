@@ -52,6 +52,8 @@ public static class ToDoItemImporter
             var toDoList = toDoListList.FirstOrDefault(x =>
                 true
                 && x.NormalizedTitle == record.ToDoList_NormalizedTitle
+            );
+
             // ManyToOneCodePlaceholder
 
             if (true
