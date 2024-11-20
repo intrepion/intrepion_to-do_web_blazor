@@ -20,9 +20,9 @@ public static class ToDoListImporter
             return;
         }
 
-        if (context.TableNamePlaceholder is null)
+        if (context.ToDoLists is null)
         {
-            Console.WriteLine("Database table not found: context.TableNamePlaceholder");
+            Console.WriteLine("Database table not found: context.ToDoLists");
             return;
         }
 
@@ -61,14 +61,14 @@ public static class ToDoListImporter
                     // NewEntityCodePlaceholder
                 };
 
-                var dbToDoList = await context.TableNamePlaceholder.SingleOrDefaultAsync(
+                var dbToDoList = await context.ToDoLists.SingleOrDefaultAsync(
                     x => true
                     // CompositeKeyCodePlaceholder
                 );
 
                 if (dbToDoList is null)
                 {
-                    await context.TableNamePlaceholder.AddAsync(toDoList);
+                    await context.ToDoLists.AddAsync(toDoList);
                 }
                 else
                 {
