@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
 
 public interface IApplicationRoleFilters
 {
