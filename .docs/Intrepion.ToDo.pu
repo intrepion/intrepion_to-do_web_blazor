@@ -3,6 +3,7 @@
 entity ToDoItem {
     Id : Guid
     --
+    ToDoList : ToDoList
     ' ToDoItemKeyCodePlaceholder
     --
     CreateDateTime : DateTime
