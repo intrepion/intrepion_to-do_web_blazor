@@ -7,5 +7,6 @@ public class ToDoItemRecord
     public int Ordering { get; set; }
     public string ToDoList_NormalizedTitle { get; set; } = string.Empty;
     public DateTime ToDoList_CreateDateTime { get; set; }
+    public string Title { get; set; } = string.Empty;
     // RecordPropertyCodePlaceholder
 }
