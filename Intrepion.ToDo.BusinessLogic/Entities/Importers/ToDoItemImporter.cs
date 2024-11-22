@@ -79,6 +79,7 @@ public static class ToDoItemImporter
                 {
                     dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
+                    dbToDoItem.CreateDateTime = record.CreateDateTime;
                     // ExistingEntityCodePlaceholder
                 }
             }
