@@ -8,5 +8,6 @@ public class ToDoList
     public Guid Id { get; set; }
 
     public DateTime CreateDateTime { get; set; }
+    public ICollection<ToDoItem> ToDoItems { get; set; } = [];
     // ActualPropertyPlaceholder
 }
