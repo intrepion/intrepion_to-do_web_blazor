@@ -29,6 +29,7 @@
         @if (!DeleteConfirmation)
         {
             <div class="col-3">@CurrentToDoItem?.CreateDateTime</div>
+            <div class="col-3">@CurrentToDoItem?.IsCompleted</div>
             @* RowColumnCodePlaceholder *@
         }
         else
