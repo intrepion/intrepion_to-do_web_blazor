@@ -52,6 +52,10 @@
                 <SortIndicator Column="@(ToDoItemFilterColumns.IsCompleted)" />&nbsp;IsCompleted
             </div>
 
+            <div class="col-3" @onclick="@(async ()=>await ToggleAsync(ToDoItemFilterColumns.Ordering))">
+                <SortIndicator Column="@(ToDoItemFilterColumns.Ordering)" />&nbsp;Ordering
+            </div>
+
             @* SortIndicatorCodePlaceholder *@
 
         </div>
