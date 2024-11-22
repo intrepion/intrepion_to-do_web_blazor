@@ -79,6 +79,7 @@ public static class ToDoListImporter
                     dbToDoList.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
                     dbToDoList.CreateDateTime = record.CreateDateTime;
+                    dbToDoList.Title = record.Title;
                     // ExistingEntityCodePlaceholder
                 }
             }
