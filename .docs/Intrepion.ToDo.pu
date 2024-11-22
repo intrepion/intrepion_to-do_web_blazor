@@ -20,6 +20,7 @@ entity ToDoList {
     ' ToDoListKeyCodePlaceholder
     --
     CreateDateTime : DateTime
+    Title : string
     ' ToDoListPropertyCodePlaceholder
 }
 
