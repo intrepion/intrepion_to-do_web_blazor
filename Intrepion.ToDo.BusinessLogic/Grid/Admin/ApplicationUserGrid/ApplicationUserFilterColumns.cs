@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Grid.Admin.ApplicationUserGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationUserGrid;
 
 public enum ApplicationUserFilterColumns
 {
