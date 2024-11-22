@@ -60,6 +60,7 @@ public static class ToDoListImporter
 
                     CreateDateTime = record.CreateDateTime,
                     Title = record.Title,
+                    NormalizedTitle = record.Title.ToUpper(CultureInfo.InvariantCulture),
                     // NewEntityCodePlaceholder
                 };
 
