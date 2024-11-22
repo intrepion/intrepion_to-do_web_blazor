@@ -3,36 +3,36 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Intrepion.ToDo.BusinessLogic.Entities;
 
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoListGrid;
 
-public class EntityNamePlaceholderGridQueryAdapter
+public class ToDoListGridQueryAdapter
 {
-    private readonly IEntityNamePlaceholderFilters controls;
+    private readonly IToDoListFilters controls;
 
-    private readonly Dictionary<EntityNamePlaceholderFilterColumns, Expression<Func<EntityNamePlaceholder, string>>> expressions =
+    private readonly Dictionary<ToDoListFilterColumns, Expression<Func<ToDoList, string>>> expressions =
         new()
         {
-            { EntityNamePlaceholderFilterColumns.Id, x => !x.Id.Equals(Guid.Empty) ? x.Id.ToString() : string.Empty },
+            { ToDoListFilterColumns.Id, x => !x.Id.Equals(Guid.Empty) ? x.Id.ToString() : string.Empty },
 
             // SortExpressionCodePlaceholder
         };
 
-    private readonly Dictionary<EntityNamePlaceholderFilterColumns, Func<IQueryable<EntityNamePlaceholder>, IQueryable<EntityNamePlaceholder>>> filterQueries = [];
+    private readonly Dictionary<ToDoListFilterColumns, Func<IQueryable<ToDoList>, IQueryable<ToDoList>>> filterQueries = [];
 
-    public EntityNamePlaceholderGridQueryAdapter(IEntityNamePlaceholderFilters controls)
+    public ToDoListGridQueryAdapter(IToDoListFilters controls)
     {
         this.controls = controls;
 
         filterQueries =
             new()
             {
-                { EntityNamePlaceholderFilterColumns.Id, x => x.Where(y => y != null && !y.Id.Equals(Guid.Empty) && this.controls.FilterText != null && y.Id.ToString().Contains(this.controls.FilterText) ) },
+                { ToDoListFilterColumns.Id, x => x.Where(y => y != null && !y.Id.Equals(Guid.Empty) && this.controls.FilterText != null && y.Id.ToString().Contains(this.controls.FilterText) ) },
 
                 // QueryExpressionCodePlaceholder
             };
     }
 
-    public async Task<ICollection<EntityNamePlaceholder>> FetchAsync(IQueryable<EntityNamePlaceholder> query)
+    public async Task<ICollection<ToDoList>> FetchAsync(IQueryable<ToDoList> query)
     {
         query = FilterAndQuery(query);
         await CountAsync(query);
@@ -41,16 +41,16 @@ public class EntityNamePlaceholderGridQueryAdapter
         return collection;
     }
 
-    public async Task CountAsync(IQueryable<EntityNamePlaceholder> query) =>
+    public async Task CountAsync(IQueryable<ToDoList> query) =>
         controls.PageHelper.TotalItemCount = await query.CountAsync();
 
-    public IQueryable<EntityNamePlaceholder> FetchPageQuery(IQueryable<EntityNamePlaceholder> query) =>
+    public IQueryable<ToDoList> FetchPageQuery(IQueryable<ToDoList> query) =>
         query
             .Skip(controls.PageHelper.Skip)
             .Take(controls.PageHelper.PageSize)
             .AsNoTracking();
 
-    private IQueryable<EntityNamePlaceholder> FilterAndQuery(IQueryable<EntityNamePlaceholder> root)
+    private IQueryable<ToDoList> FilterAndQuery(IQueryable<ToDoList> root)
     {
         var sb = new System.Text.StringBuilder();
 
