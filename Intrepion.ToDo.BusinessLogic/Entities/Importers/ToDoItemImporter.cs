@@ -83,6 +83,7 @@ public static class ToDoItemImporter
 
                     dbToDoItem.CreateDateTime = record.CreateDateTime;
                     dbToDoItem.IsCompleted = record.IsCompleted;
+                    dbToDoItem.Ordering = record.Ordering;
                     // ExistingEntityCodePlaceholder
                 }
             }
