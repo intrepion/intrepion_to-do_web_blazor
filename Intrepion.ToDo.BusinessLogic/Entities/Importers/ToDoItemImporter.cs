@@ -59,6 +59,7 @@ public static class ToDoItemImporter
                 {
                     ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
+                    CreateDateTime = record.CreateDateTime,
                     // NewEntityCodePlaceholder
                 };
 
