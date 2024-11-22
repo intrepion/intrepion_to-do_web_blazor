@@ -21,6 +21,13 @@
                 <InputCheckbox @bind-Value="ToDoItem.IsCompleted" @oninput="HandleIsCompletedChange"/>
             </label>
         </p>
+        <h2>Ordering</h2>
+        <p>
+            <label>
+                Ordering:
+                <InputNumber @bind-Value="ToDoItem.Ordering" @oninput="HandleOrderingChange"/>
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
