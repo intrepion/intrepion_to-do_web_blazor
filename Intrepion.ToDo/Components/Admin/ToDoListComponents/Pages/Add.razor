@@ -1,4 +1,4 @@
-@page "/admin/UrlNamePlaceholder/add"
+@page "/admin/to-do-list/add"
 @rendermode InteractiveServer
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
@@ -72,7 +72,7 @@
             Success = true;
             Error = false;
 
-            Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{ToDoList?.Id}");
+            Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList?.Id}");
         }
         catch (Exception ex)
         {
@@ -83,5 +83,5 @@
         }
     }
 
-    private void Cancel() => Navigation.NavigateTo($"/admin/UrlNamePlaceholder/{PageHelper.Page}");
+    private void Cancel() => Navigation.NavigateTo($"/admin/to-do-list/{PageHelper.Page}");
 }
