@@ -1,5 +1,5 @@
+﻿using Intrepion.ToDo.Data;
 using Microsoft.AspNetCore.Identity;
-using Intrepion.ToDo.Data;
 
 namespace Intrepion.ToDo.Components.Account;
 
