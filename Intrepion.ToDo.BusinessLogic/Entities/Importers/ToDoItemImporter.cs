@@ -59,7 +59,7 @@ public static class ToDoItemImporter
 
             if (true
                 && toDoList is not null
-                // NullCheckCodePlaceholder
+            // NullCheckCodePlaceholder
             )
             {
                 var toDoItem = new ToDoItem
