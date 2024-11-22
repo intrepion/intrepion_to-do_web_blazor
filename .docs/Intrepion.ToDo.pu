@@ -6,6 +6,7 @@ entity ToDoItem {
     ' ToDoItemKeyCodePlaceholder
     --
     CreateDateTime : DateTime
+    IsCompleted : bool
     ' ToDoItemPropertyCodePlaceholder
 }
 
