@@ -51,6 +51,7 @@ public static class ToDoItemImporter
             // ManyToOneCodePlaceholder
 
             if (true
+                && toDoList is not null
                 // NullCheckCodePlaceholder
             )
             {
