@@ -52,6 +52,7 @@ public static class ToDoItemImporter
             var toDoList = toDoListList.FirstOrDefault(x =>
                 true
                 && x.NormalizedTitle.Equals(record.ToDoList_NormalizedTitle)
+                && x.CreateDateTime.Equals(record.ToDoList_CreateDateTime)
             // ManyToOneCodePlaceholder
 
             if (true
