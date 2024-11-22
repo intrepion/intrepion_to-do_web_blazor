@@ -9,5 +9,6 @@ public class ToDoList
 
     public DateTime CreateDateTime { get; set; }
     public ICollection<ToDoItem> ToDoItems { get; set; } = [];
+    [Required]
     // ActualPropertyPlaceholder
 }
