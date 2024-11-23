@@ -104,6 +104,7 @@ public static class ToDoItemImporter
                     dbToDoItem.IsCompleted = record.IsCompleted;
                     dbToDoItem.Ordering = record.Ordering;
                     dbToDoItem.ToDoList = toDoList;
+                    dbToDoItem.Title = record.Title;
                     // ExistingEntityCodePlaceholder
                 }
             }
