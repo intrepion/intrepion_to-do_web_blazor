@@ -88,6 +88,7 @@ public static class ToDoItemImporter
                     dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
                     dbToDoItem.ApplicationUser = applicationUser;
+                    dbToDoItem.CreateDateTime = record.CreateDateTime;
                     // ExistingEntityCodePlaceholder
                 }
             }
