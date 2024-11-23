@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Intrepion.ToDo.BusinessLogic\Intrepion.ToDo.BusinessLogic.csproj" />
+  </ItemGroup>
+
 </Project>
