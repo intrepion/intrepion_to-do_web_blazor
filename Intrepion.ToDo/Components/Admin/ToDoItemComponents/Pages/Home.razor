@@ -44,6 +44,10 @@
                 <SortIndicator Column="@(ToDoItemFilterColumns.Id)" />&nbsp;Id
             </div>
 
+            <div class="col-3" @onclick="@(async ()=>await ToggleAsync(ToDoItemFilterColumns.CreateDateTime))">
+                <SortIndicator Column="@(ToDoItemFilterColumns.CreateDateTime)" />&nbsp;CreateDateTime
+            </div>
+
             @* SortIndicatorCodePlaceholder *@
 
         </div>
