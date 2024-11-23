@@ -1,16 +1,16 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 
-public class EntityNamePlaceholderGridControls(IPageHelper pageHelper) : IEntityNamePlaceholderFilters
+public class ToDoItemGridControls(IPageHelper pageHelper) : IToDoItemFilters
 {
     public IPageHelper PageHelper { get; set; } = pageHelper;
 
     public bool Loading { get; set; }
 
-    public EntityNamePlaceholderFilterColumns SortColumn { get; set; } = EntityNamePlaceholderFilterColumns.Id;
+    public ToDoItemFilterColumns SortColumn { get; set; } = ToDoItemFilterColumns.Id;
 
     public bool SortAscending { get; set; } = true;
 
-    public EntityNamePlaceholderFilterColumns FilterColumn { get; set; } = EntityNamePlaceholderFilterColumns.Id;
+    public ToDoItemFilterColumns FilterColumn { get; set; } = ToDoItemFilterColumns.Id;
 
     public string? FilterText { get; set; }
 }
