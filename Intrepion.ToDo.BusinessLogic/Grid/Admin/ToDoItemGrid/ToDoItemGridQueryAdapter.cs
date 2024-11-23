@@ -14,6 +14,7 @@ public class ToDoItemGridQueryAdapter
         {
             { ToDoItemFilterColumns.Id, x => !x.Id.Equals(Guid.Empty) ? x.Id.ToString() : string.Empty },
 
+            { ToDoItemFilterColumns.CreateDateTime, x => x != null ? x.CreateDateTime.ToString() : string.Empty },
             // SortExpressionCodePlaceholder
         };
 
