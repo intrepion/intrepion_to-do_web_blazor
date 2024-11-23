@@ -21,4 +21,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Intrepion.ToDo.BusinessLogic\Intrepion.ToDo.BusinessLogic.csproj" />
+  </ItemGroup>
+
 </Project>
