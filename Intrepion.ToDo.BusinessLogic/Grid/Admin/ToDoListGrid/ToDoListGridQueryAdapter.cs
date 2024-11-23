@@ -14,6 +14,7 @@ public class ToDoListGridQueryAdapter
         {
             { ToDoListFilterColumns.Id, x => !x.Id.Equals(Guid.Empty) ? x.Id.ToString() : string.Empty },
 
+            { ToDoListFilterColumns.CreateDateTime, x => x != null ? x.CreateDateTime.ToString() : string.Empty },
             // SortExpressionCodePlaceholder
         };
 
