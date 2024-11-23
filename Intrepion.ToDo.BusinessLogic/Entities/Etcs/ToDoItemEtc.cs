@@ -7,10 +7,10 @@ public class ToDoItemEtc : IEntityTypeConfiguration<ToDoItem>
 {
     public void Configure(EntityTypeBuilder<ToDoItem> builder)
     {
-        builder.ToTable("TableNamePlaceholder", x => x.IsTemporal());
+        builder.ToTable("ToDoItems", x => x.IsTemporal());
 
         builder.HasOne(x => x.ApplicationUserUpdatedBy)
-            .WithMany(x => x.UpdatedTableNamePlaceholder)
+            .WithMany(x => x.UpdatedToDoItems)
             .OnDelete(DeleteBehavior.Restrict);
 
         // EntityConfigurationCodePlaceholder
