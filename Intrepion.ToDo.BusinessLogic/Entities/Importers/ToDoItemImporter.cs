@@ -86,6 +86,7 @@ public static class ToDoItemImporter
                 {
                     dbToDoItem.ApplicationUserUpdatedBy = applicationUserUpdatedBy;
 
+                    dbToDoItem.ApplicationUser = applicationUser;
                     // ExistingEntityCodePlaceholder
                 }
             }
