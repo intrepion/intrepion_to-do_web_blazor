@@ -90,6 +90,7 @@ public static class ToDoItemImporter
 
                     dbToDoItem.ApplicationUser = applicationUser;
                     dbToDoItem.CreateDateTime = record.CreateDateTime;
+                    dbToDoItem.IsCompleted = record.IsCompleted;
                     // ExistingEntityCodePlaceholder
                 }
             }
