@@ -7,5 +7,6 @@ public enum ToDoItemFilterColumns
     CreateDateTime,
     IsCompleted,
     Ordering,
+    Title,
     // FilterColumnCodePlaceholder
 }
