@@ -78,6 +78,7 @@ public static class ToDoItemImporter
                     CreateDateTime = record.CreateDateTime,
                     IsCompleted = record.IsCompleted,
                     Ordering = record.Ordering,
+                    ToDoList = toDoList,
                     // NewEntityCodePlaceholder
                 };
 
