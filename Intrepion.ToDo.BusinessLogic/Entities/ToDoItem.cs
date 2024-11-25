@@ -8,5 +8,6 @@ public class ToDoItem
     public Guid Id { get; set; }
 
     public ApplicationUser? ApplicationUser { get; set; }
+    public DateTime CreateDateTime { get; set; }
     // ActualPropertyPlaceholder
 }
