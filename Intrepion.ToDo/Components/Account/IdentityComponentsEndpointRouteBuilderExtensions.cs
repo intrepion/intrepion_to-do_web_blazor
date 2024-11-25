@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
-using Intrepion.ToDo.Components.Account.Pages;
-using Intrepion.ToDo.Components.Account.Pages.Manage;
-using Intrepion.ToDo.Data;
+using ApplicationNamePlaceholder.BusinessLogic.Entities;
+using ApplicationNamePlaceholder.Components.Account.Pages;
+using ApplicationNamePlaceholder.Components.Account.Pages.Manage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
