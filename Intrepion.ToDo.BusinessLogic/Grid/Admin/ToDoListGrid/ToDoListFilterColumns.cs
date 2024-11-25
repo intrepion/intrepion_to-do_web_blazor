@@ -5,5 +5,6 @@ public enum ToDoListFilterColumns
     Id,
 
     CreateDateTime,
+    Title,
     // FilterColumnCodePlaceholder
 }
