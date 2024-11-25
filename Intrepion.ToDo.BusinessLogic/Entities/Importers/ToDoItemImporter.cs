@@ -60,6 +60,8 @@ public static class ToDoItemImporter
                 && x.ApplicationUser.NormalizedUserName.Equals(record.ToDoList_ApplicationUser_NormalizedUserName)
                 && x.NormalizedTitle.Equals(record.ToDoList_NormalizedTitle)
                 && x.CreateDateTime.Equals(record.ToDoList_CreateDateTime)
+            );
+
             // ManyToOneCodePlaceholder
 
             if (true
