@@ -89,6 +89,23 @@
 
     private void HandleTitleChange(ChangeEventArgs changeEventArgs)
     {
+        if (ToDoItem == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs.Value == null)
+        {
+            return;
+        }
+
+        ToDoItem.NormalizedTitle = ((string)changeEventArgs.Value).ToUpperInvariant();
+
         // NormalizedCodeTitlePlaceholder
     }
 
