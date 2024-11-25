@@ -1,5 +1,13 @@
 @startuml
 
+entity ToDoItem {
+    Id : Guid
+    --
+    ' ToDoItemKeyCodePlaceholder
+    --
+    ' ToDoItemPropertyCodePlaceholder
+}
+
 ' EntityCodePlaceholder
 
 ' RelationshipCodePlaceholder
