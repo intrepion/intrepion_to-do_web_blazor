@@ -16,6 +16,7 @@ entity ToDoItem {
 ' EntityCodePlaceholder
 
 ToDoItem }o--o| ApplicationUser
+ToDoItem }o--o| ToDoList
 ' RelationshipCodePlaceholder
 
 @enduml
