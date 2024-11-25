@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationUserGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationUserGrid;
 
 public class ApplicationUserGridControls(IPageHelper pageHelper) : IApplicationUserFilters
 {

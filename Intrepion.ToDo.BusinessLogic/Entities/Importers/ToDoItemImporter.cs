@@ -67,7 +67,7 @@ public static class ToDoItemImporter
             if (true
                 && applicationUser is not null
                 && toDoList is not null
-                // NullCheckCodePlaceholder
+            // NullCheckCodePlaceholder
             )
             {
                 var toDoItem = new ToDoItem
