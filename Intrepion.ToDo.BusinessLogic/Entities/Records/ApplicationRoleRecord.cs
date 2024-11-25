@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Entities.Records;
+﻿namespace Intrepion.ToDo.BusinessLogic.Entities.Records;
 
 public class ApplicationRoleRecord
 {
