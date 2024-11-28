@@ -54,6 +54,7 @@ public static class ToDoItemImporter
                 && applicationUser is not null
                 && toDoList is not null
                 && toDoList is not null
+                && toDoList is not null
                 // NullCheckCodePlaceholder
             )
             {
