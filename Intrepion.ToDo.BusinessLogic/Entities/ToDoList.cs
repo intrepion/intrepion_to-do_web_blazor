@@ -10,5 +10,6 @@ public class ToDoList
     public DateTime UpdateDateTime { get; set; }
 
     public ApplicationUser? ApplicationUser { get; set; }
+    public ICollection<ToDoItem> ToDoItems { get; set; } = [];
     // ActualPropertyPlaceholder
 }
