@@ -6,6 +6,7 @@ entity ToDoItem {
     ApplicationUser : ApplicationUser
     ' ToDoItemKeyCodePlaceholder
     --
+    DueDateTime : DateTime
     ' ToDoItemPropertyCodePlaceholder
 }
 
