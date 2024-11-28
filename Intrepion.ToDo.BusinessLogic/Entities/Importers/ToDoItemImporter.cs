@@ -45,6 +45,7 @@ public static class ToDoItemImporter
         var records = csv.GetRecords<ToDoItemRecord>();
 
         var applicationUserList = await context.Users.ToListAsync();
+        var toDoListList = await context.ToDoLists.ToListAsync();
         // EntityListCodePlaceholder
 
         foreach (var record in records)
