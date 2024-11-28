@@ -18,6 +18,7 @@ entity ToDoList {
     Id : Guid
     --
     ApplicationUser : ApplicationUser
+    ToDoItems : ICollection<ToDoItem>
     ' ToDoListKeyCodePlaceholder
     --
     DueDateTime : DateTime
