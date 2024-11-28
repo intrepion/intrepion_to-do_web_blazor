@@ -8,6 +8,7 @@ entity ToDoItem {
     --
     DueDateTime : DateTime
     IsCompleted : bool
+    Ordering : int
     ' ToDoItemPropertyCodePlaceholder
 }
 
