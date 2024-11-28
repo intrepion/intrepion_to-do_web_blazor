@@ -6,11 +6,11 @@
 @inject IPageHelper PageHelper
 @inject EditSuccess EditSuccessState
 
-<PageTitle>HumanNamePlaceholder Edit</PageTitle>
+<PageTitle>To Do List Edit</PageTitle>
 
 @if (ToDoList is null && !Busy)
 {
-    <p>Could not find HumanNamePlaceholder with id @ToDoListId.</p>
+    <p>Could not find To Do List with id @ToDoListId.</p>
 }
 else
 {
@@ -27,7 +27,7 @@ else
     <br />
     <div class="alert alert-danger">
         <p>
-            The HumanNamePlaceholder details have changed since it was last loaded. The updated fields are highlighted in the form.
+            The To Do List details have changed since it was last loaded. The updated fields are highlighted in the form.
             Please choose an option:
         </p>
         <p><b>Cancel</b> to lose your changes and keep the database version.</p>
@@ -38,7 +38,7 @@ else
 @if (Error)
 {
     <br />
-    <div class="alert alert-danger">Failed to update the HumanNamePlaceholder (@ErrorMessage).</div>
+    <div class="alert alert-danger">Failed to update the To Do List (@ErrorMessage).</div>
 }
 
 @code {
