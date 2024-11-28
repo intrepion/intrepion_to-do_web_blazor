@@ -20,6 +20,7 @@ entity ToDoList {
     ToDoItems : ICollection<ToDoItem>
     ' ToDoListKeyCodePlaceholder
     --
+    Title : string
     ' ToDoListPropertyCodePlaceholder
 }
 
