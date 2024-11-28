@@ -24,6 +24,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         new ApplicationUserTokenEtc().Configure(builder.Entity<ApplicationUserToken>());
 
         new ToDoItemEtc().Configure(builder.Entity<ToDoItem>());
+        new ToDoListEtc().Configure(builder.Entity<ToDoList>());
         // EntityTypeCfgCodePlaceholder
     }
 }
