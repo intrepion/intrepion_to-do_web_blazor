@@ -71,6 +71,7 @@ public static class ToDoItemImporter
                     ApplicationUser = applicationUser,
                     DueDateTime = record.DueDateTime,
                     IsCompleted = record.IsCompleted,
+                    Ordering = record.Ordering,
                     // NewEntityCodePlaceholder
                 };
 
