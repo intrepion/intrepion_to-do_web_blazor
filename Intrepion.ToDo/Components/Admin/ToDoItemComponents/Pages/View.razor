@@ -1,4 +1,4 @@
-@page "/admin/UrlNamePlaceholder/view/{ToDoItemId:guid}"
+@page "/admin/to-do-item/view/{ToDoItemId:guid}"
 @rendermode InteractiveServer
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject IPageHelper PageHelper
@@ -33,13 +33,13 @@ else
 
         @* PropertyCodePlaceholder *@
 
-        <a class="btn btn-primary" title="Go Back" href="admin/UrlNamePlaceholder/@PageHelper.Page">
+        <a class="btn btn-primary" title="Go Back" href="admin/to-do-item/@PageHelper.Page">
             Back to Grid
         </a>
         <span>&nbsp;</span>
         @if (!Deleted)
         {
-            <a class="btn btn-primary" href="admin/UrlNamePlaceholder/edit/@ToDoItem.Id" title="Edit">Edit</a>
+            <a class="btn btn-primary" href="admin/to-do-item/edit/@ToDoItem.Id" title="Edit">Edit</a>
 
             <span>&nbsp;</span>
             @if (!ShowConfirmation)
