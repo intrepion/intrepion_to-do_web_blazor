@@ -2,5 +2,6 @@
 
 public class ToDoItemRecord
 {
+    public string ApplicationUser_NormalizedUserName { get; set; } = string.Empty;
     // RecordPropertyCodePlaceholder
 }
