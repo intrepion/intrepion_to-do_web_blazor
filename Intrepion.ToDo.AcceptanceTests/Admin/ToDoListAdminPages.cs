@@ -29,6 +29,7 @@ public partial class ToDoListAdminPages : PageTest
         await Expect(Page).ToHaveTitleAsync("To Do List Edit");
 
         await Page.GetByLabel("Due Date Time:", new() { Exact = true }).FillAsync("2022-02-02");
+        await Page.GetByLabel("Title:", new() { Exact = true }).FillAsync("someTitle" + someRandomString);
         // ModifyPropertyCodePlaceholder
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
