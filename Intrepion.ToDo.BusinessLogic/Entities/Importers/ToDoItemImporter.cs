@@ -57,7 +57,7 @@ public static class ToDoItemImporter
 
             var toDoList = toDoListList.FirstOrDefault(x =>
                 true
-                && x.NormalizedUserName.Equals(record.ApplicationUser_NormalizedUserName)
+                && x.ApplicationUser.NormalizedUserName.Equals(record.ToDoList_ApplicationUser_NormalizedUserName)
                 && x.NormalizedTitle.Equals(record.ToDoList_NormalizedTitle)
                 && x.CreateDateTime.Equals(record.ToDoList_CreateDateTime)
             );
