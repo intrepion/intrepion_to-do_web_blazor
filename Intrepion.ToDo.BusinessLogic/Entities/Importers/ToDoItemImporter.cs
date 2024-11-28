@@ -97,6 +97,7 @@ public static class ToDoItemImporter
                     dbToDoItem.ApplicationUser = applicationUser;
                     dbToDoItem.DueDateTime = record.DueDateTime;
                     dbToDoItem.IsCompleted = record.IsCompleted;
+                    dbToDoItem.Ordering = record.Ordering;
                     // ExistingEntityCodePlaceholder
                 }
             }
