@@ -77,6 +77,7 @@ public static class ToDoItemImporter
                     ApplicationUser = applicationUser,
                     IsCompleted = record.IsCompleted,
                     Ordering = record.Ordering,
+                    ToDoList = toDoList,
                     // NewEntityCodePlaceholder
                 };
 
