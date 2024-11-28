@@ -49,6 +49,8 @@ public static class ToDoItemImporter
 
         foreach (var record in records)
         {
+            var applicationUser = applicationUserList.FirstOrDefault(x =>
+                true
             // ManyToOneCodePlaceholder
 
             if (true
