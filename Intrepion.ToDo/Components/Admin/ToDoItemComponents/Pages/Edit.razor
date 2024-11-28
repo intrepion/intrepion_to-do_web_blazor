@@ -1,4 +1,4 @@
-@page "/admin/UrlNamePlaceholder/edit/{EntityNamePlaceholderId:guid}"
+@page "/admin/UrlNamePlaceholder/edit/{ToDoItemId:guid}"
 @rendermode InteractiveServer
 @implements IDisposable
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
@@ -8,15 +8,15 @@
 
 <PageTitle>HumanNamePlaceholder Edit</PageTitle>
 
-@if (EntityNamePlaceholder is null && !Busy)
+@if (ToDoItem is null && !Busy)
 {
-    <p>Could not find HumanNamePlaceholder with id @EntityNamePlaceholderId.</p>
+    <p>Could not find HumanNamePlaceholder with id @ToDoItemId.</p>
 }
 else
 {
-    <EntityNamePlaceholderForm Busy="Busy" 
-                 EntityNamePlaceholder="EntityNamePlaceholder" 
-                 DbEntityNamePlaceholder="DbEntityNamePlaceholder" 
+    <ToDoItemForm Busy="Busy" 
+                 ToDoItem="ToDoItem" 
+                 DbToDoItem="DbToDoItem" 
                  IsAdd="false" 
                  CancelRequest="Cancel" 
                  ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
@@ -43,13 +43,13 @@ else
 
 @code {
     [Parameter]
-    public Guid EntityNamePlaceholderId { get; set; }
+    public Guid ToDoItemId { get; set; }
 
     private ApplicationDbContext? Context { get; set; }
 
-    private EntityNamePlaceholder EntityNamePlaceholder { get; set; } = new EntityNamePlaceholder();
+    private ToDoItem ToDoItem { get; set; } = new ToDoItem();
 
-    private EntityNamePlaceholder DbEntityNamePlaceholder { get; set; } = new EntityNamePlaceholder();
+    private ToDoItem DbToDoItem { get; set; } = new ToDoItem();
 
     private bool Busy;
 
@@ -69,11 +69,11 @@ else
 
             if (Context is not null && Context.TableNamePlaceholder is not null)
             {
-                var LowercaseNamePlaceholder = await Context.TableNamePlaceholder.SingleOrDefaultAsync(x => x.Id == EntityNamePlaceholderId);
+                var LowercaseNamePlaceholder = await Context.TableNamePlaceholder.SingleOrDefaultAsync(x => x.Id == ToDoItemId);
 
                 if (LowercaseNamePlaceholder is not null)
                 {
-                    EntityNamePlaceholder = LowercaseNamePlaceholder;
+                    ToDoItem = LowercaseNamePlaceholder;
                 }
             }
         }
@@ -106,7 +106,7 @@ else
             }
 
             EditSuccessState.Success = true;
-            Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{EntityNamePlaceholder.Id}");
+            Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{ToDoItem.Id}");
         }
         catch (DbUpdateConcurrencyException dbex)
         {
@@ -118,11 +118,11 @@ else
 
             if (dbValues is null)
             {
-                Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{EntityNamePlaceholder.Id}");
+                Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{ToDoItem.Id}");
                 return;
             }
 
-            DbEntityNamePlaceholder = (EntityNamePlaceholder)dbValues.ToObject();
+            DbToDoItem = (ToDoItem)dbValues.ToObject();
 
             dbex.Entries[0].OriginalValues.SetValues(dbValues);
             Error = false;
