@@ -1,4 +1,4 @@
-using Intrepion.ToDo.Client;
+﻿using Intrepion.ToDo.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
