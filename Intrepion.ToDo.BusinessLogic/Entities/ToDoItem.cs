@@ -16,5 +16,6 @@ public class ToDoItem
     [Required]
     public string Title { get; set; } = string.Empty;
     [Required]
+    public string NormalizedTitle { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
