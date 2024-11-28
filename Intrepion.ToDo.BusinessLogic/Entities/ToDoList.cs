@@ -12,5 +12,6 @@ public class ToDoList
     public ApplicationUser? ApplicationUser { get; set; }
     public ICollection<ToDoItem> ToDoItems { get; set; } = [];
     [Required]
+    public string Title { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
