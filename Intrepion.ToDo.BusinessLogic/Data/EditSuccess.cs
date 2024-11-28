@@ -1,4 +1,4 @@
-﻿namespace ApplicationNamePlaceholder.BusinessLogic.Data;
+﻿namespace Intrepion.ToDo.BusinessLogic.Data;
 
 public class EditSuccess
 {
