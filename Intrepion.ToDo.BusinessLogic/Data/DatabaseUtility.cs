@@ -85,6 +85,7 @@ public static class DatabaseUtility
         await ApplicationUserImporter.ImportAsync(applicationDbContext, adminUserPass, applicationUserCsvFilePath);
 
         await ToDoItemImporter.ImportAsync(applicationDbContext, adminUserPass, toDoItemCsvFilePath);
+        await ToDoListImporter.ImportAsync(applicationDbContext, adminUserPass, toDoListCsvFilePath);
         // ImporterSecondCodePlaceholder
     }
 }
