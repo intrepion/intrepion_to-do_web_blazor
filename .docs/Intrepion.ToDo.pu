@@ -3,6 +3,7 @@
 entity ToDoItem {
     Id : Guid
     --
+    ApplicationUser : ApplicationUser
     ' ToDoItemKeyCodePlaceholder
     --
     ' ToDoItemPropertyCodePlaceholder
