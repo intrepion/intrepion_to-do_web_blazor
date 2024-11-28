@@ -44,6 +44,10 @@
                 <SortIndicator Column="@(ToDoItemFilterColumns.Id)" />&nbsp;Id
             </div>
 
+            <div class="col-3" @onclick="@(async ()=>await ToggleAsync(ToDoItemFilterColumns.DueDateTime))">
+                <SortIndicator Column="@(ToDoItemFilterColumns.DueDateTime)" />&nbsp;DueDateTime
+            </div>
+
             @* SortIndicatorCodePlaceholder *@
 
         </div>
