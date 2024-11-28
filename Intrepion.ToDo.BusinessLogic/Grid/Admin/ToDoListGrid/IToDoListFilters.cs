@@ -1,8 +1,8 @@
-﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.EntityNamePlaceholderGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoListGrid;
 
-public interface IEntityNamePlaceholderFilters
+public interface IToDoListFilters
 {
-    EntityNamePlaceholderFilterColumns FilterColumn { get; set; }
+    ToDoListFilterColumns FilterColumn { get; set; }
 
     bool Loading { get; set; }
 
@@ -12,5 +12,5 @@ public interface IEntityNamePlaceholderFilters
 
     bool SortAscending { get; set; }
 
-    EntityNamePlaceholderFilterColumns SortColumn { get; set; }
+    ToDoListFilterColumns SortColumn { get; set; }
 }
