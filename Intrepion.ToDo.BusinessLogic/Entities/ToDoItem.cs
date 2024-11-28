@@ -9,5 +9,6 @@ public class ToDoItem
     public DateTime CreateDateTime { get; set; }
     public DateTime UpdateDateTime { get; set; }
 
+    public ApplicationUser? ApplicationUser { get; set; }
     // ActualPropertyPlaceholder
 }
