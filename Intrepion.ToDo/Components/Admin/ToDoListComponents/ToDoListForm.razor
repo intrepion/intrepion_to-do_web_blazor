@@ -7,6 +7,13 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
+        <h2>Due Date Time</h2>
+        <p>
+            <label>
+                Due Date Time:
+                <InputDate @bind-Value="ToDoList.DueDateTime" @oninput="HandleDueDateTimeChange"/>
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
