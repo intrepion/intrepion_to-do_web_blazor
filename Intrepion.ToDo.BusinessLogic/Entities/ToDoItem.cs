@@ -15,5 +15,6 @@ public class ToDoItem
     public int Ordering { get; set; }
     public ToDoList? ToDoList { get; set; }
     [Required]
+    public string Title { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
