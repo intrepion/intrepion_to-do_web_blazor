@@ -65,6 +65,7 @@ public static class ToDoListImporter
                 var dbToDoList = await context.ToDoLists.SingleOrDefaultAsync(
                     x => true
                     && x.ApplicationUser.Equals(applicationUser)
+                    && x.NormalizedTitle.Equals(toDoList.NormalizedTitle)
                     // CompositeKeyCodePlaceholder
                 );
 
