@@ -51,6 +51,7 @@ public static class ToDoListImporter
             // ManyToOneCodePlaceholder
 
             if (true
+                && applicationUser is not null
                 // NullCheckCodePlaceholder
             )
             {
