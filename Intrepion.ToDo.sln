@@ -1,10 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.0.0
 MinimumVisualStudioVersion = 16.0.0.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo", "Intrepion.ToDo\Intrepion.ToDo.csproj", "{96286C9C-BAAF-491D-B332-3BE92E4D4895}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intrepion.ToDo.Client", "Intrepion.ToDo.Client\Intrepion.ToDo.Client.csproj", "{6A446042-4BBB-42A0-8657-A09FDB9E93E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intrepion.ToDo.AcceptanceTests", "Intrepion.ToDo.AcceptanceTests\Intrepion.ToDo.AcceptanceTests.csproj", "{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,18 @@ Global
 		{96286C9C-BAAF-491D-B332-3BE92E4D4895}.Release|x64.Build.0 = Release|Any CPU
 		{96286C9C-BAAF-491D-B332-3BE92E4D4895}.Release|x86.ActiveCfg = Release|Any CPU
 		{96286C9C-BAAF-491D-B332-3BE92E4D4895}.Release|x86.Build.0 = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|x64.Build.0 = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Debug|x86.Build.0 = Debug|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|x64.Build.0 = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|x86.ActiveCfg = Release|Any CPU
+		{8DBB73CD-28D0-4546-90D8-6EDCCCEB0AEE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
