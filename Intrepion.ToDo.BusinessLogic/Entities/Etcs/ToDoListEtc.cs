@@ -8,7 +8,7 @@ public class ToDoListEtc : IEntityTypeConfiguration<ToDoList>
     public void Configure(EntityTypeBuilder<ToDoList> builder)
     {
         builder.HasOne(x => x.ApplicationUserUpdatedBy)
-            .WithMany(x => x.UpdatedTableNamePlaceholder)
+            .WithMany(x => x.UpdatedToDoLists)
             .OnDelete(DeleteBehavior.Restrict);
 
         // EntityConfigurationCodePlaceholder
