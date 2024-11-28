@@ -6,5 +6,6 @@ public class ToDoItemRecord
     public DateTime DueDateTime { get; set; }
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public string ToDoList_ApplicationUser_NormalizedUserName { get; set; } = string.Empty;
     // RecordPropertyCodePlaceholder
 }
