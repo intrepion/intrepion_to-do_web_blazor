@@ -80,6 +80,7 @@ public static class ToDoItemImporter
                     IsCompleted = record.IsCompleted,
                     Ordering = record.Ordering,
                     ToDoList = toDoList,
+                    Title = record.Title,
                     // NewEntityCodePlaceholder
                 };
 
