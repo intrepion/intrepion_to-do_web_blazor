@@ -74,6 +74,10 @@ public static class DatabaseUtility
         var toDoItemCsvFilePath = Path.Combine(baseDirectoryPath, toDoItemFileName);
         await ToDoItemImporter.ImportAsync(applicationDbContext, adminUserPass, toDoItemCsvFilePath);
 
+        var toDoListFileName = @"..\..\..\..\.data\ToDoList.csv";
+        var toDoListCsvFilePath = Path.Combine(baseDirectoryPath, toDoListFileName);
+        await ToDoListImporter.ImportAsync(applicationDbContext, adminUserPass, toDoListCsvFilePath);
+
         // ImporterFirstCodePlaceholder
 
         await ApplicationRoleImporter.ImportAsync(applicationDbContext, adminUserPass, applicationRoleCsvFilePath);
