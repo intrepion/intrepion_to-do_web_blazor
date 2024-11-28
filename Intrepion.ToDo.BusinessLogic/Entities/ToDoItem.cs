@@ -12,5 +12,6 @@ public class ToDoItem
     public ApplicationUser? ApplicationUser { get; set; }
     public bool IsCompleted { get; set; }
     public int Ordering { get; set; }
+    public ToDoList? ToDoList { get; set; }
     // ActualPropertyPlaceholder
 }
