@@ -80,6 +80,7 @@ public static class ToDoItemImporter
                     DueDateTime = record.DueDateTime,
                     IsCompleted = record.IsCompleted,
                     Ordering = record.Ordering,
+                    ToDoList = toDoList,
                     // NewEntityCodePlaceholder
                 };
 
