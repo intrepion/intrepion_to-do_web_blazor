@@ -54,7 +54,7 @@ public static class ToDoItemImporter
                 // NullCheckCodePlaceholder
             )
             {
-                var LowercaseNamePlaceholder = new ToDoItem
+                var toDoItem = new ToDoItem
                 {
                     ApplicationUserUpdatedBy = applicationUserUpdatedBy,
 
@@ -68,7 +68,7 @@ public static class ToDoItemImporter
 
                 if (dbToDoItem is null)
                 {
-                    await context.TableNamePlaceholder.AddAsync(LowercaseNamePlaceholder);
+                    await context.TableNamePlaceholder.AddAsync(toDoItem);
                 }
                 else
                 {
