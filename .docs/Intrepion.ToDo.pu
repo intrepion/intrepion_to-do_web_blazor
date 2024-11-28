@@ -9,6 +9,7 @@ entity ToDoItem {
     --
     IsCompleted : bool
     Ordering : int
+    Title : string
     ' ToDoItemPropertyCodePlaceholder
 }
 
