@@ -57,6 +57,7 @@ public static class ToDoItemImporter
 
             var toDoList = toDoListList.FirstOrDefault(x =>
                 true
+                && x.ApplicationUser.NormalizedUserName.Equals(record.ToDoList_ApplicationUser_NormalizedUserName)
             // ManyToOneCodePlaceholder
 
             if (true
