@@ -11,6 +11,9 @@ public class ToDoItemEtc : IEntityTypeConfiguration<ToDoItem>
             .WithMany(x => x.UpdatedToDoItems)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(x => x.ApplicationUser)
+            .WithMany(x => x.ToDoItems)
+            .OnDelete(DeleteBehavior.Restrict);
         // EntityConfigurationCodePlaceholder
     }
 }
