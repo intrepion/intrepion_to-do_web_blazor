@@ -48,6 +48,10 @@
                 <SortIndicator Column="@(ToDoItemFilterColumns.DueDateTime)" />&nbsp;DueDateTime
             </div>
 
+            <div class="col-3" @onclick="@(async ()=>await ToggleAsync(ToDoItemFilterColumns.IsCompleted))">
+                <SortIndicator Column="@(ToDoItemFilterColumns.IsCompleted)" />&nbsp;IsCompleted
+            </div>
+
             @* SortIndicatorCodePlaceholder *@
 
         </div>
