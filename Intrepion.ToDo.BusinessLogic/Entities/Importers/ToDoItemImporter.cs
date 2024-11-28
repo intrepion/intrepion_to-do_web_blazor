@@ -101,6 +101,7 @@ public static class ToDoItemImporter
                     dbToDoItem.ApplicationUser = applicationUser;
                     dbToDoItem.IsCompleted = record.IsCompleted;
                     dbToDoItem.Ordering = record.Ordering;
+                    dbToDoItem.ToDoList = toDoList;
                     // ExistingEntityCodePlaceholder
                 }
             }
