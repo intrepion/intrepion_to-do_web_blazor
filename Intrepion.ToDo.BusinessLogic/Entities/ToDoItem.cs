@@ -10,5 +10,6 @@ public class ToDoItem
     public DateTime UpdateDateTime { get; set; }
 
     public ApplicationUser? ApplicationUser { get; set; }
+    public DateTime DueDateTime { get; set; }
     // ActualPropertyPlaceholder
 }
