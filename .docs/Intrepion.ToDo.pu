@@ -10,6 +10,7 @@ entity ToDoItem {
     DueDateTime : DateTime
     IsCompleted : bool
     Ordering : int
+    Title : string
     ' ToDoItemPropertyCodePlaceholder
 }
 
