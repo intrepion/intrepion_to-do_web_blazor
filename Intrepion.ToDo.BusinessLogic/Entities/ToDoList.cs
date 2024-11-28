@@ -13,5 +13,6 @@ public class ToDoList
     public DateTime DueDateTime { get; set; }
     public ICollection<ToDoItem> ToDoItems { get; set; } = [];
     [Required]
+    public string Title { get; set; } = string.Empty;
     // ActualPropertyPlaceholder
 }
