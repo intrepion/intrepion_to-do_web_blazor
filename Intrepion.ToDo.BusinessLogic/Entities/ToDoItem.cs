@@ -11,5 +11,6 @@ public class ToDoItem
 
     public ApplicationUser? ApplicationUser { get; set; }
     public DateTime DueDateTime { get; set; }
+    public bool IsCompleted { get; set; }
     // ActualPropertyPlaceholder
 }
