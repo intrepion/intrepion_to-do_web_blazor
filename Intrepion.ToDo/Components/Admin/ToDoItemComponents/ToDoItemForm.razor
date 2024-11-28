@@ -28,6 +28,13 @@
                 <InputNumber @bind-Value="ToDoItem.Ordering" @oninput="HandleOrderingChange"/>
             </label>
         </p>
+        <h2>Title</h2>
+        <p>
+            <label>
+                Title:
+                <InputText @bind-Value="ToDoItem.Title" @oninput="HandleTitleChange"/>
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
