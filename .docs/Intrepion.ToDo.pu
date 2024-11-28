@@ -4,6 +4,7 @@ entity ToDoItem {
     Id : Guid
     --
     ApplicationUser : ApplicationUser
+    ToDoList : ToDoList
     ' ToDoItemKeyCodePlaceholder
     --
     DueDateTime : DateTime
