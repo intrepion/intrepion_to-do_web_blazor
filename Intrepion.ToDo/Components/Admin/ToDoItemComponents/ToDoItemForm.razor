@@ -14,6 +14,13 @@
                 <InputDate @bind-Value="ToDoItem.DueDateTime" @oninput="HandleDueDateTimeChange"/>
             </label>
         </p>
+        <h2>Is Completed?</h2>
+        <p>
+            <label>
+                Is Completed?:
+                <InputCheckbox @bind-Value="ToDoItem.IsCompleted" @oninput="HandleIsCompletedChange"/>
+            </label>
+        </p>
         @* PropertyFormCodePlaceholder *@
 
         <br />
