@@ -6,5 +6,6 @@ public enum ToDoItemFilterColumns
 
     DueDateTime,
     IsCompleted,
+    Ordering,
     // FilterColumnCodePlaceholder
 }
