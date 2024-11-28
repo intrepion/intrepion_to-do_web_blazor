@@ -67,6 +67,7 @@ public static class ToDoListImporter
 
                     ApplicationUser = applicationUser,
                     DueDateTime = record.DueDateTime,
+                    Title = record.Title,
                     // NewEntityCodePlaceholder
                 };
 
