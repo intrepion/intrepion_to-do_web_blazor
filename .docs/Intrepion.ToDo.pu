@@ -20,6 +20,7 @@ entity ToDoList {
     ApplicationUser : ApplicationUser
     ' ToDoListKeyCodePlaceholder
     --
+    DueDateTime : DateTime
     ' ToDoListPropertyCodePlaceholder
 }
 
