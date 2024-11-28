@@ -65,6 +65,7 @@ public static class ToDoItemImporter
                 var dbToDoItem = await context.ToDoItems.SingleOrDefaultAsync(
                     x => true
                     && x.ApplicationUser.Equals(applicationUser)
+                    && x.NormalizedTitle.Equals(toDoItem.NormalizedTitle)
                     // CompositeKeyCodePlaceholder
                 );
 
