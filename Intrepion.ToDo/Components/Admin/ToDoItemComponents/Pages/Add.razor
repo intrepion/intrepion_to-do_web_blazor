@@ -6,10 +6,10 @@
 
 <PageTitle>HumanNamePlaceholder Add</PageTitle>
 
-@if (EntityNamePlaceholder is not null)
+@if (ToDoItem is not null)
 {
-    <EntityNamePlaceholderForm Busy="Busy" 
-                 EntityNamePlaceholder="EntityNamePlaceholder" 
+    <ToDoItemForm Busy="Busy" 
+                 ToDoItem="ToDoItem" 
                  IsAdd="true"
                  CancelRequest="Cancel"
                  ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
@@ -28,7 +28,7 @@
 }
 
 @code {
-    private EntityNamePlaceholder? EntityNamePlaceholder { get; set; }
+    private ToDoItem? ToDoItem { get; set; }
 
     private bool Busy;
 
@@ -40,7 +40,7 @@
 
     protected override void OnInitialized()
     {
-        EntityNamePlaceholder = new();
+        ToDoItem = new();
     }
 
     private async Task ValidationResultAsync(bool success)
@@ -61,9 +61,9 @@
 
         using var context = DbFactory.CreateDbContext();
 
-        if (EntityNamePlaceholder is not null)
+        if (ToDoItem is not null)
         {
-            context.TableNamePlaceholder?.Add(EntityNamePlaceholder);
+            context.TableNamePlaceholder?.Add(ToDoItem);
         }
 
         try
@@ -72,7 +72,7 @@
             Success = true;
             Error = false;
 
-            Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{EntityNamePlaceholder?.Id}");
+            Navigation.NavigateTo($"/admin/UrlNamePlaceholder/view/{ToDoItem?.Id}");
         }
         catch (Exception ex)
         {
