@@ -4,6 +4,7 @@ using ApplicationNamePlaceholder.BusinessLogic.Grid;
 using ApplicationNamePlaceholder.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
 using ApplicationNamePlaceholder.BusinessLogic.Grid.Admin.ApplicationUserGrid;
 
+using Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 // GridNamespaceCodePlaceholder
 
 using ApplicationNamePlaceholder.Components;
