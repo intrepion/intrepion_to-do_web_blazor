@@ -68,6 +68,7 @@ public static class ToDoItemImporter
                     && x.ApplicationUser.Equals(applicationUser)
                     && x.ToDoList.Equals(toDoList)
                     && x.NormalizedTitle.Equals(toDoItem.NormalizedTitle)
+                    && x.CreateDateTime.Equals(toDoItem.CreateDateTime)
                     // CompositeKeyCodePlaceholder
                 );
 
