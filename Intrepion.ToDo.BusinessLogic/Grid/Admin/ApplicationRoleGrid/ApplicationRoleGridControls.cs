@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ApplicationRoleGrid;
 
 public class ApplicationRoleGridControls(IPageHelper pageHelper) : IApplicationRoleFilters
 {

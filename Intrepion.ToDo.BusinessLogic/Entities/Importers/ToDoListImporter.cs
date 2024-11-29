@@ -58,7 +58,7 @@ public static class ToDoListImporter
 
             if (true
                 && applicationUser is not null
-                // NullCheckCodePlaceholder
+            // NullCheckCodePlaceholder
             )
             {
                 var toDoList = new ToDoList
