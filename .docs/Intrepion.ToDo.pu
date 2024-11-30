@@ -1,0 +1,36 @@
+@startuml
+
+entity ToDoItem {
+    Id : Guid
+    --
+    ApplicationUser : ApplicationUser
+    ToDoList : ToDoList
+    ' ToDoItemKeyCodePlaceholder
+    --
+    DueDateTime : DateTime
+    IsCompleted : bool
+    Ordering : int
+    Title : string
+    ' ToDoItemPropertyCodePlaceholder
+}
+
+entity ToDoList {
+    Id : Guid
+    --
+    ApplicationUser : ApplicationUser
+    ToDoItems : ICollection<ToDoItem>
+    ' ToDoListKeyCodePlaceholder
+    --
+    DueDateTime : DateTime
+    Title : string
+    ' ToDoListPropertyCodePlaceholder
+}
+
+' EntityCodePlaceholder
+
+ToDoItem }o--o| ApplicationUser
+ToDoItem }o--o| ToDoList
+ToDoList }o--o| ApplicationUser
+' RelationshipCodePlaceholder
+
+@enduml
