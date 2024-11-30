@@ -1,5 +1,5 @@
-﻿using Intrepion.ToDo.BusinessLogic.Entities;
-using Bogus;
+﻿using Bogus;
+using Intrepion.ToDo.BusinessLogic.Entities;
 
 namespace Intrepion.ToDo.BusinessLogic.Data;
 
