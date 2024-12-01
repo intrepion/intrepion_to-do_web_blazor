@@ -57,7 +57,7 @@ public static class ToDoItemImporter
 
             var toDoList = toDoListList.FirstOrDefault(x =>
                 true
-                && x.ApplicationUser is not null 
+                && x.ApplicationUser is not null
                 && x.ApplicationUser.NormalizedUserName.Equals(record.ToDoList_ApplicationUser_NormalizedUserName)
                 && x.NormalizedTitle.Equals(record.ToDoList_NormalizedTitle)
                 && x.DueDateTime.Equals(record.ToDoList_DueDateTime)
@@ -70,7 +70,7 @@ public static class ToDoItemImporter
                 && toDoList is not null
                 && toDoList is not null
                 && toDoList is not null
-                // NullCheckCodePlaceholder
+            // NullCheckCodePlaceholder
             )
             {
                 var toDoItem = new ToDoItem

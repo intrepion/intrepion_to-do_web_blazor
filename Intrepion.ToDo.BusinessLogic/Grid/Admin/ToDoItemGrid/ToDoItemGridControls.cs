@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid.Admin.ToDoItemGrid;
 
 public class ToDoItemGridControls(IPageHelper pageHelper) : IToDoItemFilters
 {
