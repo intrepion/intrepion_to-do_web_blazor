@@ -1,0 +1,147 @@
+@page "/admin/to-do-list/edit/{ToDoListId:guid}"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+@inject EditSuccess EditSuccessState
+
+<PageTitle>To Do List Edit</PageTitle>
+
+@if (ToDoList is null && !Busy)
+{
+    <p>Could not find To Do List with id @ToDoListId.</p>
+}
+else
+{
+    <ToDoListForm Busy="Busy" 
+                 ToDoList="ToDoList" 
+                 DbToDoList="DbToDoList" 
+                 IsAdd="false" 
+                 CancelRequest="Cancel" 
+                 ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
+}
+
+@if (ConcurrencyError)
+{
+    <br />
+    <div class="alert alert-danger">
+        <p>
+            The To Do List details have changed since it was last loaded. The updated fields are highlighted in the form.
+            Please choose an option:
+        </p>
+        <p><b>Cancel</b> to lose your changes and keep the database version.</p>
+        <p><b>Submit</b> to force an update with your version.</p>
+    </div>
+}
+
+@if (Error)
+{
+    <br />
+    <div class="alert alert-danger">Failed to update the To Do List (@ErrorMessage).</div>
+}
+
+@code {
+    [Parameter]
+    public Guid ToDoListId { get; set; }
+
+    private ApplicationDbContext? Context { get; set; }
+
+    private ToDoList ToDoList { get; set; } = new ToDoList();
+
+    private ToDoList DbToDoList { get; set; } = new ToDoList();
+
+    private bool Busy;
+
+    private bool Error;
+
+    private bool ConcurrencyError;
+
+    private string ErrorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Busy = true;
+
+        try
+        {
+            Context = DbFactory.CreateDbContext();
+
+            if (Context is not null && Context.ToDoLists is not null)
+            {
+                var toDoList = await Context.ToDoLists.SingleOrDefaultAsync(x => x.Id == ToDoListId);
+
+                if (toDoList is not null)
+                {
+                    ToDoList = toDoList;
+                }
+            }
+        }
+        finally
+        {
+            Busy = false;
+        }
+    }
+
+    private async Task ValidationResultAsync(bool success)
+    {
+        if (Busy)
+        {
+            return;
+        }
+
+        if (!success)
+        {
+            Error = false;
+            ConcurrencyError = false;
+            return;
+        }
+
+        Busy = true;
+        try
+        {
+            if (Context is not null)
+            {
+                await Context.SaveChangesAsync();
+            }
+
+            EditSuccessState.Success = true;
+            Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList.Id}");
+        }
+        catch (DbUpdateConcurrencyException dbex)
+        {
+            EditSuccessState.Success = false;
+
+            ConcurrencyError = true;
+
+            var dbValues = dbex.Entries[0].GetDatabaseValues();
+
+            if (dbValues is null)
+            {
+                Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList.Id}");
+                return;
+            }
+
+            DbToDoList = (ToDoList)dbValues.ToObject();
+
+            dbex.Entries[0].OriginalValues.SetValues(dbValues);
+            Error = false;
+            Busy = false;
+        }
+        catch (Exception ex)
+        {
+            EditSuccessState.Success = false;
+            Error = true;
+            ErrorMessage = ex.Message;
+            Busy = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        Busy = true;
+        Navigation.NavigateTo($"/admin/to-do-list/{PageHelper.Page}");
+    }
+
+    public void Dispose() => Context?.Dispose();
+}

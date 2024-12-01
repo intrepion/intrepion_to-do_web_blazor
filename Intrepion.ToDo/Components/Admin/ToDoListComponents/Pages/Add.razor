@@ -1,0 +1,87 @@
+@page "/admin/to-do-list/add"
+@rendermode InteractiveServer
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+
+<PageTitle>To Do List Add</PageTitle>
+
+@if (ToDoList is not null)
+{
+    <ToDoListForm Busy="Busy" 
+                 ToDoList="ToDoList" 
+                 IsAdd="true"
+                 CancelRequest="Cancel"
+                 ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
+}
+
+@if (Success)
+{
+    <br />
+    <div class="alert alert-success">The To Do List was successfully added.</div>
+}
+
+@if (Error)
+{
+    <br />
+    <div class="alert alert-danger">Failed to add the To Do List (@ErrorMessage).</div>
+}
+
+@code {
+    private ToDoList? ToDoList { get; set; }
+
+    private bool Busy;
+
+    private bool Success;
+
+    private bool Error;
+
+    private string ErrorMessage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        ToDoList = new();
+    }
+
+    private async Task ValidationResultAsync(bool success)
+    {
+        if (Busy)
+        {
+            return;
+        }
+
+        if (!success)
+        {
+            Success = false;
+            Error = false;
+            return;
+        }
+
+        Busy = true;
+
+        using var context = DbFactory.CreateDbContext();
+
+        if (ToDoList is not null)
+        {
+            context.ToDoLists?.Add(ToDoList);
+        }
+
+        try
+        {
+            await context.SaveChangesAsync();
+            Success = true;
+            Error = false;
+
+            Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList?.Id}");
+        }
+        catch (Exception ex)
+        {
+            Success = false;
+            Error = true;
+            ErrorMessage = ex.Message;
+            Busy = false;
+        }
+    }
+
+    private void Cancel() => Navigation.NavigateTo($"/admin/to-do-list/{PageHelper.Page}");
+}
