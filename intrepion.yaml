@@ -1,0 +1,7 @@
+apiProtocol: ''
+applicationType: Console Application
+backendFramework: ''
+databaseType: Postgres
+frontendFramework: ''
+programmingLanguage: C#
+projectName: ToDoList
