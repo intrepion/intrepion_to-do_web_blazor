@@ -1,0 +1,27 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  blazor-init:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.init
+    volumes:
+      - ./:/app
+
+  blazor-dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5000:80"
+    volumes:
+      - ./:/app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  blazor-prod:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.publish
+    ports:
+      - "5000:80"
