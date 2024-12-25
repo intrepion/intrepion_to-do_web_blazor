@@ -1,52 +1,6 @@
 # docker/Dockerfile.init
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 WORKDIR /app
-
-# Create a script to run all the commands
-RUN echo '#!/bin/bash\n\
-# Install bUnit template\n\
-dotnet new install bunit.template::2.0.33-preview\n\
-\n\
-# Create initial files\n\
-dotnet new gitignore\n\
-dotnet new globaljson\n\
-\n\
-# Create main Blazor project\n\
-dotnet new blazor --auth Individual --interactivity Auto --name Intrepion.ToDo --output . --use-local-db\n\
-\n\
-# Create test and supporting projects\n\
-dotnet new nunit --name Intrepion.ToDo.AcceptanceTests\n\
-dotnet new classlib --name Intrepion.ToDo.BusinessLogic\n\
-dotnet new nunit --name Intrepion.ToDo.BusinessLogic.UnitTests\n\
-dotnet new console --name Intrepion.ToDo.ConsoleProject\n\
-dotnet new bunit --framework nunit --name Intrepion.ToDo.Client.ComponentTests\n\
-dotnet new bunit --framework nunit --name Intrepion.ToDo.Server.ComponentTests\n\
-dotnet new nunit --name Intrepion.ToDo.Server.ControllerTests\n\
-dotnet new razorclasslib --name Intrepion.ToDo.Shared\n\
-dotnet new bunit --framework nunit --name Intrepion.ToDo.Shared.ComponentTests\n\
-\n\
-# Add projects to solution\n\
-dotnet sln add Intrepion.ToDo.AcceptanceTests\n\
-dotnet sln add Intrepion.ToDo.BusinessLogic\n\
-dotnet sln add Intrepion.ToDo.BusinessLogic.UnitTests\n\
-dotnet sln add Intrepion.ToDo.Client.ComponentTests\n\
-dotnet sln add Intrepion.ToDo.ConsoleProject\n\
-dotnet sln add Intrepion.ToDo.Server.ComponentTests\n\
-dotnet sln add Intrepion.ToDo.Server.ControllerTests\n\
-dotnet sln add Intrepion.ToDo.Shared\n\
-dotnet sln add Intrepion.ToDo.Shared.ComponentTests\n\
-\n\
-# Add project references\n\
-dotnet add Intrepion.ToDo reference Intrepion.ToDo.BusinessLogic\n\
-dotnet add Intrepion.ToDo reference Intrepion.ToDo.Shared\n\
-dotnet add Intrepion.ToDo.BusinessLogic.UnitTests reference Intrepion.ToDo.BusinessLogic\n\
-dotnet add Intrepion.ToDo.Client reference Intrepion.ToDo.BusinessLogic\n\
-dotnet add Intrepion.ToDo.Client reference Intrepion.ToDo.Shared\n\
-dotnet add Intrepion.ToDo.Client.ComponentTests reference Intrepion.ToDo.Client\n\
-dotnet add Intrepion.ToDo.ConsoleProject reference Intrepion.ToDo.BusinessLogic\n\
-dotnet add Intrepion.ToDo.Server.ComponentTests reference Intrepion.ToDo\n\
-dotnet add Intrepion.ToDo.Server.ControllerTests reference Intrepion.ToDo\n\
-dotnet add Intrepion.ToDo.Shared.ComponentTests reference Intrepion.ToDo.Shared\n\
-' > /init.sh && chmod +x /init.sh
-
-ENTRYPOINT ["/init.sh"]
+COPY init.sh /app/init.sh
+RUN chmod +x /app/init.sh
+ENTRYPOINT ["/app/init.sh"]

@@ -5,7 +5,6 @@ EXPOSE 80
 
 # Create a script to run the project with the correct path
 RUN echo '#!/bin/bash\n\
-# Use the PROJECT_PATH environment variable or default to finding the first .csproj file\n\
 PROJECT_FILE=${PROJECT_PATH:-$(find /app -name "*.csproj" -type f -print -quit)}\n\
 \n\
 if [ -z "$PROJECT_FILE" ]; then\n\
