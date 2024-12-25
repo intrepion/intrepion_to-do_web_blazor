@@ -1,4 +1,4 @@
-# init.sh
+# /init.sh
 # This script initializes the complete project structure
 #!/bin/bash
 

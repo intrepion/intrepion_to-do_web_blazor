@@ -1,0 +1,49 @@
+# /terraform/.gitignore
+# Local .terraform directories
+# These contain provider plugins and modules that should be downloaded fresh
+.terraform/*
+
+# .tfstate files contain sensitive information and represent infrastructure state
+# They should be stored in a backend like S3, not in Git
+*.tfstate
+*.tfstate.*
+
+# Crash log files created when Terraform encounters an error
+crash.log
+crash.*.log
+
+# Exclude sensitive variables files that might contain secrets
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they're usually used for local development
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore lock file - include this only if you want to force provider updates
+# Normally you should track this file, but in some cases you might want to ignore it
+# .terraform.lock.hcl
+
+# Local backup files
+*.backup
+
+# Ignore any local development environment files
+.env
+.envrc
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+Thumbs.db

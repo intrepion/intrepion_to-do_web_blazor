@@ -1,4 +1,4 @@
-# docker/Dockerfile.publish
+# /docker/Dockerfile.publish
 # Multi-stage build for production
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
