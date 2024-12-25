@@ -1,5 +1,4 @@
 # docker-compose.yml
-version: '3.8'
 services:
   blazor-init:
     build:
@@ -13,15 +12,17 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     ports:
-      - "5000:80"
+      - "5151:80"
     volumes:
       - ./:/app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      # Add working directory environment variable
+      - PROJECT_PATH=/app/Intrepion.ToDo.csproj
 
   blazor-prod:
     build:
       context: .
       dockerfile: docker/Dockerfile.publish
     ports:
-      - "5000:80"
+      - "5151:80"
