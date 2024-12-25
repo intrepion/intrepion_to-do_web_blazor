@@ -1,6 +1,10 @@
 # docker/Dockerfile.init
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 WORKDIR /app
-COPY init.sh /app/init.sh
-RUN chmod +x /app/init.sh
-ENTRYPOINT ["/app/init.sh"]
+COPY init.sh .
+# Install dos2unix to handle line endings
+RUN apt-get update && \
+    apt-get install -y dos2unix && \
+    dos2unix init.sh && \
+    chmod +x init.sh
+ENTRYPOINT ["/bin/bash", "init.sh"]
