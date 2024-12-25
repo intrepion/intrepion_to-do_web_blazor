@@ -1,25 +1,31 @@
 # docker-compose.yml
+# This file orchestrates all our Docker containers and their configurations
 services:
+  # Service for initializing the project structure
   blazor-init:
     build:
       context: .
       dockerfile: docker/Dockerfile.init
     volumes:
+      # Maps your current directory to /app in the container
       - ./:/app
 
+  # Service for development with hot reload
   blazor-dev:
     build:
       context: .
       dockerfile: docker/Dockerfile
     ports:
+      # Maps container port 80 to host port 5151
       - "5151:80"
     volumes:
+      # Maps your current directory to /app in the container for live updates
       - ./:/app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # Add working directory environment variable
       - PROJECT_PATH=/app/Intrepion.ToDo.csproj
 
+  # Service for production builds
   blazor-prod:
     build:
       context: .
