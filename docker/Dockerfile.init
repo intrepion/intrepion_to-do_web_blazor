@@ -1,4 +1,4 @@
-# docker/Dockerfile.init
+# /docker/Dockerfile.init
 
 # Uses .NET SDK image for project initialization
 FROM mcr.microsoft.com/dotnet/sdk:8.0

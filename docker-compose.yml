@@ -1,4 +1,5 @@
-# docker-compose.yml
+# /docker-compose.yml
+
 services:
   blazor-init:
     build:
@@ -17,8 +18,19 @@ services:
       - ./:/app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # Updated path to reflect the correct project location
       - PROJECT_PATH=/app/Intrepion.ToDo/Intrepion.ToDo.csproj
+
+  blazor-test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    entrypoint: ["dotnet"]
+    command: ["test"]
 
   blazor-prod:
     build:

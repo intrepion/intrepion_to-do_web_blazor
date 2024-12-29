@@ -1,41 +1,40 @@
 <!-- /README.md -->
 
 # intrepion_to-do_web_blazor
-intrepion To Do web app written using .NET Blazor framework
 
-# Blazor Project with Docker
-
-This project is a Blazor application set up for local development using Docker Compose and for deployment to various cloud providers (DigitalOcean, AWS, Azure, and GCP) using Terraform.
+A To Do web application written using the .NET Blazor framework. This project provides a complete development environment using Docker Compose and includes configurations for deployment to various cloud providers.
 
 ## Prerequisites
 
-Before you begin, make sure you have the following installed:
+Before starting, ensure you have the following tools installed on your system:
 
-*   **Docker:** [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
-*   **Docker Compose:** [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
-*   **Git:** [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- **Docker**: [Installation Guide](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Installation Guide](https://docs.docker.com/compose/install/)
+- **Git**: [Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Project Structure
 
+The project is organized with the following structure:
+
 ```
 blazor-project/
-├── docker/                     # Dockerfiles
-│   ├── Dockerfile             # Development Dockerfile
-│   ├── Dockerfile.init        # Initialization Dockerfile
-│   └── Dockerfile.publish     # Production Dockerfile
+├── docker/                     # Docker configuration files
+│   ├── Dockerfile             # Development environment
+│   ├── Dockerfile.init        # Project initialization
+│   └── Dockerfile.publish     # Production build
 ├── .gitignore
-├── docker-compose.yml           # Docker Compose configurations
-├── init.sh                    # Project initialization script
+├── docker-compose.yml         # Docker Compose configuration
+├── init.sh                    # Initialization script
 ├── Intrepion.ToDo.sln        # .NET solution file (generated)
-└── Intrepion.ToDo/           # Blazor project files (generated)
+└── Intrepion.ToDo/           # Main Blazor project (generated)
     └── ...
 ```
 
-## Local Development with Docker Compose
+## Local Development
 
 ### 1. Initialize the Project
 
-This step creates the Blazor project structure and necessary files using the .NET SDK.
+Start by creating the Blazor project structure:
 
 ```bash
 docker compose run --rm blazor-init
@@ -43,63 +42,93 @@ docker compose run --rm blazor-init
 
 ### 2. Development Environment
 
-This starts the development environment with hot reloading.
+Launch the development environment with hot reloading:
 
 ```bash
 docker compose up blazor-dev
 ```
 
-*   The application will be accessible at `http://localhost:5151`.
-*   Changes to your Blazor project files will automatically trigger a rebuild and refresh in the browser.
+Your application will be available at `http://localhost:5151`. The development environment includes hot reloading, so any changes you make to your Blazor project files will automatically trigger a rebuild and refresh your browser.
 
 ### 3. Running Tests
 
-You can run tests in several ways using Docker:
+The project includes several options for running tests using Docker:
 
 #### Run All Tests
-To run all tests in the solution:
+Execute all tests in the solution:
 
 ```bash
-docker compose run --rm blazor-dev dotnet test
+docker compose run --rm blazor-test
 ```
 
-#### Run Tests with Watch Mode
-To run tests in watch mode, which will automatically re-run tests when files change:
+#### Watch Mode
+Run tests continuously, automatically re-running when files change:
 
 ```bash
-docker compose run --rm blazor-dev dotnet watch test
+docker compose run --rm blazor-test watch test
 ```
 
-#### Run Tests for a Specific Project
-To run tests for a specific project:
+#### Test Specific Project
+Target tests in a particular project:
 
 ```bash
-docker compose run --rm blazor-dev dotnet test path/to/test/project
+docker compose run --rm blazor-test test Intrepion.ToDo.Tests/Intrepion.ToDo.Tests.csproj
 ```
 
-#### Run Tests with Filter
-To run specific tests using a filter:
+#### Filtered Tests
+Run specific tests using a filter:
 
 ```bash
-docker compose run --rm blazor-dev dotnet test --filter "FullyQualifiedName~NamespaceToTest"
+docker compose run --rm blazor-test test --filter "Category=Unit"
 ```
 
-The test results will be displayed in the console, showing which tests passed or failed along with any error messages or stack traces for failed tests.
+Test results will display in your terminal, showing passed and failed tests along with any error messages or stack traces for failures.
 
-### 4. Local Production Build
+### 4. Production Build
 
-This simulates a production build locally.
+Test your application in a production-like environment:
 
 ```bash
 docker compose up blazor-prod
 ```
 
-*   The application will be accessible at `http://localhost:5151`.
+The production build will be available at `http://localhost:5151`.
 
-### 5. Stopping the Development Environment
+### 5. Stopping the Environment
 
-To stop the Docker containers, press `Ctrl + C` in the terminal where `docker compose up` is running. You can also use:
+To stop running containers, use either:
+
+- Press `Ctrl + C` in the terminal where Docker Compose is running
+- Or run the following command:
 
 ```bash
 docker compose down
 ```
+
+## Development Workflow Tips
+
+1. Start with the initialization step only once, when first setting up the project.
+2. Use the development environment (`blazor-dev`) for your daily development work.
+3. Run tests frequently to ensure code quality.
+4. Test the production build before deploying to ensure everything works as expected.
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Ensure all prerequisites are properly installed
+2. Check that Docker services are running
+3. Verify that ports 5151 is not in use by other applications
+4. Try removing all containers and volumes with `docker compose down -v` and start fresh
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add YourFeature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
