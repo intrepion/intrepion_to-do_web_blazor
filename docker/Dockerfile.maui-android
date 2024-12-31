@@ -1,0 +1,35 @@
+# /docker/Dockerfile.maui-android
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    lib32z1 \
+    lib32stdc++6 \
+    openjdk-17-jdk \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Android SDK
+ENV ANDROID_SDK_ROOT=/usr/local/android-sdk
+ENV PATH=${PATH}:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools
+
+RUN mkdir -p ${ANDROID_SDK_ROOT} && \
+    cd ${ANDROID_SDK_ROOT} && \
+    wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && \
+    unzip commandlinetools-linux-9477386_latest.zip && \
+    rm commandlinetools-linux-9477386_latest.zip && \
+    mkdir -p cmdline-tools/latest && \
+    mv cmdline-tools/* cmdline-tools/latest/ 2>/dev/null || true && \
+    yes | sdkmanager --licenses && \
+    sdkmanager "platform-tools" \
+    "platforms;android-33" \
+    "build-tools;33.0.0" \
+    "ndk;25.1.8937393" \
+    "cmake;3.22.1"
+
+# Install MAUI workload
+RUN dotnet workload install maui-android
+
+WORKDIR /app

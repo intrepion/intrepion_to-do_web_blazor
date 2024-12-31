@@ -38,3 +38,32 @@ services:
       dockerfile: docker/Dockerfile.publish
     ports:
       - "5151:80"
+
+  maui-android-dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.maui-android
+    volumes:
+      - ./:/app
+      - ~/.android:/root/.android
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+
+  maui-android-build:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.maui-android
+    volumes:
+      - ./:/app
+    command: ["dotnet", "build", "-f", "net8.0-android", "/app/Intrepion.ToDo.MauiClient/Intrepion.ToDo.MauiClient.csproj"]
+
+  maui-android-test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.maui-android
+    volumes:
+      - ./:/app
+    command: ["dotnet", "test", "/app/Intrepion.ToDo.MauiClient.Tests/Intrepion.ToDo.MauiClient.Tests.csproj"]
