@@ -17,7 +17,7 @@ Before starting, ensure you have the following tools installed on your system:
 The project is organized with the following structure:
 
 ```
-blazor-project/
+intrepion_to-do_web_blazor/
 ├── docker/                     # Docker configuration files
 │   ├── Dockerfile             # Development environment
 │   ├── Dockerfile.init        # Project initialization
