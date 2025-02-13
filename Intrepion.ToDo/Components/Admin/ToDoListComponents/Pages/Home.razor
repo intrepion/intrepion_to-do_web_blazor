@@ -1,0 +1,68 @@
+@page "/admin/to-do-list"
+@rendermode InteractiveServer
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>To Do List Home</PageTitle>
+
+<h1>To Do List Home</h1>
+<h6><a href="/admin/to-do-list/add">Create New</a></h6>
+
+<div class="container-fluid">
+  <table class="table table-hover table-primary table-striped">
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th>Title</th>
+        @* TableHeaderCodePlaceholder *@
+      </tr>
+    </thead>
+    <tbody>
+      @if (toDoLists is not null)
+      {
+        @foreach (var toDoList in toDoLists)
+        {
+          <tr>
+            <td>
+              <div class="btn-group">
+                <a class="btn btn-primary btn-sm btn-info" href="/admin/to-do-list/view/@toDoList.Id" title="View">
+                  <i class="bi bi-eye"></i>
+                </a>
+                <a class="btn btn-primary btn-sm" href="/admin/to-do-list/edit/@toDoList.Id" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </a>
+              </div>
+            </td>
+            <td>@toDoList?.Title</td>
+            @* TableRowCodePlaceholder *@
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+@code {
+  private ICollection<ToDoList>? toDoLists { get; set; }
+
+  protected override async Task OnParametersSetAsync()
+  {
+    await ReloadAsync();
+  }
+
+  private async Task ReloadAsync()
+  {
+    toDoLists = new List<ToDoList>();
+
+    using var context = DbFactory.CreateDbContext();
+    var query = context.ToDoLists?.AsQueryable();
+
+    if (query is not null)
+    {
+      toDoLists = await query
+        @* QueryIncludeCodePlaceholder *@
+        .AsNoTracking().ToListAsync();
+    }
+  }
+}
+
