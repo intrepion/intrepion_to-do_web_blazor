@@ -1,0 +1,168 @@
+@page "/admin/to-do-item/add"
+@page "/admin/to-do-item/edit/{ToDoItemId:guid?}"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>To Do Item @(IsAdd ? "Add" : "Edit")</PageTitle>
+
+@if (ToDoItem is null && !Busy && !IsAdd)
+{
+  <p>Could not find To Do Item with id @ToDoItemId.</p>
+}
+else
+{
+    @* EmulatorList="EmulatorList" *@
+  <ToDoItemForm
+    ToDoListList="ToDoListList"
+    Busy="Busy" 
+    CancelRequest="Cancel"
+    DbToDoItem="DbToDoItem" 
+    ToDoItem="ToDoItem" 
+    IsAdd="IsAdd"
+    ValidationResult="@(async (success) => await ValidationResultAsync(success))"
+  />
+}
+
+@if (Error)
+{
+  <br />
+  <div class="alert alert-danger">Failed to @(IsAdd ? "add" : "update") the To Do Item (@ErrorMessage).</div>
+}
+
+@code {
+  [Parameter]
+  public Guid? ToDoItemId { get; set; }
+
+  private bool IsAdd => ToDoItemId == null;
+
+  private ApplicationDbContext? Context { get; set; }
+
+  private ToDoItem? ToDoItem { get; set; }
+
+  private ToDoItem DbToDoItem { get; set; } = new ToDoItem();
+
+  private List<ToDoList> ToDoListList { get; set; } = new List<ToDoList>();
+  @* ListDeclarationCodePlaceholder *@
+  @* private List<Emulator> EmulatorList { get; set; } = new List<Emulator>();*@
+
+  private bool Busy;
+
+  private bool Error;
+
+  private string ErrorMessage = string.Empty;
+
+  protected override async Task OnInitializedAsync()
+  {
+    Busy = true;
+
+    try
+    {
+      Context = DbFactory.CreateDbContext();
+
+      if (Context.ToDoLists != null)
+      {
+        ToDoListList = await Context.ToDoLists.ToListAsync();
+      }
+      @* LoadListCodePlaceholder *@
+      @* if (Context.Emulators != null)
+      {
+        EmulatorList = await Context.Emulators.OrderBy(e => e.Name).ToListAsync();
+      } *@
+
+      if (IsAdd)
+      {
+        ToDoItem = new();
+      }
+      else if (Context is not null && Context.ToDoItems is not null)
+      {
+        var toDoItem = await Context.ToDoItems
+            .Include(x => x.ToDoList)
+            @* IncludeListCodePlaceholder *@
+            @* .Include(e => e.Emulator) *@
+            .SingleOrDefaultAsync(x => x.Id == ToDoItemId);
+
+        if (toDoItem is not null)
+        {
+          ToDoItem = toDoItem;
+        }
+      }
+    }
+    finally
+    {
+      Busy = false;
+    }
+  }
+
+  private async Task ValidationResultAsync(bool success)
+  {
+    if (Busy)
+    {
+      return;
+    }
+
+    if (!success)
+    {
+      Error = false;
+      return;
+    }
+
+    Busy = true;
+
+    try
+    {
+      if (Context is not null && ToDoItem is not null)
+      {
+        @* SetExistingCodePlaceholder *@
+        @* if (ToDoItem.Emulator != null && ToDoItem.Emulator.Id != Guid.Empty)
+        {
+          var existingEmulator = await Context.Emulators.FindAsync(ToDoItem.Emulator.Id);
+          if (existingEmulator != null)
+          {
+            ToDoItem.Emulator = existingEmulator;
+          }
+        } *@
+        
+        if (IsAdd && Context.ToDoItems != null)
+        {
+          Context.ToDoItems.Add(ToDoItem);
+        }
+        
+        await Context.SaveChangesAsync();
+      }
+
+      Navigation.NavigateTo($"/admin/to-do-item/view/{ToDoItem?.Id}");
+    }
+    catch (DbUpdateConcurrencyException dbex)
+    {
+      var dbValues = dbex.Entries[0].GetDatabaseValues();
+
+      if (dbValues is null)
+      {
+        Navigation.NavigateTo($"/admin/to-do-item/view/{ToDoItem?.Id}");
+        return;
+      }
+
+      DbToDoItem = (ToDoItem)dbValues.ToObject();
+
+      dbex.Entries[0].OriginalValues.SetValues(dbValues);
+      Error = false;
+      Busy = false;
+    }
+    catch (Exception ex)
+    {
+      Error = true;
+      ErrorMessage = ex.Message;
+      Busy = false;
+    }
+  }
+
+  private void Cancel()
+  {
+    Busy = true;
+    Navigation.NavigateTo($"/admin/to-do-item");
+  }
+
+  public void Dispose() => Context?.Dispose();
+}
