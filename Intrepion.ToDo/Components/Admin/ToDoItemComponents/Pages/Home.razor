@@ -13,10 +13,42 @@
     <thead>
       <tr>
         <th>Actions</th>
-        <th>Is Completed?</th>
-        <th>Ordering</th>
-        <th>To Do List</th>
-        <th>Title</th>
+        <th>
+          <div style="cursor: pointer;" @onclick="() => SortByIsCompleted()">
+            Is Completed?
+            @if (currentSortColumn == "IsCompleted")
+            {
+              <span>@(isAscending ? "↑" : "↓")</span>
+            }
+          </div>
+        </th>
+        <th>
+          <div style="cursor: pointer;" @onclick="() => SortByOrdering()">
+            Ordering
+            @if (currentSortColumn == "Ordering")
+            {
+              <span>@(isAscending ? "↑" : "↓")</span>
+            }
+          </div>
+        </th>
+        <th>
+          <div style="cursor: pointer;" @onclick="() => SortByToDoList()">
+            To Do List
+            @if (currentSortColumn == "ToDoList")
+            {
+              <span>@(isAscending ? "↑" : "↓")</span>
+            }
+          </div>
+        </th>
+        <th>
+          <div style="cursor: pointer;" @onclick="() => SortByTitle()">
+            Title
+            @if (currentSortColumn == "Title")
+            {
+              <span>@(isAscending ? "↑" : "↓")</span>
+            }
+          </div>
+        </th>
         @* TableHeaderCodePlaceholder *@
       </tr>
     </thead>
@@ -59,6 +91,8 @@
 
 @code {
   private ICollection<ToDoItem>? toDoItems { get; set; }
+  private string currentSortColumn = "";
+  private bool isAscending = true;
 
   protected override async Task OnParametersSetAsync()
   {
@@ -67,8 +101,6 @@
 
   private async Task ReloadAsync()
   {
-    toDoItems = new List<ToDoItem>();
-
     using var context = DbFactory.CreateDbContext();
     var query = context.ToDoItems?.AsQueryable();
 
@@ -78,7 +110,105 @@
         .Include(x => x.ToDoList)
         @* QueryIncludeCodePlaceholder *@
         .AsNoTracking().ToListAsync();
+      
+      ApplyCurrentSort();
+    }
+    else
+    {
+      toDoItems = new List<ToDoItem>();
+    }
+  }
+
+  private void SortByIsCompleted()
+  {
+    if (currentSortColumn == "IsCompleted")
+    {
+      isAscending = !isAscending;
+    }
+    else
+    {
+      currentSortColumn = "IsCompleted";
+      isAscending = true;
+    }
+    
+    ApplyCurrentSort();
+  }
+
+  private void SortByOrdering()
+  {
+    if (currentSortColumn == "Ordering")
+    {
+      isAscending = !isAscending;
+    }
+    else
+    {
+      currentSortColumn = "Ordering";
+      isAscending = true;
+    }
+    
+    ApplyCurrentSort();
+  }
+
+  private void SortByToDoList()
+  {
+    if (currentSortColumn == "ToDoList")
+    {
+      isAscending = !isAscending;
+    }
+    else
+    {
+      currentSortColumn = "ToDoList";
+      isAscending = true;
+    }
+    
+    ApplyCurrentSort();
+  }
+
+  private void SortByTitle()
+  {
+    if (currentSortColumn == "Title")
+    {
+      isAscending = !isAscending;
+    }
+    else
+    {
+      currentSortColumn = "Title";
+      isAscending = true;
+    }
+    
+    ApplyCurrentSort();
+  }
+
+  private void ApplyCurrentSort()
+  {
+    if (toDoItems == null || !toDoItems.Any())
+      return;
+
+    switch (currentSortColumn)
+    {
+      case "IsCompleted":
+        toDoItems = isAscending
+          ? toDoItems.OrderBy(t => t.IsCompleted).ToList()
+          : toDoItems.OrderByDescending(t => t.IsCompleted).ToList();
+        break;
+
+      case "Ordering":
+        toDoItems = isAscending
+          ? toDoItems.OrderBy(t => t.Ordering).ToList()
+          : toDoItems.OrderByDescending(t => t.Ordering).ToList();
+        break;
+
+      case "ToDoList":
+        toDoItems = isAscending
+          ? toDoItems.OrderBy(t => t.ToDoList != null ? t.ToDoList.Title : "").ToList()
+          : toDoItems.OrderByDescending(t => t.ToDoList != null ? t.ToDoList.Title : "").ToList();
+        break;
+
+      case "Title":
+        toDoItems = isAscending
+          ? toDoItems.OrderBy(t => t.Title ?? "").ToList()
+          : toDoItems.OrderByDescending(t => t.Title ?? "").ToList();
+        break;
     }
   }
 }
-
