@@ -9,46 +9,39 @@
 <h1>To Do Item Home</h1>
 <h6><a href="/admin/to-do-item/add">Create New</a></h6>
 
+<div class="small text-muted mb-3">
+  <i class="bi bi-info-circle me-1"></i>
+  Tap on column headers to sort. To sort by multiple columns, use the "Add To Sort" buttons in the "Sort Options" section below.
+</div>
+
 <div class="container-fluid">
   <table class="table table-hover table-primary table-striped">
     <thead>
       <tr>
         <th>Actions</th>
         <th>
-          <a href="@GetSortUrl("IsCompleted")">
+          <button class="btn btn-link p-0 text-decoration-none" @onclick='() => PrimarySort("IsCompleted")'>
             Is Completed?
-            @if (sortField == "IsCompleted")
-            {
-              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
-            }
-          </a>
+            @GetSortIndicator("IsCompleted")
+          </button>
         </th>
         <th>
-          <a href="@GetSortUrl("Ordering")">
+          <button class="btn btn-link p-0 text-decoration-none" @onclick='() => PrimarySort("Ordering")'>
             Ordering
-            @if (sortField == "Ordering")
-            {
-              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
-            }
-          </a>
+            @GetSortIndicator("Ordering")
+          </button>
         </th>
         <th>
-          <a href="@GetSortUrl("ToDoListTitle")">
+          <button class="btn btn-link p-0 text-decoration-none" @onclick='() => PrimarySort("ToDoListTitle")'>
             To Do List
-            @if (sortField == "ToDoListTitle")
-            {
-              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
-            }
-          </a>
+            @GetSortIndicator("ToDoListTitle")
+          </button>
         </th>
         <th>
-          <a href="@GetSortUrl("Title")">
+          <button class="btn btn-link p-0 text-decoration-none" @onclick='() => PrimarySort("Title")'>
             Title
-            @if (sortField == "Title")
-            {
-              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
-            }
-          </a>
+            @GetSortIndicator("Title")
+          </button>
         </th>
         @* TableHeaderCodePlaceholder *@
       </tr>
@@ -89,29 +82,106 @@
     </tbody>
   </table>
 
+  <!-- Sort Options Section -->
+  <div class="card mb-3">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Sort Options</h5>
+    </div>
+    <div class="card-body">
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="form-label">Active sort order:</label>
+          @if (sortOrders.Count > 0)
+          {
+            <div class="d-flex flex-wrap gap-2 mb-2">
+              @for (int i = 0; i < sortOrders.Count; i++)
+              {
+                var sortInfo = sortOrders[i];
+                var index = i;
+                <div class="badge bg-info d-flex align-items-center p-2">
+                  <span>@(i + 1). @GetDisplayName(sortInfo.Field) (@(sortInfo.Direction == "asc" ? "↑" : "↓"))</span>
+                  <button @onclick="() => ToggleSortDirection(index)" class="btn btn-sm text-white ms-1 p-0">
+                    <i class="bi bi-arrow-down-up"></i>
+                  </button>
+                  <button @onclick="() => RemoveSort(index)" class="btn btn-sm text-white ms-1 p-0">
+                    <i class="bi bi-x"></i>
+                  </button>
+                  @if (i > 0)
+                  {
+                    <button @onclick="() => MoveSortUp(index)" class="btn btn-sm text-white ms-1 p-0">
+                      <i class="bi bi-arrow-up"></i>
+                    </button>
+                  }
+                  @if (i < sortOrders.Count - 1)
+                  {
+                    <button @onclick="() => MoveSortDown(index)" class="btn btn-sm text-white ms-1 p-0">
+                      <i class="bi bi-arrow-down"></i>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          }
+          else
+          {
+            <div>
+              <span class="text-muted">Default sorting (Title ascending)</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="form-label">Add column to sort:</label>
+          <div class="d-flex flex-wrap gap-2">
+            @foreach (var field in GetSortableFields())
+            {
+              @if (!sortOrders.Any(s => s.Field == field.Key))
+              {
+                <button @onclick="() => AddSort(field.Key)" class="btn btn-sm btn-outline-primary">
+                  @field.Value <i class="bi bi-plus"></i>
+                </button>
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <button @onclick="ResetSort" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset to Default Sort
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Pagination Controls -->
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
       <!-- Previous Page Button -->
       <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-        <a class="page-link" href="@GetPaginationUrl(currentPage - 1)" aria-label="Previous">
+        <button class="page-link" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage <= 1)" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
-        </a>
+        </button>
       </li>
 
       <!-- Page Number Buttons -->
       @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
       {
+        int pageNumber = i;
         <li class="page-item @(i == currentPage ? "active" : "")">
-          <a class="page-link" href="@GetPaginationUrl(i)">@i</a>
+          <button class="page-link" @onclick="() => GoToPage(pageNumber)">@i</button>
         </li>
       }
 
       <!-- Next Page Button -->
       <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-        <a class="page-link" href="@GetPaginationUrl(currentPage + 1)" aria-label="Next">
+        <button class="page-link" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage >= totalPages)" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
-        </a>
+        </button>
       </li>
     </ul>
   </nav>
@@ -123,14 +193,21 @@
 @code {
   private ICollection<ToDoItem>? toDoItems { get; set; }
   private int currentPage = 1;
-  private string defaultSortField = "Title"; // Default sort field
-  private string sortField = "Title"; // Default sort field
-  private string sortDirection = "asc"; // Default sort direction
-
+  
+  // Data structure for multi-column sorting
+  private List<SortInfo> sortOrders = new List<SortInfo>();
+  
   // Default items per page
   private int pageSize = 10;
   private int totalItems = 0;
   private int totalPages = 0;
+
+  // Class to store sort information
+  private class SortInfo
+  {
+    public string Field { get; set; } = string.Empty;
+    public string Direction { get; set; } = "asc";
+  }
 
   protected override void OnInitialized()
   {
@@ -176,27 +253,69 @@
       currentPage = 1;
     }
 
-    // Get sort field and direction from query parameters or use defaults
-    if (!string.IsNullOrWhiteSpace(queryParams["sort"]))
+    // Clear existing sort orders
+    sortOrders.Clear();
+
+    // For multi-column sort, we'll use sort0, sort1, sort2, etc. parameters
+    for (int i = 0; i < 10; i++) // Maximum of 10 sort fields
     {
-      sortField = queryParams["sort"];
-    }
-    else
-    {
-      sortField = defaultSortField;
+      string sortKey = $"sort{i}";
+      string? sortValue = queryParams[sortKey];
+      
+      if (string.IsNullOrEmpty(sortValue))
+      {
+        continue;
+      }
+      
+      string[] parts = sortValue.Split(':');
+      if (parts.Length == 2)
+      {
+        string field = parts[0];
+        string direction = parts[1].ToLower();
+        
+        // Only accept valid directions
+        if (direction != "asc" && direction != "desc")
+        {
+          direction = "asc";
+        }
+        
+        // Only add if it's a valid field
+        if (IsValidSortField(field))
+        {
+          sortOrders.Add(new SortInfo { Field = field, Direction = direction });
+        }
+      }
     }
 
-    if (!string.IsNullOrWhiteSpace(queryParams["dir"]) && 
-        (queryParams["dir"] == "asc" || queryParams["dir"] == "desc"))
+    // If no sort orders were specified, use default sorting
+    if (sortOrders.Count == 0)
     {
-      sortDirection = queryParams["dir"];
-    }
-    else
-    {
-      sortDirection = "asc";
+      sortOrders.Add(new SortInfo { Field = "Title", Direction = "asc" });
     }
 
     await LoadDataAsync();
+  }
+
+  private bool IsValidSortField(string field)
+  {
+    // List of valid sortable fields
+    return field switch
+    {
+      "IsCompleted" or "Ordering" or "ToDoListTitle" or "Title" => true,
+      _ => false
+    };
+  }
+
+  private Dictionary<string, string> GetSortableFields()
+  {
+    return new Dictionary<string, string>
+    {
+      { "IsCompleted", "Completion Status" },
+      { "Ordering", "Order" },
+      { "ToDoListTitle", "To Do List" },
+      { "Title", "Title" }
+      // Add more fields as needed
+    };
   }
 
   private async Task LoadDataAsync()
@@ -220,7 +339,7 @@
       if (currentPage > totalPages && totalPages > 0)
       {
         currentPage = totalPages;
-        Navigation.NavigateTo(GetPaginationUrl(currentPage), replace: true);
+        await NavigateToCurrentStateAsync();
         return;
       }
 
@@ -242,18 +361,40 @@
 
   private IQueryable<ToDoItem> ApplySorting(IQueryable<ToDoItem> query)
   {
-    return sortField switch
+    if (sortOrders.Count == 0)
     {
-      "IsCompleted" => sortDirection == "asc" 
+      // Default sorting if no sort orders specified
+      return query.OrderBy(x => x.Ordering);
+    }
+
+    // Process the first sort order
+    var firstSort = sortOrders[0];
+    IOrderedQueryable<ToDoItem> orderedQuery = ApplyInitialSort(query, firstSort.Field, firstSort.Direction);
+
+    // Process subsequent sort orders
+    for (int i = 1; i < sortOrders.Count; i++)
+    {
+      var sortInfo = sortOrders[i];
+      orderedQuery = ApplyThenBy(orderedQuery, sortInfo.Field, sortInfo.Direction);
+    }
+
+    return orderedQuery;
+  }
+
+  private IOrderedQueryable<ToDoItem> ApplyInitialSort(IQueryable<ToDoItem> query, string field, string direction)
+  {
+    return field switch
+    {
+      "IsCompleted" => direction == "asc" 
                       ? query.OrderBy(x => x.IsCompleted)
                       : query.OrderByDescending(x => x.IsCompleted),
-      "Ordering" => sortDirection == "asc" 
+      "Ordering" => direction == "asc" 
                    ? query.OrderBy(x => x.Ordering)
                    : query.OrderByDescending(x => x.Ordering),
-      "ToDoListTitle" => sortDirection == "asc" 
+      "ToDoListTitle" => direction == "asc" 
                         ? query.OrderBy(x => x.ToDoList.Title)
                         : query.OrderByDescending(x => x.ToDoList.Title),
-      "Title" => sortDirection == "asc" 
+      "Title" => direction == "asc" 
                 ? query.OrderBy(x => x.Title)
                 : query.OrderByDescending(x => x.Title),
       // Add more sort fields as needed
@@ -261,19 +402,193 @@
     };
   }
 
-  private string GetSortUrl(string field)
+  private IOrderedQueryable<ToDoItem> ApplyThenBy(IOrderedQueryable<ToDoItem> query, string field, string direction)
   {
-    // Toggle direction if clicking the same field, otherwise default to ascending
-    string direction = field == sortField
-        ? sortDirection == "asc" ? "desc" : "asc"
-        : "asc";
-
-    return $"/admin/to-do-item?page={currentPage}&sort={field}&dir={direction}";
+    return field switch
+    {
+      "IsCompleted" => direction == "asc" 
+                      ? query.ThenBy(x => x.IsCompleted)
+                      : query.ThenByDescending(x => x.IsCompleted),
+      "Ordering" => direction == "asc" 
+                   ? query.ThenBy(x => x.Ordering)
+                   : query.ThenByDescending(x => x.Ordering),
+      "ToDoListTitle" => direction == "asc" 
+                        ? query.ThenBy(x => x.ToDoList.Title)
+                        : query.ThenByDescending(x => x.ToDoList.Title),
+      "Title" => direction == "asc" 
+                ? query.ThenBy(x => x.Title)
+                : query.ThenByDescending(x => x.Title),
+      // Add more sort fields as needed
+      _ => query.ThenBy(x => x.Ordering) // Default sorting
+    };
   }
 
-  private string GetPaginationUrl(int page)
+  // New method for primary sort (clicking column headers)
+  private async Task PrimarySort(string field)
   {
-    // Build URL with current sort parameters
-    return $"/admin/to-do-item?page={page}&sort={sortField}&dir={sortDirection}";
+    // Find if field already exists in sort orders
+    int existingIndex = sortOrders.FindIndex(s => s.Field == field);
+    
+    if (existingIndex >= 0)
+    {
+      // If it's already the primary sort, toggle direction
+      if (existingIndex == 0)
+      {
+        sortOrders[0].Direction = sortOrders[0].Direction == "asc" ? "desc" : "asc";
+      }
+      else
+      {
+        // If it exists but isn't primary, move to primary and set ascending
+        var item = sortOrders[existingIndex];
+        sortOrders.RemoveAt(existingIndex);
+        item.Direction = "asc";
+        sortOrders.Insert(0, item);
+      }
+    }
+    else
+    {
+      // New primary sort - set as primary
+      sortOrders.Insert(0, new SortInfo { Field = field, Direction = "asc" });
+    }
+    
+    await NavigateToCurrentStateAsync();
   }
+
+  // Method to add a field to the sort order
+  private async Task AddSort(string field)
+  {
+    if (!sortOrders.Any(s => s.Field == field))
+    {
+      sortOrders.Add(new SortInfo { Field = field, Direction = "asc" });
+      await NavigateToCurrentStateAsync();
+    }
+  }
+
+  // Toggle the sort direction for a specific field
+  private async Task ToggleSortDirection(int index)
+  {
+    if (index >= 0 && index < sortOrders.Count)
+    {
+      sortOrders[index].Direction = sortOrders[index].Direction == "asc" ? "desc" : "asc";
+      await NavigateToCurrentStateAsync();
+    }
+  }
+
+  // Move a sort criterion up in priority
+  private async Task MoveSortUp(int index)
+  {
+    if (index > 0 && index < sortOrders.Count)
+    {
+      var temp = sortOrders[index];
+      sortOrders[index] = sortOrders[index - 1];
+      sortOrders[index - 1] = temp;
+      await NavigateToCurrentStateAsync();
+    }
+  }
+
+  // Move a sort criterion down in priority
+  private async Task MoveSortDown(int index)
+  {
+    if (index >= 0 && index < sortOrders.Count - 1)
+    {
+      var temp = sortOrders[index];
+      sortOrders[index] = sortOrders[index + 1];
+      sortOrders[index + 1] = temp;
+      await NavigateToCurrentStateAsync();
+    }
+  }
+
+  private async Task RemoveSort(int index)
+  {
+    if (index >= 0 && index < sortOrders.Count)
+    {
+      sortOrders.RemoveAt(index);
+      
+      // If all sort orders are removed, add a default sort
+      if (sortOrders.Count == 0)
+      {
+        sortOrders.Add(new SortInfo { Field = "Title", Direction = "asc" });
+      }
+      
+      await NavigateToCurrentStateAsync();
+    }
+  }
+  
+  private async Task ResetSort()
+  {
+    sortOrders.Clear();
+    sortOrders.Add(new SortInfo { Field = "Title", Direction = "asc" });
+    await NavigateToCurrentStateAsync();
+  }
+  
+  private async Task GoToPage(int page)
+  {
+    if (page > 0 && (page <= totalPages || totalPages == 0))
+    {
+      currentPage = page;
+      await NavigateToCurrentStateAsync();
+    }
+  }
+  
+  private async Task NavigateToCurrentStateAsync()
+  {
+    // Build URL with current state
+    string url = "/admin/to-do-item?page=" + currentPage;
+    
+    // Add sort parameters
+    for (int i = 0; i < sortOrders.Count; i++)
+    {
+      url += $"&sort{i}={sortOrders[i].Field}:{sortOrders[i].Direction}";
+    }
+    
+    // Navigate and reload data
+    Navigation.NavigateTo(url);
+    await LoadDataAsync();
+    StateHasChanged();
+  }
+  
+  private RenderFragment GetSortIndicator(string field) => builder =>
+  {
+    int order = -1;
+    string direction = "asc";
+    
+    // Find if this field is in the sort orders
+    for (int i = 0; i < sortOrders.Count; i++)
+    {
+      if (sortOrders[i].Field == field)
+      {
+        order = i;
+        direction = sortOrders[i].Direction;
+        break;
+      }
+    }
+    
+    if (order >= 0)
+    {
+      builder.OpenElement(0, "span");
+      builder.AddAttribute(1, "class", "ms-1");
+      
+      // Show sort order number if multiple sorts
+      if (sortOrders.Count > 1)
+      {
+        builder.AddContent(2, $"{order + 1} ");
+      }
+      
+      // Show direction icon
+      builder.OpenElement(3, "i");
+      builder.AddAttribute(4, "class", $"bi {(direction == "asc" ? "bi-sort-up" : "bi-sort-down")}");
+      builder.CloseElement(); // i
+      
+      builder.CloseElement(); // span
+    }
+  };
+  
+  private string GetDisplayName(string field) => field switch
+  {
+    "IsCompleted" => "Completion Status",
+    "Ordering" => "Order",
+    "ToDoListTitle" => "To Do List",
+    "Title" => "Title",
+    _ => field
+  };
 }
