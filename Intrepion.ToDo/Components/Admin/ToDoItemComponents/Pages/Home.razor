@@ -1,8 +1,8 @@
 @page "/admin/to-do-item"
-@page "/admin/to-do-item/page/{CurrentPage:int}"
 @rendermode InteractiveServer
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
+@implements IDisposable
 
 <PageTitle>To Do Item Home</PageTitle>
 
@@ -14,10 +14,42 @@
     <thead>
       <tr>
         <th>Actions</th>
-        <th>Is Completed?</th>
-        <th>Ordering</th>
-        <th>To Do List</th>
-        <th>Title</th>
+        <th>
+          <a href="@GetSortUrl("IsCompleted")">
+            Is Completed?
+            @if (sortField == "IsCompleted")
+            {
+              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
+            }
+          </a>
+        </th>
+        <th>
+          <a href="@GetSortUrl("Ordering")">
+            Ordering
+            @if (sortField == "Ordering")
+            {
+              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
+            }
+          </a>
+        </th>
+        <th>
+          <a href="@GetSortUrl("ToDoListTitle")">
+            To Do List
+            @if (sortField == "ToDoListTitle")
+            {
+              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
+            }
+          </a>
+        </th>
+        <th>
+          <a href="@GetSortUrl("Title")">
+            Title
+            @if (sortField == "Title")
+            {
+              <i class="bi @(sortDirection == "asc" ? "bi-sort-up" : "bi-sort-down")"></i>
+            }
+          </a>
+        </th>
         @* TableHeaderCodePlaceholder *@
       </tr>
     </thead>
@@ -61,90 +93,144 @@
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
       <!-- Previous Page Button -->
-      <li class="page-item @(CurrentPage <= 1 ? "disabled" : "")">
-        <a class="page-link" href="/admin/to-do-item/page/@(CurrentPage - 1)" aria-label="Previous">
+      <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+        <a class="page-link" href="@GetPaginationUrl(currentPage - 1)" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
 
       <!-- Page Number Buttons -->
-      @for (int i = Math.Max(1, CurrentPage - 2); i <= Math.Min(TotalPages, CurrentPage + 2); i++)
+      @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
       {
-        <li class="page-item @(i == CurrentPage ? "active" : "")">
-          <a class="page-link" href="/admin/to-do-item/page/@i">@i</a>
+        <li class="page-item @(i == currentPage ? "active" : "")">
+          <a class="page-link" href="@GetPaginationUrl(i)">@i</a>
         </li>
       }
 
       <!-- Next Page Button -->
-      <li class="page-item @(CurrentPage >= TotalPages ? "disabled" : "")">
-        <a class="page-link" href="/admin/to-do-item/page/@(CurrentPage + 1)" aria-label="Next">
+      <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+        <a class="page-link" href="@GetPaginationUrl(currentPage + 1)" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
     </ul>
   </nav>
   <div class="text-center">
-    <small class="text-muted">Showing page @CurrentPage of @TotalPages (@TotalItems total items)</small>
+    <small class="text-muted">Showing page @currentPage of @totalPages (@totalItems total items)</small>
   </div>
 </div>
 
 @code {
   private ICollection<ToDoItem>? toDoItems { get; set; }
-
-  [Parameter]
-  public int CurrentPage { get; set; } = 1;
+  private int currentPage = 1;
+  private string defaultSortField = "Title"; // Default sort field
+  private string sortField = "Title"; // Default sort field
+  private string sortDirection = "asc"; // Default sort direction
 
   // Default items per page
-  private int PageSize { get; set; } = 10;
+  private int pageSize = 10;
+  private int totalItems = 0;
+  private int totalPages = 0;
 
-  private int TotalItems { get; set; }
-  private int TotalPages { get; set; }
+  protected override void OnInitialized()
+  {
+    // Subscribe to the LocationChanged event when the component is initialized
+    Navigation.LocationChanged += OnLocationChanged;
+  }
+
+  // Implement IDisposable to properly unsubscribe from the event
+  public void Dispose()
+  {
+    // Unsubscribe from the event when the component is disposed
+    Navigation.LocationChanged -= OnLocationChanged;
+  }
+
+  private async void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+  {
+    // Read the query parameters and reload data
+    await ParseQueryParametersAndLoadData();
+    
+    // Since this is an async void method called from an event handler,
+    // we need to manually trigger a UI update
+    StateHasChanged();
+  }
 
   protected override async Task OnInitializedAsync()
   {
-    // Ensure CurrentPage is never less than 1
-    if (CurrentPage < 1)
+    await ParseQueryParametersAndLoadData();
+  }
+
+  private async Task ParseQueryParametersAndLoadData()
+  {
+    // Parse query parameters from the current URL
+    var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+    var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+    // Get page from query parameters or default to 1
+    if (int.TryParse(queryParams["page"], out int page) && page > 0)
     {
-      CurrentPage = 1;
-      Navigation.NavigateTo("/admin/to-do-item/page/1");
-      return;
+      currentPage = page;
+    }
+    else
+    {
+      currentPage = 1;
     }
 
-    await ReloadAsync();
+    // Get sort field and direction from query parameters or use defaults
+    if (!string.IsNullOrWhiteSpace(queryParams["sort"]))
+    {
+      sortField = queryParams["sort"];
+    }
+    else
+    {
+      sortField = defaultSortField;
+    }
+
+    if (!string.IsNullOrWhiteSpace(queryParams["dir"]) && 
+        (queryParams["dir"] == "asc" || queryParams["dir"] == "desc"))
+    {
+      sortDirection = queryParams["dir"];
+    }
+    else
+    {
+      sortDirection = "asc";
+    }
+
+    await LoadDataAsync();
   }
 
-  protected override async Task OnParametersSetAsync()
-  {
-    await ReloadAsync();
-  }
-
-  private async Task ReloadAsync()
+  private async Task LoadDataAsync()
   {
     using var context = DbFactory.CreateDbContext();
     var query = context.ToDoItems?.AsQueryable();
 
     if (query is not null)
     {
+      // Include related data
+      query = query.Include(x => x.ToDoList);
+      @* QueryIncludeCodePlaceholder *@
+
       // Count total items for pagination
-      TotalItems = await query.CountAsync();
+      totalItems = await query.CountAsync();
 
       // Calculate total pages
-      TotalPages = (int)Math.Ceiling(TotalItems / (double)PageSize);
+      totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-      // If current page exceeds total pages, redirect to last page
-      if (CurrentPage > TotalPages && TotalPages > 0)
+      // If current page exceeds total pages, adjust it
+      if (currentPage > totalPages && totalPages > 0)
       {
-        CurrentPage = TotalPages;
-        Navigation.NavigateTo($"/admin/to-do-item/page/{CurrentPage}");
+        currentPage = totalPages;
+        Navigation.NavigateTo(GetPaginationUrl(currentPage), replace: true);
         return;
       }
 
+      // Apply sorting based on parameters
+      query = ApplySorting(query);
+
       // Get paginated data
       toDoItems = await query
-        .Include(x => x.ToDoList)
-        @* QueryIncludeCodePlaceholder *@
-        .Skip((CurrentPage - 1) * PageSize)
-        .Take(PageSize)
+        .Skip((currentPage - 1) * pageSize)
+        .Take(pageSize)
         .AsNoTracking()
         .ToListAsync();
     }
@@ -152,5 +238,42 @@
     {
       toDoItems = new List<ToDoItem>();
     }
+  }
+
+  private IQueryable<ToDoItem> ApplySorting(IQueryable<ToDoItem> query)
+  {
+    return sortField switch
+    {
+      "IsCompleted" => sortDirection == "asc" 
+                      ? query.OrderBy(x => x.IsCompleted)
+                      : query.OrderByDescending(x => x.IsCompleted),
+      "Ordering" => sortDirection == "asc" 
+                   ? query.OrderBy(x => x.Ordering)
+                   : query.OrderByDescending(x => x.Ordering),
+      "ToDoListTitle" => sortDirection == "asc" 
+                        ? query.OrderBy(x => x.ToDoList.Title)
+                        : query.OrderByDescending(x => x.ToDoList.Title),
+      "Title" => sortDirection == "asc" 
+                ? query.OrderBy(x => x.Title)
+                : query.OrderByDescending(x => x.Title),
+      // Add more sort fields as needed
+      _ => query.OrderBy(x => x.Ordering) // Default sorting
+    };
+  }
+
+  private string GetSortUrl(string field)
+  {
+    // Toggle direction if clicking the same field, otherwise default to ascending
+    string direction = field == sortField
+        ? sortDirection == "asc" ? "desc" : "asc"
+        : "asc";
+
+    return $"/admin/to-do-item?page={currentPage}&sort={field}&dir={direction}";
+  }
+
+  private string GetPaginationUrl(int page)
+  {
+    // Build URL with current sort parameters
+    return $"/admin/to-do-item?page={page}&sort={sortField}&dir={sortDirection}";
   }
 }
