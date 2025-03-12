@@ -1,5 +1,7 @@
 @page "/admin/to-do-item"
 @rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
 
@@ -8,57 +10,54 @@
 <h1>To Do Item Home</h1>
 <h6><a href="/admin/to-do-item/add">Create New</a></h6>
 
-<div class="container-fluid">
-  <table class="table table-hover table-primary table-striped">
-    <thead>
-      <tr>
-        <th>Actions</th>
-        <th>Is Completed?</th>
-        <th>Ordering</th>
-        <th>To Do List</th>
-        <th>Title</th>
-        @* TableHeaderCodePlaceholder *@
-      </tr>
-    </thead>
-    <tbody>
-      @if (toDoItems is not null)
-      {
-        @foreach (var toDoItem in toDoItems)
-        {
-          <tr>
-            <td>
-              <div class="btn-group">
-                <a class="btn btn-primary btn-sm btn-info" href="/admin/to-do-item/view/@toDoItem.Id" title="View">
-                  <i class="bi bi-eye"></i>
-                </a>
-                <a class="btn btn-primary btn-sm" href="/admin/to-do-item/edit/@toDoItem.Id" title="Edit">
-                  <i class="bi bi-pencil"></i>
-                </a>
-              </div>
-            </td>
-            <td>
-              @if (toDoItem != null && toDoItem.IsCompleted)
-              {
-                <span class="badge bg-success">Yes</span>
-              }
-              else
-              {
-                <span class="badge bg-warning text-dark">No</span>
-              }
-            </td>
-            <td>@toDoItem?.Ordering</td>
-            <td>@toDoItem?.ToDoList?.Title</td>
-            <td>@toDoItem?.Title</td>
-            @* TableRowCodePlaceholder *@
-          </tr>
-        }
-      }
-    </tbody>
-  </table>
-</div>
+<DataTable TItem="ToDoItem" Items="toDoItems" Columns="columns" EnableSorting="true">
+  <ActionTemplate Context="item">
+    <div class="btn-group">
+      <a class="btn btn-primary btn-sm btn-info" href="/admin/to-do-item/view/@item.Id" title="View">
+        <i class="bi bi-eye"></i>
+      </a>
+      <a class="btn btn-primary btn-sm" href="/admin/to-do-item/edit/@item.Id" title="Edit">
+        <i class="bi bi-pencil"></i>
+      </a>
+    </div>
+  </ActionTemplate>
+</DataTable>
 
 @code {
   private ICollection<ToDoItem>? toDoItems { get; set; }
+  private List<DataColumn<ToDoItem>> columns = new();
+
+  protected override void OnInitialized()
+  {
+    // Define columns
+    columns = new List<DataColumn<ToDoItem>>
+    {
+      new DataColumn<ToDoItem>
+      {
+        Title = "Is Completed?",
+        PropertyName = "IsCompleted",
+        Template = (item) => @<span class="badge @(item.IsCompleted ? "bg-success" : "bg-warning text-dark")">
+                               @(item.IsCompleted ? "Yes" : "No")
+                             </span>
+      },
+      new DataColumn<ToDoItem>
+      {
+        Title = "Ordering",
+        PropertyName = "Ordering"
+      },
+      new DataColumn<ToDoItem>
+      {
+        Title = "To Do List",
+        PropertyName = "ToDoList.Title"
+      },
+      new DataColumn<ToDoItem>
+      {
+        Title = "Title",
+        PropertyName = "Title"
+      }
+      // Add other columns as needed
+    };
+  }
 
   protected override async Task OnParametersSetAsync()
   {
@@ -76,9 +75,8 @@
     {
       toDoItems = await query
         .Include(x => x.ToDoList)
-        @* QueryIncludeCodePlaceholder *@
+        // Any other includes needed
         .AsNoTracking().ToListAsync();
     }
   }
 }
-

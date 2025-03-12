@@ -1,0 +1,163 @@
+@typeparam TItem
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components
+@using System.Linq.Expressions
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+<div class="container-fluid">
+  <table class="table table-hover table-primary table-striped">
+    <thead>
+      <tr>
+        @if (ActionTemplate != null)
+        {
+          <th>Actions</th>
+        }
+        @foreach (var column in Columns)
+        {
+          <th>
+            @if (EnableSorting && column.IsSortable)
+            {
+              <div class="d-flex align-items-center">
+                <span @onclick="() => SortByColumn(column.PropertyName)">@column.Title</span>
+                @if (SortColumn == column.PropertyName)
+                {
+                  <span class="ms-1">
+                    @if (SortDirection == SortDirection.Ascending)
+                    {
+                      <i class="bi bi-arrow-up"></i>
+                    }
+                    else
+                    {
+                      <i class="bi bi-arrow-down"></i>
+                    }
+                  </span>
+                }
+              </div>
+            }
+            else
+            {
+              @column.Title
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (Items != null && Items.Any())
+      {
+        @foreach (var item in SortedItems)
+        {
+          <tr>
+            @if (ActionTemplate != null)
+            {
+              <td>
+                @ActionTemplate(item)
+              </td>
+            }
+            @foreach (var column in Columns)
+            {
+              <td>
+                @if (column.Template != null)
+                {
+                  @column.Template(item)
+                }
+                else
+                {
+                  @GetPropertyValue(item, column.PropertyName)
+                }
+              </td>
+            }
+          </tr>
+        }
+      }
+      else
+      {
+        <tr>
+          <td colspan="@(Columns.Count + (ActionTemplate != null ? 1 : 0))">
+            <div class="text-center p-3">
+              <em>No items found.</em>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@code {
+  [Parameter]
+  public List<DataColumn<TItem>> Columns { get; set; } = new List<DataColumn<TItem>>();
+
+  [Parameter]
+  public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+
+  [Parameter]
+  public RenderFragment<TItem>? ActionTemplate { get; set; }
+
+  [Parameter]
+  public bool EnableSorting { get; set; } = true;
+
+  private string? SortColumn { get; set; }
+  private SortDirection SortDirection { get; set; } = SortDirection.Ascending;
+
+  private IEnumerable<TItem> SortedItems
+  {
+    get
+    {
+      if (string.IsNullOrEmpty(SortColumn) || Items == null)
+      {
+        return Items ?? Enumerable.Empty<TItem>();
+      }
+
+      // Using reflection to sort by the specified property
+      var property = typeof(TItem).GetProperty(SortColumn);
+      if (property == null)
+      {
+        return Items;
+      }
+
+      Func<TItem, object> keySelector = item => 
+        property.GetValue(item) ?? string.Empty;
+
+      return SortDirection == SortDirection.Ascending
+        ? Items.OrderBy(keySelector)
+        : Items.OrderByDescending(keySelector);
+    }
+  }
+
+  private void SortByColumn(string propertyName)
+  {
+    if (propertyName == SortColumn)
+    {
+      // Toggle sort direction
+      SortDirection = SortDirection == SortDirection.Ascending
+        ? SortDirection.Descending
+        : SortDirection.Ascending;
+    }
+    else
+    {
+      // New sort column
+      SortColumn = propertyName;
+      SortDirection = SortDirection.Ascending;
+    }
+  }
+
+  private object? GetPropertyValue(TItem item, string propertyPath)
+  {
+    // Handle nested properties with dot notation (e.g., "ToDoList.Title")
+    var properties = propertyPath.Split('.');
+    object? value = item;
+
+    foreach (var prop in properties)
+    {
+      if (value == null) return null;
+      
+      var propertyInfo = value.GetType().GetProperty(prop);
+      if (propertyInfo == null) return null;
+      
+      value = propertyInfo.GetValue(value);
+    }
+
+    return value;
+  }
+}
