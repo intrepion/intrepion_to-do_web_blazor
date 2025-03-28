@@ -1,4 +1,4 @@
-using Intrepion.ToDo.BusinessLogic.Grid;
+﻿using Intrepion.ToDo.BusinessLogic.Grid;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Intrepion.ToDo.BusinessLogic.UnitTests.GridTests.InfoGridTests;
