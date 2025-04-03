@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.BusinessLogic.Grid;
+﻿namespace Intrepion.ToDo.BusinessLogic.Grid;
 
 public enum ColumnType
 {
