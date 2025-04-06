@@ -1,4 +1,4 @@
-namespace Intrepion.ToDo.Shared.Grid;
+﻿namespace Intrepion.ToDo.Shared.Grid;
 
 public enum ColumnType
 {
