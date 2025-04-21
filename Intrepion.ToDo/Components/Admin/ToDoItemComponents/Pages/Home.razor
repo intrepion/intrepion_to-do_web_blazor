@@ -1,0 +1,68 @@
+@page "/admin/to-do-item"
+@rendermode InteractiveServer
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>To Do Item Home</PageTitle>
+
+<h1>To Do Item Home</h1>
+<h6><a href="/admin/movie/add">Create New</a></h6>
+
+<InfoGrid ColumnNames="columnNames" ColumnTypes="columnTypes" Ids="ids" Info="info" UrlName="to-do-item"></InfoGrid>
+
+@code {
+  private List<string> columnNames = [
+    "Is Completed?",
+    "Ordering",
+    "To Do List",
+    "Title",
+    @* ColumnNamesCodePlaceholder *@
+  ];
+  private List<ColumnType> columnTypes = [
+    ColumnType.Boolean,
+    ColumnType.Integer,
+    ColumnType.Text,
+    ColumnType.Normalized,
+    @* ColumnTypesCodePlaceholder *@
+  ];
+  private List<Guid>? ids;
+  private List<List<string>>? info;
+  private ICollection<ToDoItem>? toDoItems;
+
+  protected override async Task OnParametersSetAsync()
+  {
+    await ReloadAsync();
+  }
+
+  private async Task ReloadAsync()
+  {
+    toDoItems = new List<ToDoItem>();
+
+    using var context = DbFactory.CreateDbContext();
+    var query = context.ToDoItems?.AsQueryable();
+
+    if (query is not null)
+    {
+      toDoItems = await query
+        .Include(x => x.ToDoList)
+        @* QueryIncludeCodePlaceholder *@
+        .AsNoTracking().ToListAsync();
+
+      ids = [];
+      info = [];
+
+      foreach (var toDoItem in toDoItems)
+      {
+        ids.Add(toDoItem.Id);
+
+        info.Add([
+          toDoItem.IsCompleted.ToString(),
+          toDoItem.Ordering.ToString(),
+          ""+ toDoItem?.ToDoList?.Title,
+          toDoItem.Title,
+          @* InfoAddCodePlaceholder *@
+        ]);
+      }
+    }
+  }
+}
