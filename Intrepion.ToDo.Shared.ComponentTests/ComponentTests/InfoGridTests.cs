@@ -1,5 +1,5 @@
+﻿using Bunit;
 using Intrepion.ToDo.Shared.Grid;
-using Bunit;
 using NUnit.Framework;
 
 namespace Intrepion.ToDo.Shared.UnitTests.InfoGridTests;
