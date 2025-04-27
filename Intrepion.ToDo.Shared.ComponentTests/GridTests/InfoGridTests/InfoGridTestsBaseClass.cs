@@ -1,4 +1,4 @@
-using Intrepion.ToDo.Shared.Grid;
+﻿using Intrepion.ToDo.Shared.Grid;
 
 namespace Intrepion.ToDo.Shared.UnitTests.GridTests.InfoGridTests;
 
