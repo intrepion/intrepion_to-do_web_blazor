@@ -1,0 +1,58 @@
+@page "/admin/to-do-list"
+@rendermode InteractiveServer
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>To Do List Home</PageTitle>
+
+<h1>To Do List Home</h1>
+<h6><a href="/admin/movie/add">Create New</a></h6>
+
+<InfoGrid ColumnNames="columnNames" ColumnTypes="columnTypes" Ids="ids" Info="info" UrlName="to-do-list"></InfoGrid>
+
+@code {
+  private List<string> columnNames = [
+    "Title",
+    @* ColumnNamesCodePlaceholder *@
+  ];
+  private List<ColumnType> columnTypes = [
+    ColumnType.Normalized,
+    @* ColumnTypesCodePlaceholder *@
+  ];
+  private List<Guid>? ids;
+  private List<List<string>>? info;
+  private ICollection<ToDoList>? toDoLists;
+
+  protected override async Task OnParametersSetAsync()
+  {
+    await ReloadAsync();
+  }
+
+  private async Task ReloadAsync()
+  {
+    toDoLists = new List<ToDoList>();
+
+    using var context = DbFactory.CreateDbContext();
+    var query = context.ToDoLists?.AsQueryable();
+
+    if (query is not null)
+    {
+      toDoLists = await query
+        @* QueryIncludeCodePlaceholder *@
+        .AsNoTracking().ToListAsync();
+
+      ids = [];
+      info = [];
+
+      foreach (var toDoList in toDoLists)
+      {
+        ids.Add(toDoList.Id);
+
+        info.Add([
+          toDoList.Title,
+          @* InfoAddCodePlaceholder *@
+        ]);
+      }
+    }
+  }
+}
