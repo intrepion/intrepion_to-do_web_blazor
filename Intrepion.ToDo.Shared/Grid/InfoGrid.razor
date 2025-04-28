@@ -72,10 +72,15 @@
       </tbody>
     </table>
     <div>
-      <button @onclick="PreviousPage" disabled="@(Page == 1)">Previous</button>
+      <button @onclick="PreviousPageAsync" disabled="@(Page == 1)">Previous</button>
       <span>Page @Page of @TotalPages</span>
-      <button @onclick="NextPage" disabled="@(Page >= TotalPages)">Next</button>
+      <button @onclick="NextPageAsync" disabled="@(Page >= TotalPages)">Next</button>
     </div>
-
-  }
+}
 </div>
+
+@code {
+    // Helper methods to handle async operations with the UI
+    private async Task NextPageAsync() => await NextPage();
+    private async Task PreviousPageAsync() => await PreviousPage();
+}

@@ -8,7 +8,17 @@
 <h1>To Do Item Home</h1>
 <h6><a href="/admin/movie/add">Create New</a></h6>
 
-<InfoGrid ColumnNames="columnNames" ColumnTypes="columnTypes" Ids="ids" Info="info" UrlName="to-do-item"></InfoGrid>
+<InfoGrid 
+    ColumnNames="columnNames" 
+    ColumnTypes="columnTypes" 
+    Ids="ids" 
+    Info="info"
+    UrlName="to-do-item"
+    Page="currentPage"
+    RowsPerPage="rowsPerPage"
+    TotalPages="totalPages"
+    OnPageChanged="HandlePageChanged">
+</InfoGrid>
 
 @code {
   private List<string> columnNames = [
@@ -28,25 +38,82 @@
   private List<Guid>? ids;
   private List<List<string>>? info;
   private ICollection<ToDoItem>? toDoItems;
+  
+  // Pagination properties
+  private int currentPage = 1;
+  private int rowsPerPage = 10;
+  private int totalPages = 1;
+
+  protected override void OnInitialized()
+  {
+    // Parse the current URL to check for page parameter
+    var uri = new Uri(Navigation.Uri);
+    var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+    
+    if (int.TryParse(query["page"], out int page) && page > 0)
+    {
+      currentPage = page;
+    }
+  }
 
   protected override async Task OnParametersSetAsync()
   {
     await ReloadAsync();
   }
 
+  private async Task HandlePageChanged(int page)
+  {
+    // Update URL with the new page parameter
+    var uriBuilder = new UriBuilder(Navigation.Uri);
+    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+    query["page"] = page.ToString();
+    uriBuilder.Query = query.ToString();
+    
+    // Navigate to the new URL without triggering a page reload
+    Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
+    
+    // Update current page
+    currentPage = page;
+    
+    // Reload data with new page
+    await ReloadAsync();
+  }
+
   private async Task ReloadAsync()
   {
-    toDoItems = new List<ToDoItem>();
-
     using var context = DbFactory.CreateDbContext();
     var query = context.ToDoItems?.AsQueryable();
 
     if (query is not null)
     {
-      toDoItems = await query
+      // Get total count for pagination
+      var totalItems = await query.CountAsync();
+      
+      // Calculate total pages
+      totalPages = (totalItems + rowsPerPage - 1) / rowsPerPage;
+      
+      // Ensure current page is within valid range
+      if (currentPage > totalPages && totalPages > 0)
+      {
+        currentPage = totalPages;
+        // Update URL to reflect the corrected page
+        var uriBuilder = new UriBuilder(Navigation.Uri);
+        var queryString = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        queryString["page"] = currentPage.ToString();
+        uriBuilder.Query = queryString.ToString();
+        Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
+      }
+      
+      // Apply pagination to query
+      var pagedQuery = query
         .Include(x => x.ToDoList)
         @* QueryIncludeCodePlaceholder *@
-        .AsNoTracking().ToListAsync();
+        .AsNoTracking()
+        .Skip((currentPage - 1) * rowsPerPage)
+        .Take(rowsPerPage);
+
+      // Execute query
+      toDoItems = await pagedQuery.ToListAsync();
 
       ids = [];
       info = [];

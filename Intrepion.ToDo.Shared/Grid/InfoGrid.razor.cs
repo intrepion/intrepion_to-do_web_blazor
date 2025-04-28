@@ -26,6 +26,8 @@ public partial class InfoGrid
     public int TotalRows { get; set; } = 0;
     [Parameter]
     public string UrlName { get; set; } = string.Empty;
+    [Parameter]
+    public EventCallback<int> OnPageChanged { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -39,12 +41,7 @@ public partial class InfoGrid
 
     public void SetFilter(int column, string? filter)
     {
-        if (column < 0)
-        {
-            return;
-        }
-
-        if (column >= ColumnTypes.Count)
+        if (column < 0 || column >= ColumnTypes.Count)
         {
             return;
         }
@@ -52,48 +49,31 @@ public partial class InfoGrid
         Filters[column] = filter;
     }
 
-    public void NextPage()
+    public async Task NextPage()
     {
         var nextPage = Page + 1;
 
         if (nextPage <= TotalPages)
         {
-            Page = nextPage;
+            await OnPageChanged.InvokeAsync(nextPage);
         }
     }
 
-    public void PreviousPage()
+    public async Task PreviousPage()
     {
         var previousPage = Page - 1;
 
         if (previousPage >= 1)
         {
-            Page = previousPage;
+            await OnPageChanged.InvokeAsync(previousPage);
         }
     }
 
     public void SetRowsPerPage(int rowsPerPage)
     {
         RowsPerPage = rowsPerPage;
-
-        if (Info is null)
-        {
-            TotalPages = 1;
-            TotalRows = 0;
-
-            return;
-        }
-
-        if ((Info.Count % RowsPerPage) == 0)
-        {
-            TotalPages = Info.Count / RowsPerPage;
-        }
-        else
-        {
-            TotalPages = (Info.Count / RowsPerPage) + 1;
-        }
-
-        TotalRows = Info.Count;
+        
+        // Don't calculate pages here anymore as we're getting TotalPages from parent
     }
 
     public void SetInitialInfo(List<string> columnNames, List<ColumnType> columnTypes, List<Guid>? ids, List<List<string>>? info)
@@ -104,19 +84,13 @@ public partial class InfoGrid
         Info = info;
         Filters = [.. Enumerable.Repeat<string?>(null, columnNames.Count)];
 
-        SetRowsPerPage(10);
-
-        Page = 1;
+        SetRowsPerPage(RowsPerPage);
+        // Don't set Page = 1 here, respect the page parameter from the parent
     }
 
     public void SetSort(int column)
     {
-        if (column < 0)
-        {
-            return;
-        }
-
-        if (column >= ColumnTypes.Count)
+        if (column < 0 || column >= ColumnTypes.Count)
         {
             return;
         }
@@ -135,17 +109,14 @@ public partial class InfoGrid
         if (found == -1)
         {
             Sorts.Insert(0, (column, true));
-
-            return;
         }
-
-        if (Sorts[found].Item2)
+        else if (Sorts[found].Item2)
         {
             Sorts[found] = (column, false);
-
-            return;
         }
-
-        Sorts.RemoveAt(found);
+        else
+        {
+            Sorts.RemoveAt(found);
+        }
     }
 }
