@@ -14,6 +14,7 @@
   Ids="ids" 
   Info="info"
   OnPageChanged="HandlePageChanged"
+  OnRowsPerPage="HandleRowsPerPageChanged"
   Page="currentPage"
   RowsPerPage="rowsPerPage"
   TotalPages="totalPages"
@@ -42,18 +43,30 @@
   
   // Pagination properties
   private int currentPage = 1;
-  private int rowsPerPage = 10;
+  private int rowsPerPage = 10; // Default value
   private int totalPages = 1;
 
   protected override void OnInitialized()
   {
-    // Parse the current URL to check for page parameter
+    // Parse the current URL to check for page and rowsPerPage parameters
     var uri = new Uri(Navigation.Uri);
     var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
     
+    // Parse page parameter
     if (int.TryParse(query["page"], out int page) && page > 0)
     {
       currentPage = page;
+    }
+    
+    // Parse rowsPerPage parameter
+    if (int.TryParse(query["rowsPerPage"], out int rpp) && rpp > 0)
+    {
+      // Ensure rowsPerPage is one of our valid options
+      rowsPerPage = rpp switch
+      {
+        5 or 10 or 20 or 50 => rpp,
+        _ => 10 // Default to 10 for invalid values
+      };
     }
   }
 
@@ -64,16 +77,35 @@
 
   private async Task HandlePageChanged(int page)
   {
-    var uriBuilder = new UriBuilder(Navigation.Uri);
-    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-    query["page"] = page.ToString();
-    uriBuilder.Query = query.ToString();
-    
-    Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
+    // Update URL with both page and rowsPerPage parameters
+    UpdateUrlWithParameters(page, rowsPerPage);
     
     currentPage = page;
+    await ReloadAsync();
+  }
+
+  private async Task HandleRowsPerPageChanged(int newRowsPerPage)
+  {
+    // Reset to page 1 when changing rows per page
+    currentPage = 1;
+    rowsPerPage = newRowsPerPage;
+    
+    // Update URL with both parameters
+    UpdateUrlWithParameters(1, newRowsPerPage);
     
     await ReloadAsync();
+  }
+  
+  private void UpdateUrlWithParameters(int page, int rpp)
+  {
+    var uriBuilder = new UriBuilder(Navigation.Uri);
+    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+    
+    query["page"] = page.ToString();
+    query["rowsPerPage"] = rpp.ToString();
+    
+    uriBuilder.Query = query.ToString();
+    Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
   }
 
   private async Task ReloadAsync()
@@ -83,22 +115,14 @@
 
     if (query is not null)
     {
-      // Get total count for pagination
       var totalItems = await query.CountAsync();
       
-      // Calculate total pages
       totalPages = (totalItems + rowsPerPage - 1) / rowsPerPage;
       
-      // Ensure current page is within valid range
       if (currentPage > totalPages && totalPages > 0)
       {
         currentPage = totalPages;
-        // Update URL to reflect the corrected page
-        var uriBuilder = new UriBuilder(Navigation.Uri);
-        var queryString = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-        queryString["page"] = currentPage.ToString();
-        uriBuilder.Query = queryString.ToString();
-        Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
+        UpdateUrlWithParameters(currentPage, rowsPerPage);
       }
       
       // Apply pagination to query

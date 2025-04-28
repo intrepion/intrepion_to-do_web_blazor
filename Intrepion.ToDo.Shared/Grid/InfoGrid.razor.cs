@@ -28,6 +28,8 @@ public partial class InfoGrid
     public string UrlName { get; set; } = string.Empty;
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter]
+    public EventCallback<int> OnRowsPerPage { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -35,13 +37,16 @@ public partial class InfoGrid
         {
             Filters = [.. Enumerable.Repeat<string?>(null, ColumnNames.Count)];
         }
-
-        SetRowsPerPage(RowsPerPage);
     }
 
     public void SetFilter(int column, string? filter)
     {
-        if (column < 0 || column >= ColumnTypes.Count)
+        if (column < 0)
+        {
+            return;
+        }
+
+        if (column >= ColumnTypes.Count)
         {
             return;
         }
@@ -69,16 +74,20 @@ public partial class InfoGrid
         }
     }
 
-    public void SetRowsPerPage(int rowsPerPage)
+    public async Task SetRowsPerPage(int rowsPerPage)
     {
         RowsPerPage = rowsPerPage;
-        
-        // Don't calculate pages here anymore as we're getting TotalPages from parent
+        await OnRowsPerPage.InvokeAsync(rowsPerPage);
     }
 
     public void SetSort(int column)
     {
-        if (column < 0 || column >= ColumnTypes.Count)
+        if (column < 0)
+        {
+            return;
+        }
+
+        if (column >= ColumnTypes.Count)
         {
             return;
         }
@@ -97,14 +106,17 @@ public partial class InfoGrid
         if (found == -1)
         {
             Sorts.Insert(0, (column, true));
+
+            return;
         }
-        else if (Sorts[found].Item2)
+
+        if (Sorts[found].Item2)
         {
             Sorts[found] = (column, false);
+
+            return;
         }
-        else
-        {
-            Sorts.RemoveAt(found);
-        }
+
+        Sorts.RemoveAt(found);
     }
 }
