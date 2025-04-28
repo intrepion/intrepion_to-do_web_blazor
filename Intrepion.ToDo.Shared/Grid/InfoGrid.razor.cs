@@ -31,11 +31,23 @@ public partial class InfoGrid
     [Parameter]
     public EventCallback<int> OnRowsPerPage { get; set; }
 
+    private int previousRowsPerPage;
+
+    protected override void OnInitialized()
+    {
+        previousRowsPerPage = RowsPerPage;
+    }
+
     protected override void OnParametersSet()
     {
         if (ColumnNames.Count > 0 && Filters.Count == 0)
         {
             Filters = [.. Enumerable.Repeat<string?>(null, ColumnNames.Count)];
+        }
+
+        if (previousRowsPerPage != RowsPerPage)
+        {
+            previousRowsPerPage = RowsPerPage;
         }
     }
 
@@ -45,7 +57,7 @@ public partial class InfoGrid
         {
             return;
         }
-
+        
         if (column >= ColumnTypes.Count)
         {
             return;
@@ -76,6 +88,7 @@ public partial class InfoGrid
 
     public async Task SetRowsPerPage(int rowsPerPage)
     {
+        previousRowsPerPage = rowsPerPage;
         RowsPerPage = rowsPerPage;
         await OnRowsPerPage.InvokeAsync(rowsPerPage);
     }
@@ -86,7 +99,7 @@ public partial class InfoGrid
         {
             return;
         }
-
+        
         if (column >= ColumnTypes.Count)
         {
             return;

@@ -12,7 +12,7 @@
     <div class="grid-controls">
       <div class="items-per-page">
         Rows per page:
-        <select @bind="RowsPerPage" @bind:after="HandleRowsPerPageChangedAsync">
+        <select value="@RowsPerPage" @onchange="HandleRowsPerPageChange">
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="20">20</option>
@@ -80,7 +80,17 @@
 </div>
 
 @code {
-    private async Task HandleRowsPerPageChangedAsync() => await SetRowsPerPage(RowsPerPage);
+    private async Task HandleRowsPerPageChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int newRowsPerPage))
+        {
+            await SetRowsPerPage(newRowsPerPage);
+        }
+        else
+        {
+            await SetRowsPerPage(10);
+        }
+    }
     private async Task NextPageAsync() => await NextPage();
     private async Task PreviousPageAsync() => await PreviousPage();
 }
