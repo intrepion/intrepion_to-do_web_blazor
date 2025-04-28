@@ -9,15 +9,16 @@
 <h6><a href="/admin/movie/add">Create New</a></h6>
 
 <InfoGrid 
-    ColumnNames="columnNames" 
-    ColumnTypes="columnTypes" 
-    Ids="ids" 
-    Info="info"
-    UrlName="to-do-item"
-    Page="currentPage"
-    RowsPerPage="rowsPerPage"
-    TotalPages="totalPages"
-    OnPageChanged="HandlePageChanged">
+  ColumnNames="columnNames" 
+  ColumnTypes="columnTypes" 
+  Ids="ids" 
+  Info="info"
+  OnPageChanged="HandlePageChanged"
+  Page="currentPage"
+  RowsPerPage="rowsPerPage"
+  TotalPages="totalPages"
+  UrlName="to-do-item"
+>
 </InfoGrid>
 
 @code {
@@ -63,19 +64,15 @@
 
   private async Task HandlePageChanged(int page)
   {
-    // Update URL with the new page parameter
     var uriBuilder = new UriBuilder(Navigation.Uri);
     var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
     query["page"] = page.ToString();
     uriBuilder.Query = query.ToString();
     
-    // Navigate to the new URL without triggering a page reload
     Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
     
-    // Update current page
     currentPage = page;
     
-    // Reload data with new page
     await ReloadAsync();
   }
 
