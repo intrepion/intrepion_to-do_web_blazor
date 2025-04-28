@@ -40,18 +40,82 @@ public class InfoGridGetGridStateDefaultTests : InfoGridTestsBaseClass
         var totalPages = 3;
         var totalRows = 28;
 
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
         var actual = _infoGrid;
 
         Assert.Multiple(() =>
         {
-            Assert.That(actual.ColumnNames, Is.EqualTo(columnNames), $"Columns is {actual.ColumnNames}, but should be {columnNames}");
-            Assert.That(actual.ColumnTypes, Is.EqualTo(columnTypes), $"Columns is {actual.ColumnTypes}, but should be {columnTypes}");
-            Assert.That(actual.Filters, Is.EqualTo(filters), $"Filters is {actual.Filters}, but should be {filters}");
-            Assert.That(actual.Page, Is.EqualTo(page), $"Page is {actual.Page}, but should be {page}");
-            Assert.That(actual.RowsPerPage, Is.EqualTo(rowsPerPage), $"Rows Per Page is {actual.RowsPerPage}, but should be {rowsPerPage}");
-            Assert.That(actual.Sorts, Is.EqualTo(sorts), $"Sorts is {actual.Sorts}, but should be {sorts}");
-            Assert.That(actual.TotalPages, Is.EqualTo(totalPages), $"Total Pages is {actual.TotalPages}, but should be {totalPages}");
-            Assert.That(actual.TotalRows, Is.EqualTo(totalRows), $"Total Rows is {actual.TotalRows}, but should be {totalRows}");
+            Assert.That(actual.ColumnNames, Is.EqualTo(columnNames));
+            Assert.That(actual.ColumnTypes, Is.EqualTo(columnTypes));
+            Assert.That(actual.Filters, Is.EqualTo(filters));
+            Assert.That(actual.Page, Is.EqualTo(page));
+            Assert.That(actual.RowsPerPage, Is.EqualTo(rowsPerPage));
+            Assert.That(actual.Sorts, Is.EqualTo(sorts));
+            Assert.That(actual.TotalPages, Is.EqualTo(totalPages));
+            Assert.That(actual.TotalRows, Is.EqualTo(totalRows));
         });
+    }
+
+    [Test]
+    public async Task NextPage_TriggersCallback_WhenPageIsValid()
+    {
+        // Arrange
+        _infoGrid.Page = 1;
+        _infoGrid.TotalPages = 3;
+
+        // Act
+        await _infoGrid.NextPage();
+
+        // Assert
+        Assert.That(_lastPageChangedValue, Is.EqualTo(2), "NextPage should trigger callback with page 2");
+    }
+
+    [Test]
+    public async Task NextPage_DoesNotTriggerCallback_WhenPageIsInvalid()
+    {
+        // Arrange
+        _infoGrid.Page = 3;
+        _infoGrid.TotalPages = 3;
+        _lastPageChangedValue = 0;
+
+        // Act
+        await _infoGrid.NextPage();
+
+        // Assert
+        Assert.That(_lastPageChangedValue, Is.EqualTo(0), "NextPage should not trigger callback when already on last page");
+    }
+
+    [Test]
+    public async Task PreviousPage_TriggersCallback_WhenPageIsValid()
+    {
+        // Arrange
+        _infoGrid.Page = 2;
+
+        // Act
+        await _infoGrid.PreviousPage();
+
+        // Assert
+        Assert.That(_lastPageChangedValue, Is.EqualTo(1), "PreviousPage should trigger callback with page 1");
+    }
+
+    [Test]
+    public async Task PreviousPage_DoesNotTriggerCallback_WhenPageIsInvalid()
+    {
+        // Arrange
+        _infoGrid.Page = 1;
+        _lastPageChangedValue = 0;
+
+        // Act
+        await _infoGrid.PreviousPage();
+
+        // Assert
+        Assert.That(_lastPageChangedValue, Is.EqualTo(0), "PreviousPage should not trigger callback when already on first page");
     }
 }

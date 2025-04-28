@@ -40,6 +40,14 @@ public class InfoGridGetGridStateRowsPerPageTests : InfoGridTestsBaseClass
         var totalPages = 6;
         var totalRows = 28;
 
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
         _infoGrid.SetRowsPerPage(5);
         var actual = _infoGrid;
 
@@ -92,7 +100,16 @@ public class InfoGridGetGridStateRowsPerPageTests : InfoGridTestsBaseClass
         var totalPages = 1;
         var totalRows = 0;
 
-        _infoGrid.SetInitialInfo(_columnNames, _columnTypes, null, null);
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
+        _infoGrid.ColumnNames = _columnNames;
+        _infoGrid.ColumnTypes = _columnTypes;
         _infoGrid.SetRowsPerPage(5);
         var actual = _infoGrid;
 

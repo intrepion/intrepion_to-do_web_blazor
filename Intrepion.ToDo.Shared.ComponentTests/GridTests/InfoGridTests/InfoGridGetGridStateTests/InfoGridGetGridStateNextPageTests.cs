@@ -40,6 +40,14 @@ public class InfoGridGetGridStateNextPageTests : InfoGridTestsBaseClass
         var totalPages = 3;
         var totalRows = 28;
 
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
         _infoGrid.NextPage();
         var actual = _infoGrid;
 
@@ -92,6 +100,14 @@ public class InfoGridGetGridStateNextPageTests : InfoGridTestsBaseClass
         var totalPages = 3;
         var totalRows = 28;
 
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
         _infoGrid.NextPage();
         _infoGrid.NextPage();
         var actual = _infoGrid;
@@ -145,6 +161,14 @@ public class InfoGridGetGridStateNextPageTests : InfoGridTestsBaseClass
         var totalPages = 3;
         var totalRows = 28;
 
+        _infoGrid.ColumnNames = columnNames;
+        _infoGrid.ColumnTypes = columnTypes;
+        _infoGrid.Filters = filters;
+        _infoGrid.Page = page;
+        _infoGrid.RowsPerPage = rowsPerPage;
+        _infoGrid.Sorts = sorts;
+        _infoGrid.TotalPages = totalPages;
+        _infoGrid.TotalRows = totalRows;
         _infoGrid.NextPage();
         _infoGrid.NextPage();
         _infoGrid.NextPage();

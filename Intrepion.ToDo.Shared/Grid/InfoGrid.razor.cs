@@ -76,18 +76,6 @@ public partial class InfoGrid
         // Don't calculate pages here anymore as we're getting TotalPages from parent
     }
 
-    public void SetInitialInfo(List<string> columnNames, List<ColumnType> columnTypes, List<Guid>? ids, List<List<string>>? info)
-    {
-        ColumnNames = columnNames;
-        ColumnTypes = columnTypes;
-        Ids = ids;
-        Info = info;
-        Filters = [.. Enumerable.Repeat<string?>(null, columnNames.Count)];
-
-        SetRowsPerPage(RowsPerPage);
-        // Don't set Page = 1 here, respect the page parameter from the parent
-    }
-
     public void SetSort(int column)
     {
         if (column < 0 || column >= ColumnTypes.Count)

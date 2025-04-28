@@ -63,21 +63,6 @@ public class InfoGrid()
         _totalRows = _info.Count;
     }
 
-    public void SetInitialInfo(List<string> columnNames, List<ColumnType> columnTypes, List<List<string>> info)
-    {
-        _columnNames = columnNames;
-        _columnTypes = columnTypes;
-        _info = info;
-        _filters = [.. Enumerable.Repeat<string?>(null, columnNames.Count)];
-
-        if (info.Count > 0)
-        {
-            _page = 1;
-        }
-
-        RowsPerPage(10);
-    }
-
     public void Sort(int column)
     {
         if (column < 0)

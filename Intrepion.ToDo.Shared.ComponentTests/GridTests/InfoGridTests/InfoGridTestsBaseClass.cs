@@ -1,4 +1,6 @@
 ﻿using Intrepion.ToDo.Shared.Grid;
+using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace Intrepion.ToDo.Shared.UnitTests.GridTests.InfoGridTests;
 
@@ -9,6 +11,7 @@ public class InfoGridTestsBaseClass
     protected List<Guid> _ids;
     protected List<List<string>> _info;
     protected InfoGrid _infoGrid;
+    protected int _lastPageChangedValue;
 
     [SetUp]
     public void Setup()
@@ -260,7 +263,23 @@ public class InfoGridTestsBaseClass
         ];
 
         _infoGrid = new InfoGrid();
+        _lastPageChangedValue = 0;
 
-        _infoGrid.SetInitialInfo(_columnNames, _columnTypes, _ids, _info);
+        // Setup the OnPageChanged callback
+        _infoGrid.OnPageChanged = EventCallback.Factory.Create<int>(this, (page) => 
+        {
+            _lastPageChangedValue = page;
+            return Task.CompletedTask;
+        });
+
+        // Set total pages and rows manually since we're not using the database
+        _infoGrid.ColumnNames = _columnNames;
+        _infoGrid.ColumnTypes = _columnTypes;
+        _infoGrid.Filters = [.. Enumerable.Repeat<string?>(null, _columnNames.Count)];
+        _infoGrid.Ids = _ids;
+        _infoGrid.Info = _info;
+        _infoGrid.RowsPerPage = 10;
+        _infoGrid.TotalPages = 3;
+        _infoGrid.TotalRows = 28;
     }
 }
