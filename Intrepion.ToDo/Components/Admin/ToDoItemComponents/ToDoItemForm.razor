@@ -1,0 +1,162 @@
+<h1>@Mode ToDoItem</h1>
+
+<hr />
+@if (ToDoItem is not null)
+{
+  <EditForm Model="ToDoItem" OnInvalidSubmit="(async () => await HandleSubmitAsync(false))" OnValidSubmit="(async () => await HandleSubmitAsync(true))">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+            <label class="form-label">Completed Date and Time:
+                <InputDate @bind-Value="ToDoItem.CompletedDateTime" @oninput="HandleCompletedDateTimeChange" class="form-control"/>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Is Completed?:
+                <InputCheckbox @bind-Value="ToDoItem.IsCompleted" @oninput="HandleIsCompletedChange" class="form-check-input"/>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ordering:
+                <InputNumber @bind-Value="ToDoItem.Ordering" @oninput="HandleOrderingChange" class="form-control"/>
+            </label>
+        </div>
+        <h2>To Do List</h2>
+        <p>
+            <label>
+                To Do List:
+                <InputSelect @bind-Value="SelectedToDoListId" @oninput="HandleToDoListChange" class="form-select">
+                    <option value="">-- Select To Do List --</option>
+                    @foreach (var toDoList in ToDoListList)
+                    {
+                        <option value="@toDoList.Id">@toDoList?.Title</option>
+                    }
+                </InputSelect>
+            </label>
+        </p>
+        <div class="mb-3">
+            <label class="form-label">Title:
+                <InputText @bind-Value="ToDoItem.Title" @oninput="HandleTitleChange" class="form-control"/>
+            </label>
+        </div>
+        @* PropertyFormCodePlaceholder *@
+
+    <button type="button" disabled="@Busy" class="btn btn-warning" @onclick="CancelAsync">
+      Cancel
+    </button>&nbsp;
+    <button disabled="@Busy" type="submit" class="btn btn-primary">
+      Submit
+    </button>
+  </EditForm>
+}
+
+@code {
+  [Parameter]
+  public EventCallback<bool> ValidationResult { get; set; }
+
+  [Parameter]
+  public EventCallback CancelRequest { get; set; }
+
+  [Parameter]
+  public bool IsAdd { get; set; }
+
+  [Parameter]
+  public ToDoItem? ToDoItem { get; set; }
+
+  [Parameter]
+  public ToDoItem? DbToDoItem { get; set; }
+
+  [Parameter]
+  public bool Busy { get; set; }
+
+  private string Mode => IsAdd ? "Add" : "Edit";
+
+  [Parameter]
+    public List<ToDoList> ToDoListList { get; set; } = new List<ToDoList>();
+    private Guid SelectedToDoListId;
+    @* DeclareListCodePlaceholder *@
+
+  protected override void OnInitialized()
+  {
+    if (ToDoItem?.ToDoList != null && !IsAdd)
+        {
+            SelectedToDoListId = ToDoItem.ToDoList.Id;
+        }
+        @* OnInitialCodePlaceholder *@
+  }
+
+  private async Task CancelAsync() => await CancelRequest.InvokeAsync(null);
+
+  private async Task HandleSubmitAsync(bool isValid) => await ValidationResult.InvokeAsync(isValid);
+
+  private void HandleCompletedDateTimeChange(ChangeEventArgs changeEventArgs)
+    {
+        // SpecializedCodeCompletedDateTimePlaceholder
+    }
+
+    private void HandleIsCompletedChange(ChangeEventArgs changeEventArgs)
+    {
+        // SpecializedCodeIsCompletedPlaceholder
+    }
+
+    private void HandleOrderingChange(ChangeEventArgs changeEventArgs)
+    {
+        // SpecializedCodeOrderingPlaceholder
+    }
+
+    private void HandleToDoListChange(ChangeEventArgs changeEventArgs)
+    {
+        if (ToDoItem == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs.Value == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs.Value is string value && Guid.TryParse(value, out Guid selectedToDoListId))
+        {
+            SelectedToDoListId = selectedToDoListId;
+            var selectedToDoList = ToDoListList.FirstOrDefault(x => x.Id == SelectedToDoListId);
+
+            if (selectedToDoList != null)
+            {
+                ToDoItem.ToDoList = selectedToDoList;
+            }
+        }
+
+        // SpecializedCodeToDoListPlaceholder
+    }
+
+    private void HandleTitleChange(ChangeEventArgs changeEventArgs)
+    {
+        if (ToDoItem == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs == null)
+        {
+            return;
+        }
+
+        if (changeEventArgs.Value == null)
+        {
+            return;
+        }
+
+        ToDoItem.NormalizedTitle = ((string)changeEventArgs.Value).ToUpperInvariant();
+
+        // SpecializedCodeTitlePlaceholder
+    }
+
+    // HandleChangeCodePlaceholder
+}

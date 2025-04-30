@@ -1,0 +1,146 @@
+@page "/admin/to-do-list/add"
+@page "/admin/to-do-list/edit/{ToDoListId:guid?}"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>To Do List @(IsAdd ? "Add" : "Edit")</PageTitle>
+
+@if (ToDoList is null && !Busy && !IsAdd)
+{
+  <p>Could not find To Do List with id @ToDoListId.</p>
+}
+else
+{
+  <ToDoListForm
+    Busy="Busy" 
+    CancelRequest="Cancel"
+    DbToDoList="DbToDoList" 
+    ToDoList="ToDoList" 
+    IsAdd="IsAdd"
+    ValidationResult="@(async (success) => await ValidationResultAsync(success))"
+  />
+}
+
+@if (Error)
+{
+  <br />
+  <div class="alert alert-danger">Failed to @(IsAdd ? "add" : "update") the To Do List (@ErrorMessage).</div>
+}
+
+@code {
+  [Parameter]
+  public Guid? ToDoListId { get; set; }
+
+  private bool IsAdd => ToDoListId == null;
+
+  private ApplicationDbContext? Context { get; set; }
+
+  private ToDoList? ToDoList { get; set; }
+
+  private ToDoList DbToDoList { get; set; } = new ToDoList();
+
+  @* ListDeclarationCodePlaceholder *@
+
+  private bool Busy;
+
+  private bool Error;
+
+  private string ErrorMessage = string.Empty;
+
+  protected override async Task OnInitializedAsync()
+  {
+    Busy = true;
+
+    try
+    {
+      Context = DbFactory.CreateDbContext();
+
+      @* LoadListCodePlaceholder *@
+
+      if (IsAdd)
+      {
+        ToDoList = new();
+      }
+      else if (Context is not null && Context.ToDoLists is not null)
+      {
+        var toDoList = await Context.ToDoLists
+            @* IncludeListCodePlaceholder *@
+            .SingleOrDefaultAsync(x => x.Id == ToDoListId);
+
+        if (toDoList is not null)
+        {
+          ToDoList = toDoList;
+        }
+      }
+    }
+    finally
+    {
+      Busy = false;
+    }
+  }
+
+  private async Task ValidationResultAsync(bool success)
+  {
+    if (Busy)
+    {
+      return;
+    }
+
+    if (!success)
+    {
+      Error = false;
+      return;
+    }
+
+    Busy = true;
+
+    try
+    {
+      if (Context is not null && ToDoList is not null)
+      {
+        @* SetExistingCodePlaceholder *@
+        
+        if (IsAdd && Context.ToDoLists != null)
+        {
+          Context.ToDoLists.Add(ToDoList);
+        }
+        
+        await Context.SaveChangesAsync();
+      }
+
+      Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList?.Id}");
+    }
+    catch (DbUpdateConcurrencyException dbex)
+    {
+      var dbValues = dbex.Entries[0].GetDatabaseValues();
+
+      if (dbValues is null)
+      {
+        Navigation.NavigateTo($"/admin/to-do-list/view/{ToDoList?.Id}");
+        return;
+      }
+
+      DbToDoList = (ToDoList)dbValues.ToObject();
+
+      dbex.Entries[0].OriginalValues.SetValues(dbValues);
+      Error = false;
+      Busy = false;
+    }
+    catch (Exception ex)
+    {
+      Error = true;
+      ErrorMessage = ex.Message;
+      Busy = false;
+    }
+  }
+
+  private void Cancel()
+  {
+    Busy = true;
+    Navigation.NavigateTo($"/admin/to-do-list");
+  }
+
+  public void Dispose() => Context?.Dispose();
+}
