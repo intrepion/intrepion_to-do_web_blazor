@@ -24,22 +24,23 @@
       <thead>
         <tr>
           <th>Actions</th>
-          @for (var i = 0; i < ColumnNames.Count; i += 1)
+          @for (var i = 0; i < ColumnNames.Count; i++)
           {
-            <th @onclick="() => SetSort(i)">
+            int columnIndex = i; // Create a local variable to capture the current value
+            <th @onclick="async () => await SetSortAsync(columnIndex)" style="cursor: pointer;">
               <div>
                 @ColumnNames[i]
-              <span>
-                @if (Sorts.Any(s => s.Item1 == i))
-                {
+                <span>
+                  @if (Sorts.Any(s => s.Item1 == i))
+                  {
                     var sort = Sorts.First(s => s.Item1 == i);
                     <span>@(sort.Item2 ? "↑" : "↓")</span>
                     <small>@(Sorts.IndexOf(sort) + 1)</small>
-                }
-                else
-                {
+                  }
+                  else
+                  {
                     <span>↕</span>
-                }
+                  }
                 </span>
               </div>
             </th>
@@ -76,7 +77,7 @@
       <span>Page @Page of @TotalPages</span>
       <button @onclick="NextPageAsync" disabled="@(Page >= TotalPages)">Next</button>
     </div>
-}
+  }
 </div>
 
 @code {
@@ -91,6 +92,14 @@
             await SetRowsPerPage(10);
         }
     }
+    
     private async Task NextPageAsync() => await NextPage();
     private async Task PreviousPageAsync() => await PreviousPage();
+    
+    // New method to handle async click on column headers
+    private async Task SetSortAsync(int column)
+    {
+        Console.WriteLine($"SetSortAsync called for column {column}");
+        await SetSort(column);
+    }
 }

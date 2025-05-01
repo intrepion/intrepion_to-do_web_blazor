@@ -2,11 +2,25 @@
 @rendermode InteractiveServer
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
+@using System.Diagnostics
 
 <PageTitle>To Do Item Home</PageTitle>
 
 <h1>To Do Item Home</h1>
 <h6><a href="/admin/movie/add">Create New</a></h6>
+
+@if (showDebugInfo)
+{
+  <div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc;">
+    <h4>Debug Information</h4>
+    <p>Current Sorts: @string.Join(", ", sorts.Select(s => $"{s.Item1}:{s.Item2}"))</p>
+    <button @onclick="ToggleDebugInfo">Hide Debug Info</button>
+  </div>
+}
+else
+{
+  <button @onclick="ToggleDebugInfo">Show Debug Info</button>
+}
 
 <InfoGrid 
   ColumnNames="columnNames" 
@@ -15,8 +29,10 @@
   Info="info"
   OnPageChanged="HandlePageChanged"
   OnRowsPerPage="HandleRowsPerPageChanged"
+  OnSortsChanged="HandleSortsChanged"
   Page="currentPage"
   RowsPerPage="rowsPerPage"
+  Sorts="sorts"
   TotalPages="totalPages"
   UrlName="to-do-item"
 >
@@ -44,8 +60,15 @@
   private ICollection<ToDoItem>? toDoItems;
   private int currentPage = 1;
   private int rowsPerPage = 10;
+  private List<(int, bool)> sorts = [];
   private int totalPages = 1;
   private bool isNavigating = false;
+  private bool showDebugInfo = false;
+
+  private void ToggleDebugInfo()
+  {
+    showDebugInfo = !showDebugInfo;
+  }
 
   public void Dispose()
   {
@@ -60,7 +83,7 @@
       
       currentPage = page;
       
-      UpdateUrlWithParameters(page, rowsPerPage);
+      UpdateUrlWithParameters(page, rowsPerPage, sorts);
       
       await ReloadAsync();
     }
@@ -79,7 +102,7 @@
       currentPage = 1;
       rowsPerPage = newRowsPerPage;
       
-      UpdateUrlWithParameters(1, newRowsPerPage);
+      UpdateUrlWithParameters(1, newRowsPerPage, sorts);
       
       await ReloadAsync();
     }
@@ -89,10 +112,37 @@
     }
   }
 
+  private async Task HandleSortsChanged(List<(int, bool)> newSorts)
+  {
+    Console.WriteLine($"HandleSortsChanged called with {newSorts.Count} sorts");
+    
+    try
+    {
+      isNavigating = true;
+      
+      sorts = newSorts;
+      Console.WriteLine($"Updated sorts: {string.Join(", ", sorts.Select(s => $"{s.Item1}:{s.Item2}"))}");
+      
+      UpdateUrlWithParameters(currentPage, rowsPerPage, sorts);
+      
+      await ReloadAsync();
+      
+      // Force UI update
+      StateHasChanged();
+    }
+    finally
+    {
+      isNavigating = false;
+    }
+    
+    Console.WriteLine("HandleSortsChanged completed");
+  }
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
+      Console.WriteLine("First render, calling ReloadAsync");
       await ReloadAsync();
       StateHasChanged();
     }
@@ -103,6 +153,7 @@
     Navigation.LocationChanged += OnLocationChanged;
     
     ParseUrlParameters();
+    Console.WriteLine("OnInitialized complete");
   }
 
   private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -126,16 +177,19 @@
 
   protected override async Task OnParametersSetAsync()
   {
+    Console.WriteLine("OnParametersSetAsync called");
     await ReloadAsync();
   }
 
-    private bool ParseUrlParameters()
+  private bool ParseUrlParameters()
   {
+    Console.WriteLine("ParseUrlParameters called");
     var uri = new Uri(Navigation.Uri);
     var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
 
     var oldPage = currentPage;
     var oldRowsPerPage = rowsPerPage;
+    var oldSorts = new List<(int, bool)>(sorts);
     
     if (int.TryParse(query["page"], out int page) && page > 0)
     {
@@ -158,12 +212,37 @@
     {
       rowsPerPage = 10;
     }
+
+    // Parse sort parameters
+    sorts.Clear();
+    var sortParams = query["sort"]?.Split(',') ?? Array.Empty<string>();
+    Console.WriteLine($"Sort parameters: {string.Join(", ", sortParams)}");
     
-    return oldPage != currentPage || oldRowsPerPage != rowsPerPage;
+    foreach (var sortParam in sortParams)
+    {
+      if (string.IsNullOrEmpty(sortParam)) continue;
+      
+      var parts = sortParam.Split(':');
+      if (parts.Length == 2 && 
+          int.TryParse(parts[0], out int column) && 
+          bool.TryParse(parts[1], out bool ascending))
+      {
+        sorts.Add((column, ascending));
+        Console.WriteLine($"Added sort {column}:{ascending}");
+      }
+    }
+    
+    var changed = oldPage != currentPage || 
+                 oldRowsPerPage != rowsPerPage || 
+                 !Enumerable.SequenceEqual(oldSorts, sorts);
+                 
+    Console.WriteLine($"Parameters changed: {changed}");
+    return changed;
   }
 
   private async Task ReloadAsync()
   {
+    Console.WriteLine("ReloadAsync called");
     using var context = DbFactory.CreateDbContext();
     var query = context.ToDoItems?.AsQueryable();
 
@@ -176,23 +255,45 @@
       if (currentPage > totalPages && totalPages > 0)
       {
         currentPage = totalPages;
-        var uriBuilder = new UriBuilder(Navigation.Uri);
-        var queryString = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-        queryString["page"] = currentPage.ToString();
-        uriBuilder.Query = queryString.ToString();
-        isNavigating = true;
-        Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
-        isNavigating = false;
+        UpdateUrlWithParameters(currentPage, rowsPerPage, sorts);
       }
       
       var pagedQuery = query
         .Include(x => x.ToDoList)
         @* QueryIncludeCodePlaceholder *@
-        .AsNoTracking()
+        .AsNoTracking();
+
+      // Apply sorting based on sorts list
+      Console.WriteLine($"Applying {sorts.Count} sorts");
+      if (sorts.Count > 0)
+      {
+        IOrderedQueryable<ToDoItem>? orderedQuery = null;
+        
+        for (int i = 0; i < sorts.Count; i++)
+        {
+          var (columnIndex, isAscending) = sorts[i];
+          Console.WriteLine($"Applying sort {i+1}: column {columnIndex}, ascending: {isAscending}");
+          
+          if (i == 0)
+          {
+            orderedQuery = ApplyInitialOrderBy(pagedQuery, columnIndex, isAscending);
+          }
+          else if (orderedQuery != null)
+          {
+            orderedQuery = ApplyThenBy(orderedQuery, columnIndex, isAscending);
+          }
+        }
+        
+        pagedQuery = orderedQuery ?? pagedQuery;
+      }
+      
+      // Apply paging after sorting
+      pagedQuery = pagedQuery
         .Skip((currentPage - 1) * rowsPerPage)
         .Take(rowsPerPage);
 
       toDoItems = await pagedQuery.ToListAsync();
+      Console.WriteLine($"Loaded {toDoItems.Count} items");
 
       ids = [];
       info = [];
@@ -211,15 +312,60 @@
         ]);
       }
     }
+    
+    Console.WriteLine("ReloadAsync completed");
   }
 
-  private void UpdateUrlWithParameters(int page, int rpp)
+  private IOrderedQueryable<ToDoItem> ApplyInitialOrderBy(IQueryable<ToDoItem> query, int columnIndex, bool isAscending)
+  {
+    Console.WriteLine($"ApplyInitialOrderBy: column {columnIndex}, ascending: {isAscending}");
+    return columnIndex switch
+    {
+      0 => isAscending ? query.OrderBy(x => x.CompletedDateTime) : query.OrderByDescending(x => x.CompletedDateTime),
+      1 => isAscending ? query.OrderBy(x => x.IsCompleted) : query.OrderByDescending(x => x.IsCompleted),
+      2 => isAscending ? query.OrderBy(x => x.Ordering) : query.OrderByDescending(x => x.Ordering),
+      3 => isAscending ? query.OrderBy(x => x.ToDoList.Title) : query.OrderByDescending(x => x.ToDoList.Title),
+      4 => isAscending ? query.OrderBy(x => x.Title) : query.OrderByDescending(x => x.Title),
+      // Add additional column cases here
+      _ => isAscending ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id) // Default sort
+    };
+  }
+
+  private IOrderedQueryable<ToDoItem> ApplyThenBy(IOrderedQueryable<ToDoItem> query, int columnIndex, bool isAscending)
+  {
+    Console.WriteLine($"ApplyThenBy: column {columnIndex}, ascending: {isAscending}");
+    return columnIndex switch
+    {
+      0 => isAscending ? query.ThenBy(x => x.CompletedDateTime) : query.ThenByDescending(x => x.CompletedDateTime),
+      1 => isAscending ? query.ThenBy(x => x.IsCompleted) : query.ThenByDescending(x => x.IsCompleted),
+      2 => isAscending ? query.ThenBy(x => x.Ordering) : query.ThenByDescending(x => x.Ordering),
+      3 => isAscending ? query.ThenBy(x => x.ToDoList.Title) : query.ThenByDescending(x => x.ToDoList.Title),
+      4 => isAscending ? query.ThenBy(x => x.Title) : query.ThenByDescending(x => x.Title),
+      // Add additional column cases here
+      _ => isAscending ? query.ThenBy(x => x.Id) : query.ThenByDescending(x => x.Id) // Default sort
+    };
+  }
+
+  private void UpdateUrlWithParameters(int page, int rpp, List<(int, bool)> currentSorts)
   {
     var uriBuilder = new UriBuilder(Navigation.Uri);
     var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
     
     query["page"] = page.ToString();
     query["rowsPerPage"] = rpp.ToString();
+    
+    // Format sort parameters as "column1:ascending1,column2:ascending2,..."
+    if (currentSorts.Count > 0)
+    {
+      var sortParams = string.Join(",", currentSorts.Select(s => $"{s.Item1}:{s.Item2}"));
+      query["sort"] = sortParams;
+      Console.WriteLine($"Adding sort parameter: {sortParams}");
+    }
+    else
+    {
+      query.Remove("sort");
+      Console.WriteLine("Removing sort parameter");
+    }
     
     uriBuilder.Query = query.ToString();
     Navigation.NavigateTo(uriBuilder.Uri.ToString(), false);
