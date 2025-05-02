@@ -125,8 +125,8 @@ public partial class InfoGrid
 
         if (found == -1)
         {
-            // First click: Add column to the beginning of the sort list (ascending)
-            newSorts.Insert(0, (column, true));
+            // First click: Add column to the end of the sort list (ascending)
+            newSorts.Add((column, true));
             Console.WriteLine($"Added column {column} as ascending");
         }
         else if (Sorts[found].Item2)
