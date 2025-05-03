@@ -97,18 +97,14 @@ public partial class InfoGrid
 
     public async Task SetSort(int column)
     {
-        Console.WriteLine($"SetSort method called with column {column}");
-        
         if (column < 0 || column >= ColumnTypes.Count)
         {
-            Console.WriteLine("Column index out of range");
             return;
         }
 
         var found = -1;
         var n = Sorts.Count;
 
-        // Find if this column is already in the sorts list
         for (var i = 0; i < n; i++)
         {
             if (Sorts[i].Item1 == column)
@@ -120,40 +116,22 @@ public partial class InfoGrid
 
         var newSorts = new List<(int, bool)>(Sorts);
         
-        Console.WriteLine($"Current sorts: {string.Join(", ", Sorts.Select(s => $"{s.Item1}:{s.Item2}"))}");
-        Console.WriteLine($"Found column at index: {found}");
-
         if (found == -1)
         {
-            // First click: Add column to the end of the sort list (ascending)
             newSorts.Add((column, true));
-            Console.WriteLine($"Added column {column} as ascending");
         }
         else if (Sorts[found].Item2)
         {
-            // Second click: Change direction to descending
             newSorts[found] = (column, false);
-            Console.WriteLine($"Changed column {column} to descending");
         }
         else
         {
-            // Third click: Remove column from sort list
             newSorts.RemoveAt(found);
-            Console.WriteLine($"Removed column {column} from sorts");
         }
         
-        Console.WriteLine($"New sorts: {string.Join(", ", newSorts.Select(s => $"{s.Item1}:{s.Item2}"))}");
-        Console.WriteLine("About to invoke OnSortsChanged");
-
-        // Check if callback is assigned before invoking
         if (OnSortsChanged.HasDelegate)
         {
-            Console.WriteLine("OnSortsChanged has delegate, invoking");
             await OnSortsChanged.InvokeAsync(newSorts);
-        }
-        else
-        {
-            Console.WriteLine("WARNING: OnSortsChanged has no delegate assigned!");
         }
     }
 }

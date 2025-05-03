@@ -26,7 +26,7 @@
           <th>Actions</th>
           @for (var i = 0; i < ColumnNames.Count; i++)
           {
-            int columnIndex = i; // Create a local variable to capture the current value
+            int columnIndex = i;
             <th @onclick="async () => await SetSortAsync(columnIndex)" style="cursor: pointer;">
               <div>
                 @ColumnNames[i]
@@ -92,14 +92,12 @@
             await SetRowsPerPage(10);
         }
     }
-    
+
     private async Task NextPageAsync() => await NextPage();
     private async Task PreviousPageAsync() => await PreviousPage();
-    
-    // New method to handle async click on column headers
+
     private async Task SetSortAsync(int column)
     {
-        Console.WriteLine($"SetSortAsync called for column {column}");
         await SetSort(column);
     }
 }
