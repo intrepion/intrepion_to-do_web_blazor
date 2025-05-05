@@ -276,27 +276,57 @@
 
   private IOrderedQueryable<ToDoItem> ApplyInitialOrderBy(IQueryable<ToDoItem> query, int columnIndex, bool isAscending)
   {
+    if (isAscending)
+    {
+      return columnIndex switch
+      {
+        0 => query.OrderBy(x => x.CompletedDateTime),
+        1 => query.OrderBy(x => x.IsCompleted),
+        2 => query.OrderBy(x => x.Ordering),
+        3 => query.OrderBy(x => x.ToDoList.Title),
+        4 => query.OrderBy(x => x.Title),
+        @* InitialAscendingCodePlaceholder *@
+        _ => query.OrderBy(x => x.Id),
+      };
+    }
+
     return columnIndex switch
     {
-      0 => isAscending ? query.OrderBy(x => x.CompletedDateTime) : query.OrderByDescending(x => x.CompletedDateTime),
-      1 => isAscending ? query.OrderBy(x => x.IsCompleted) : query.OrderByDescending(x => x.IsCompleted),
-      2 => isAscending ? query.OrderBy(x => x.Ordering) : query.OrderByDescending(x => x.Ordering),
-      4 => isAscending ? query.OrderBy(x => x.Title) : query.OrderByDescending(x => x.Title),
-      @* InitialOrderCodePlaceholder *@
-      _ => isAscending ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id)
+      0 => query.OrderByDescending(x => x.CompletedDateTime),
+      1 => query.OrderByDescending(x => x.IsCompleted),
+      2 => query.OrderByDescending(x => x.Ordering),
+      3 => query.OrderByDescending(x => x.ToDoList.Title),
+      4 => query.OrderByDescending(x => x.Title),
+      @* InitialDescendingCodePlaceholder *@
+      _ => query.OrderByDescending(x => x.Id),
     };
   }
 
   private IOrderedQueryable<ToDoItem> ApplyThenBy(IOrderedQueryable<ToDoItem> query, int columnIndex, bool isAscending)
   {
+    if (isAscending)
+    {
+      return columnIndex switch
+      {
+        0 => query.ThenBy(x => x.CompletedDateTime),
+        1 => query.ThenBy(x => x.IsCompleted),
+        2 => query.ThenBy(x => x.Ordering),
+        3 => query.ThenBy(x => x.ToDoList.Title),
+        4 => query.ThenBy(x => x.Title),
+        @* ThenAscendingCodePlaceholder *@
+        _ => query.ThenBy(x => x.Id),
+      };
+    }
+
     return columnIndex switch
     {
-      0 => isAscending ? query.ThenBy(x => x.CompletedDateTime) : query.ThenByDescending(x => x.CompletedDateTime),
-      1 => isAscending ? query.ThenBy(x => x.IsCompleted) : query.ThenByDescending(x => x.IsCompleted),
-      2 => isAscending ? query.ThenBy(x => x.Ordering) : query.ThenByDescending(x => x.Ordering),
-      4 => isAscending ? query.ThenBy(x => x.Title) : query.ThenByDescending(x => x.Title),
-      @* ThenOrderCodePlaceholder *@
-      _ => isAscending ? query.ThenBy(x => x.Id) : query.ThenByDescending(x => x.Id)
+      0 => query.ThenByDescending(x => x.CompletedDateTime),
+      1 => query.ThenByDescending(x => x.IsCompleted),
+      2 => query.ThenByDescending(x => x.Ordering),
+      3 => query.ThenByDescending(x => x.ToDoList.Title),
+      4 => query.ThenByDescending(x => x.Title),
+      @* ThenDescendingCodePlaceholder *@
+      _ => query.ThenByDescending(x => x.Id),
     };
   }
 
