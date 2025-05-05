@@ -1,6 +1,6 @@
+﻿using Intrepion.ToDo.BusinessLogic.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Intrepion.ToDo.Data;
 
 namespace Intrepion.ToDo.Components.Account;
 
